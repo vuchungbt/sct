@@ -3,15 +3,15 @@
     "watch_options": {
        "followSymlinks": false
     },
-    "name" :"cts",
+    "name" :"cts-3040",
     "script":"app.js",
     "watch": true,
         "env_dev": {
-            "PORT": 3000,
+            "PORT": 3040,
             "NODE_ENV": "development"
         },
         "env": {
-            "PORT": 3000,
+            "PORT": 3040,
             "NODE_ENV": "production"
         }
  }
