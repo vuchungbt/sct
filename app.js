@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const csrf = require('csurf');
 const flash = require('connect-flash');
-
+var cors = require('cors');
 
 // const dbConnect = require('./config/database');
 const webRoutes = require('./routes/web');
@@ -15,6 +15,7 @@ app.set('view engine','ejs');
 app.set('views','resource/views');
 
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,'public')));
 
@@ -24,10 +25,10 @@ app.use(csrf({ cookie: true }));
 
 app.use(session({
     name: "my-session-name",
-    secret: 'keyboard cat',
+    secret: 'keyboardcat',
     resave: true,
     saveUninitialized: false,
-    cookie: { /*maxAge: 60000*/ },
+    cookie: { maxAge: 60000 },
    // cookie: { secure: true, httpOnly: true }
 }));
 app.use(flash());
@@ -56,7 +57,10 @@ app.use(webRoutes);
     });
  });
  
-app.listen(8000);
+
+ const port = process.env.PORT || 3040;
+ app.listen(port, () => console.log(`Started on port ${port}...`));
+ 
 
 // const http = require('http');
 //Core way of http server initialization
