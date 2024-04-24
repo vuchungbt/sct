@@ -5,6 +5,8 @@
 upload/
 uploads/
 ### Node ###
+#config
+config/config.json
 # Logs
 logs
 *.log
