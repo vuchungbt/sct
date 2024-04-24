@@ -9,6 +9,7 @@ exports.index = (req, resp, next) =>{
 }
 
 exports.login = async (req,resp,next) => {  
+    console.log('==================db:',db);
     await db.User.findOne({
         where:{
             email: req.body.email

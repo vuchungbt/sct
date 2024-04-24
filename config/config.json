@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "john",
+    "username": "root",
     "password": null,
     "database": "nodeadmin",
     "host": "127.0.0.1",
@@ -8,8 +8,8 @@
     "admin-key":"123123"
   },
   "test": {
-    "username": "john",
-    "password": null,
+    "username": "root",
+    "password": "Vuchungbt00",
     "database": "nodeadmin",
     "host": "127.0.0.1",
     "dialect": "mysql",
