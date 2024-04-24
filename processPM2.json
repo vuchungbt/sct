@@ -8,7 +8,7 @@
     "watch": true,
         "env_dev": {
             "PORT": 3040,
-            "NODE_ENV": "development"
+            "NODE_ENV": "test"
         },
         "env": {
             "PORT": 3040,
