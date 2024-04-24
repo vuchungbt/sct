@@ -17,9 +17,10 @@
   },
   "production": {
     "username": "root",
-    "password": "",
-    "database": "database_production",
+    "password": "Vuchungbt00",
+    "database": "nodeadmin",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "admin-key":"123123"
   }
 }
