@@ -38,20 +38,16 @@ exports.edit = async (req, res, next) => {
                 });
     await db.User.findByPk(req.params.id,{
         include: {
-          model: db.Role,
-          as: 'roles'
+          model: db.Role
         }
       })
-        .then((result) => {            
-            console.log(roles);
+        .then((result) => {           
             // .then( (roles,result) =>{
                 res.render('dashboard/admin/user/edit',{
                 pageTitle: "Add User",
                 errorMessage: null,
                 user: result,
-                role: result.roles.map((roles) => {
-                    return roles.name;
-                 }),
+                role: result.Role.name,
                 roleList: roles
             // });    
             });
@@ -81,13 +77,10 @@ exports.store = async (req,res,next) => {
             tel: req.body.tel,
             status: req.body.status,
             email: req.body.email,
-            password: passwordHash
+            password: passwordHash,
+            roleId: req.body.role
         })
         .then((user) => {  
-            db.UserHasRole.create({
-                UserId: user.id,
-                RoleId: req.body.role
-            });
     
             req.flash('success', `New User added ${ req.body.name } successfully!`);
             res.status(200).redirect('/users');

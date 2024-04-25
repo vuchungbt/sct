@@ -14,8 +14,7 @@ exports.login = async (req,resp,next) => {
             email: req.body.email
         },
         include: {
-            model: db.Role,
-            as: 'roles'
+            model: db.Role
         }
     })
     .then(user =>{         
@@ -28,9 +27,11 @@ exports.login = async (req,resp,next) => {
                 errorMessage: [{msg: 'Account deactive . Please contact to admin!'}]
             });
         }
-        let roles = user.roles.map((roles) => {
-            return roles.name;
-        });
+        let roles = user.Role.name;
+        console.log('1----roles',roles);
+        console.log('2----user',user);
+        console.log('3----user.Role',user.Role);
+
         bcrypt.compare(req.body.password, user.password)
         .then(result =>{
             if(!result){

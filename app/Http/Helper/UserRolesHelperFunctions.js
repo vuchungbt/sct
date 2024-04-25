@@ -3,8 +3,7 @@ const db = require('../../../models');
 exports.usersByRoles = async function(id){
   return await db.User.findAll({
     include: {
-      model: db.Role,
-      as: 'roles'
+      model: db.Role
     }
   })
   .then(result => {
@@ -15,9 +14,7 @@ exports.usersByRoles = async function(id){
         email: user.email,
         status: user.status, 
         tel: user.tel,
-        roles: user.roles.map((roles) => {
-                  return roles.name;
-               })
+        roles: user.Role.name
       }
     });    
   }); 

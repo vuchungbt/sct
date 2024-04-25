@@ -39,7 +39,7 @@
                     
                     <div class="input-group input-group-outline mb-3">
                       <!-- <label class="form-label">Select Role</label> -->
-                      <select name="role" class="form-control" id="role-name">
+                      <select name="roleId" class="form-control" id="role-name">
                         <option value="">Select Role</option>
                         <% roleList.forEach(userRole => { %>
                           <option value="<%= userRole.id %>" <%= userRole.name == role? 'selected':'' %> ><%= userRole.name %></option>

@@ -14,8 +14,10 @@ module.exports = {
     */
      await queryInterface.bulkInsert('Users', [{
         name: 'Super admin',
+        roleId :1,
         tel: '0123456789',
         status: 1,
+        id:1,
         email: 'admin@admin.com',
         password: await bcrypt.hash('123456qqq',12)
                     .then(passwordHash => { return passwordHash; }),
@@ -23,6 +25,8 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        id:2,
+        roleId :2,
         name: 'Test User',
         tel: '0123456780',
         status: 1,
