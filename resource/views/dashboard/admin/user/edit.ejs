@@ -26,6 +26,16 @@
                       <label class="form-label">Email</label>
                       <input type="email" class="form-control" name="email" value="<%= user.email %>" required>
                     </div>
+                    <div class="input-group input-group-outline mb-3 is-filled">
+                      <label class="form-label">Tel</label>
+                      <input type="number" class="form-control" name="tel" value="<%= user.tel %>" required>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                      <select name="status" class="form-control">
+                        <option value="1">active</option>
+                        <option value="0">deactive</option>
+                      </select>
+                    </div>
                     
                     <div class="input-group input-group-outline mb-3">
                       <!-- <label class="form-label">Select Role</label> -->

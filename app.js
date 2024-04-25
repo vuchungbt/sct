@@ -28,7 +28,7 @@ app.use(session({
     secret: 'keyboardcat',
     resave: true,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 3*24*60*60*1000 },
    // cookie: { secure: true, httpOnly: true }
 }));
 app.use(flash());
@@ -59,7 +59,8 @@ app.use(webRoutes);
  
 
  const port = process.env.PORT || 3040;
- app.listen(port, () => console.log(`Started on port ${port}...`));
+ const server = require("http").Server(app);
+ server.listen(port, () => console.log(`Started on port ${port}...`));
  
 
 // const http = require('http');

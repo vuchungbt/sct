@@ -22,6 +22,8 @@ exports.register = async (req, resp, next) =>{
     .then(passwordHash => {
         db.User.create({
             name: req.body.name,
+            tel: req.body.tel,
+            status: 0,
             email: req.body.email,
             password: passwordHash
         })
@@ -30,26 +32,9 @@ exports.register = async (req, resp, next) =>{
                     UserId: result.id,
                     RoleId: 2
                 });
-                req.session.username = result.name;
-                req.session.email = result.email;
-                req.session.auth = true;
-                req.session.role = 'user';
-
-                let payload = {
-                    auth: true,
-                    name: result.name,
-                    email: result.email
-                };
-
-                let accessToken = jwt.sign(payload, 'longest secreate key node admin', {
-                    algorithm: "HS256",
-                    expiresIn: '1h'
+                return resp.status(200).render('front-end/auth/login',{
+                    errorMessage: [{msg: 'Submit successfully!'}]
                 });
-            
-                // console.log("accessToken",accessToken);
-                
-                resp.cookie("jwt", accessToken, {secure: true, httpOnly: true, samesite:"lax"});
-                return resp.redirect('/home');
         })
         .catch(error => {
             throw new Error(error);

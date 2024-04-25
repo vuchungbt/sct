@@ -1,6 +1,7 @@
 const db = require('../../../../../models');
 const roles = require('../../../Helper/UserRolesHelperFunctions');
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
 
 exports.index = async (req,res,next) => {  
     // console.log(await roles.usersByRoles());
@@ -18,15 +19,14 @@ exports.create = async (req, res, next) => {
     //res.sendFile(path.join(__dirname,'../','views','user','create.html'));   
     await db.Role.findAll()
         .then( (roles) =>{
-            console.log(">>>>>>>>>1.roles",roles);
             return roles;
         })
         .then( (roles) =>{
-            console.log(">>>>>>>>>2.roles",roles);
+            console.log('>>> dashboard/admin/user/create',roles);
             res.render('dashboard/admin/user/create',{
             pageTitle: "Add User",
             errorMessage: null,
-            roles: roles
+            roleList: roles
         });    
     });
 }
@@ -74,23 +74,36 @@ exports.store = async (req,res,next) => {
         });
     }
 
-    await db.User.create(req.body)
-    .then((user) => {
-        db.UserHasRole.create({
-            UserId: user.id,
-            RoleId: req.body.role
-        });
-
-        req.flash('success', `New User added ${ req.body.name } successfully!`);
-        res.status(200).redirect('/users');
-
+    await bcrypt.hash(req.body.password,12)
+    .then(passwordHash => {
+        db.User.create({
+            name: req.body.name,
+            tel: req.body.tel,
+            status: req.body.status,
+            email: req.body.email,
+            password: passwordHash
+        })
+        .then((user) => {  
+            db.UserHasRole.create({
+                UserId: user.id,
+                RoleId: req.body.role
+            });
+    
+            req.flash('success', `New User added ${ req.body.name } successfully!`);
+            res.status(200).redirect('/users');
+    
+        })
+        .catch(error => {
+            throw new Error(error);
+        });       
     })
     .catch((err) => {
         throw new Error(err);
         const error = new Error(err);
         error.httpStatusCode = 500;
         return next(error);
-    });
+    }); 
+
 }
 
 exports.update = (req,res,next) => {

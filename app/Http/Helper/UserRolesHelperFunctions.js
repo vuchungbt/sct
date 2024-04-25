@@ -13,6 +13,8 @@ exports.usersByRoles = async function(id){
         id:user.id, 
         name: user.name, 
         email: user.email,
+        status: user.status, 
+        tel: user.tel,
         roles: user.roles.map((roles) => {
                   return roles.name;
                })

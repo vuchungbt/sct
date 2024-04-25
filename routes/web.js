@@ -45,8 +45,8 @@ route.post('/register',
         .isEmpty()
         .withMessage('Name is required!')
         .bail()
-        .isLength({min: 5})
-        .withMessage('Name must 5 charcters long!')
+        .isLength({min: 1})
+        .withMessage('Name must 1 charcters long!')
         .bail(),
         body('email')
         .not()
@@ -99,9 +99,18 @@ body('name')
 .isEmpty()
 .withMessage('Name is required!')
 .bail()
-.isLength({min: 5})
-.withMessage('Name must 5 charcters long!')
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
 .bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
 body('email')
 .not()
 .isEmpty()

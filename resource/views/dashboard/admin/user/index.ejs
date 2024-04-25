@@ -15,23 +15,31 @@
             <div class="card-body py-3 pb-2">
                 <%- include('../../../errors/flash-message')  %>
 
-                <a href="user/create" class="btn btn-sm btn-info" style="float: right;">Add New User</a>
+                <a href="user/create" class="btn btn-sm btn-info" style="float: right;">Add New</a>
                 <table class="table align-items-center justify-content-center mb-0">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Tel</th>
                             <th>Roles</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% users.forEach((element,key) => { %>
-                            <tr>
-                                <td><%= key+1 %></td>
+                            <% if(element.status==0){ %>
+                                <tr style="background-color: rgb(255, 175, 175);">
+                            <% } else {%>
+                                <tr style="background-color: rgb(149, 255, 163);">
+                            <% } %>
+                               
+
+                                <td><%= element.id %></td>
                                 <td><%= element.name %></td>
                                 <td><%= element.email %></td>
+                                <td><%= element.tel %></td>
                                 <td><%= element.roles %></td>
                                 <td style="display: flex;">
                                     <a href="user/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>

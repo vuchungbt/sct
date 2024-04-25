@@ -9,7 +9,6 @@ exports.index = (req, resp, next) =>{
 }
 
 exports.login = async (req,resp,next) => {  
-    console.log('==================db:',db);
     await db.User.findOne({
         where:{
             email: req.body.email
@@ -23,6 +22,10 @@ exports.login = async (req,resp,next) => {
         if(!user){
             return resp.status(422).render('front-end/auth/login',{
                 errorMessage: [{msg: 'User not found. Please sign up!'}]
+            });
+        } else if(user.status==0) {
+            return resp.status(403).render('front-end/auth/login',{
+                errorMessage: [{msg: 'Account deactive . Please contact to admin!'}]
             });
         }
         let roles = user.roles.map((roles) => {
@@ -49,7 +52,7 @@ exports.login = async (req,resp,next) => {
            
             let accessToken = jwt.sign(payload, 'longest secreate key node admin', {
                 algorithm: "HS256",
-                expiresIn: '1h'
+                expiresIn: '10h'
             });
         
             // console.log("accessToken",accessToken);
