@@ -138,6 +138,56 @@ body('password')
 ,isAuth, role.validateRole("admin") ,userController.store);
 route.get('/users', isAuth, role.validateRole("admin"), userController.index);
 
+//Supplier
+route.get('/supplier/create',isAuth ,userController.create);
+route.post('/supplier/update/:id',isAuth,userController.update);
+route.get('/supplier/edit/:id',isAuth,userController.edit);
+route.post('/supplier/delete/:id',isAuth,userController.delete);
+route.post('/supplier/store',
+body('name')
+.not()
+.isEmpty()
+.withMessage('Name is required!')
+.bail()
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
+.bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
+body('email')
+.not()
+.isEmpty()
+.withMessage('Email is required!')
+.bail()
+.isEmail()
+.withMessage('Enter Valid Email!')
+.bail()
+.custom(value => {
+    return db.User.findOne({ where : {email:value}}).then(user => {
+        if (user) {
+            return Promise.reject('E-mail already in use');
+        }   
+    });
+})
+.bail(),
+body('password')
+.not()
+.isEmpty()
+.withMessage('Password is required!')
+.bail() 
+.isLength({min: 5})
+.withMessage('Password is minimum 5 charcters long!')
+.bail()    
+,isAuth, role.validateRole("admin") ,userController.store);
+route.get('/supplier', isAuth, role.validateRole("admin"), userController.index);
+
 
 //User Routes
 

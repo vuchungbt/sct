@@ -25,13 +25,11 @@ exports.register = async (req, resp, next) =>{
             tel: req.body.tel,
             status: 0,
             email: req.body.email,
-            password: passwordHash
+            password: passwordHash,
+            roleId: 2
         })
         .then((result) => {  
-                db.UserHasRole.create({
-                    UserId: result.id,
-                    RoleId: 2
-                });
+                
                 return resp.status(200).render('front-end/auth/login',{
                     errorMessage: [{msg: 'Submit successfully!'}]
                 });
