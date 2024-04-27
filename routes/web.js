@@ -13,6 +13,7 @@ const loginController = require('../app/Http/Controllers/Auth/LoginController');
 const registerController = require('../app/Http/Controllers/Auth/RegisterController');
 const userController = require('../app/Http/Controllers/Admin/Users/UserController');
 const roleController = require('../app/Http/Controllers/Admin/Roles/RoleController');
+const supplierController = require('../app/Http/Controllers/Admin/Supplier/SupplierController');
 
 
 
@@ -139,10 +140,10 @@ body('password')
 route.get('/users', isAuth, role.validateRole("admin"), userController.index);
 
 //Supplier
-route.get('/supplier/create',isAuth ,userController.create);
-route.post('/supplier/update/:id',isAuth,userController.update);
-route.get('/supplier/edit/:id',isAuth,userController.edit);
-route.post('/supplier/delete/:id',isAuth,userController.delete);
+route.get('/supplier/create',isAuth ,supplierController.create);
+route.post('/supplier/update/:id',isAuth,supplierController.update);
+route.get('/supplier/edit/:id',isAuth,supplierController.edit);
+route.post('/supplier/delete/:id',isAuth,supplierController.delete);
 route.post('/supplier/store',
 body('name')
 .not()
@@ -185,8 +186,8 @@ body('password')
 .isLength({min: 5})
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
-,isAuth, role.validateRole("admin") ,userController.store);
-route.get('/supplier', isAuth, role.validateRole("admin"), userController.index);
+,isAuth, role.validateRole("admin") ,supplierController.store);
+route.get('/supplier', isAuth, role.validateRole("admin"), supplierController.index);
 
 
 //User Routes

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Techpack', {
+    await queryInterface.createTable('Techpacks', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'TechpackCategory',
+          model: 'TechpackCategorys',
           key: 'id',
         }
       },
@@ -40,7 +40,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'TechpackCloth',
+          model: 'TechpackCloths',
           key: 'id',
         }
       },
@@ -93,6 +93,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Techpack');
+    await queryInterface.dropTable('Techpacks');
   }
 };

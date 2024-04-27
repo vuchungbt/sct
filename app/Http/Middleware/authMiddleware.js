@@ -12,6 +12,7 @@ module.exports = async (req,resp,next) => {
 
     try {
         let isAuth = jwt.verify(accessToken,'longest secreate key node admin');
+        console.log('>>-->isAuth',isAuth)
         if(!isAuth.auth){
             return resp.redirect('/login');    
         }
