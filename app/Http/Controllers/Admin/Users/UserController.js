@@ -30,7 +30,46 @@ exports.create = async (req, res, next) => {
         });    
     });
 }
-
+exports.resetinfo = async (req, res, next) => { 
+    await db.User.findByPk(req.params.id)
+        .then((result) => {           
+            // .then( (roles,result) =>{
+                res.render('dashboard/admin/user/resetpw',{
+                pageTitle: "Reset password",
+                errorMessage: null,
+                user: result
+            // });    
+            });
+    })
+    .catch(err => {
+        throw new Error(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+    }); 
+}
+exports.resetpw = async (req,res,next) => {
+     await bcrypt.hash(req.body.password,12)
+    .then(passwordHash => { 
+        
+        db.User.update( {'password': passwordHash},{
+            where: {
+                id: req.params.id
+            }
+        })
+        .then((result) => {
+            req.flash('success', `Reset password successfully!`);
+            res.status(200).redirect('/users');
+        })
+        .catch(err =>{
+            throw new Error(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        }); 
+    })
+       
+}
 exports.edit = async (req, res, next) => {
     let roles = await db.Role.findAll()
                 .then( (roles) =>{

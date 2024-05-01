@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       tel: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       password: {
@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       type: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {
@@ -45,6 +45,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('TechpackStock');
+    await queryInterface.dropTable('TechpackStocks');
   }
 };

@@ -21,17 +21,9 @@
         </a>
       </li>
       <% if (roles=='manager' || roles=='admin') { %>
+        
         <li class="nav-item">
-          <a class="nav-link text-white <%= routeName == 'roles' || routeName == 'role'?' active bg-gradient-primary':' ' %>"
-            href="/roles">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
-            </div>
-            <span class="nav-link-text ms-1">Roles</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white <%= routeName == 'users' || routeName == 'user'?' active bg-gradient-primary':' ' %>"
+          <a class="nav-link text-white <%=  routeName == 'role' ||  routeName == 'roles' || routeName == 'users' || routeName == 'user'?' active bg-gradient-primary':' ' %>"
             href="/users">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
@@ -43,50 +35,44 @@
 
 
           <li class="nav-item">
-            <a class="nav-link text-white " href="#">
+            <a class="nav-link text-white <%=  routeName == 'cloth' ||routeName == 'category' || routeName == 'techpack'?' active bg-gradient-primary':' ' %>
+            " href="/techpack">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
               </div>
-              <span class="nav-link-text ms-1">Techpack</span>
+              <span class="nav-link-text ms-1">Techpacks</span>
             </a>
           </li>
           <% if (roles=='hr' || roles=='admin') { %>
           <li class="nav-item">
-            <a class="nav-link text-white " href="#">
+            <a class="nav-link text-white <%= routeName == 'invoice' || routeName == 'invoice'?' active bg-gradient-primary':' ' %>
+            " href="/invoice">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
               </div>
-              <span class="nav-link-text ms-1">Invoice</span>
+              <span class="nav-link-text ms-1">Invoices</span>
             </a>
           </li>
           <% } %>
           <% if (roles=='supplier' || roles=='admin') { %>
           <li class="nav-item">
-            <a class="nav-link text-white " href="/supplier">
+            <a class="nav-link text-white <%= routeName == 'supplier' || routeName == 'supplier'?' active bg-gradient-primary':' ' %>" 
+            href="/supplier">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
               </div>
-              <span class="nav-link-text ms-1">Supplier</span>
+              <span class="nav-link-text ms-1">Suppliers</span>
             </a>
           </li>
           <% } %>
           <% if (roles=='warehouse' || roles=='admin') { %>
           <li class="nav-item">
-            <a class="nav-link text-white " href="#">
+            <a class="nav-link text-white <%= routeName == 'warehouse' || routeName == 'warehouse'?' active bg-gradient-primary':' ' %>
+            " href="#">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
               </div>
-              <span class="nav-link-text ms-1">Warehouse</span>
-            </a>
-          </li>
-          <% } %>
-          <% if (roles=='user' || roles=='admin') { %>
-          <li class="nav-item">
-            <a class="nav-link text-white " href="#">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Items</span>
+              <span class="nav-link-text ms-1">Warehouses</span>
             </a>
           </li>
           <% } %>

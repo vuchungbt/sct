@@ -18,12 +18,13 @@
                 <table class="table align-items-center justify-content-center mb-0">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Tel</th>
                             <th>Address</th>
                             <th>Type</th>
                             <th>Description</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,8 +40,7 @@
                                     <a href="supplier/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
                                     &nbsp;
                                     <form action="supplier/delete/<%= element.id %>" method="POST">
-                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                           <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </td>
                             </tr>

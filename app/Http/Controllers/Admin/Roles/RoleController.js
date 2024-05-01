@@ -57,7 +57,7 @@ exports.update = (req, resp, next) =>{
         }
     })
     .then( result => {        
-        req.flash('warning', `Role updated ${ req.body.name } successfully!`)
+        req.flash('success', `Role updated successfully!`)
         resp.status(200).redirect('/roles');
     })
     .catch(error => {

@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'TechpackCategorys',
+          model: 'TechpackCategories',
           key: 'id',
         }
       },
@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       sub_categoryId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       clothId: {
         allowNull: false,
@@ -61,6 +61,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        type: Sequelize.STRING
+      },
+      seasion: {
         type: Sequelize.STRING
       },
       b_image: {

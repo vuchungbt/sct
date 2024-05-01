@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const csrf = require('csurf');
+//const csrf = require('csurf');
 const flash = require('connect-flash');
 var cors = require('cors');
 
@@ -17,11 +17,12 @@ app.set('views','resource/views');
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({extended:false}));
-app.use(express.static(path.join(__dirname,'public')));
+//app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static("public")); //static rsc from public folder
 
 
 app.use(cookieParser());
-app.use(csrf({ cookie: true }));
+//app.use(csrf({ cookie: true }));
 
 app.use(session({
     name: "my-session-name",
@@ -34,7 +35,7 @@ app.use(session({
 app.use(flash());
 
 app.use((req, resp, next) => {
-    resp.locals.csrfToken = req.csrfToken();
+    //resp.locals.csrfToken = req.csrfToken();
     resp.locals.auth = req.session.auth? req.session.auth : false;
     resp.locals.username = req.session.username? req.session.username : '';
     resp.locals.roles = req.session.roles?req.session.roles:'';
@@ -42,6 +43,7 @@ app.use((req, resp, next) => {
     resp.locals.message = req.flash();
     next();
 });
+
 
 app.use(webRoutes);
 

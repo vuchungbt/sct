@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'createById'
       });
       models.User.hasMany(models.Invoice, {
-        foreignKey: 'createdById'
+        foreignKey: 'confirmById'
       });
     }
   }

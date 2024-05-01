@@ -14,7 +14,11 @@ const registerController = require('../app/Http/Controllers/Auth/RegisterControl
 const userController = require('../app/Http/Controllers/Admin/Users/UserController');
 const roleController = require('../app/Http/Controllers/Admin/Roles/RoleController');
 const supplierController = require('../app/Http/Controllers/Admin/Supplier/SupplierController');
-
+const techpackController = require('../app/Http/Controllers/Admin/Techpack/TechpackController');
+const invoiceController = require('../app/Http/Controllers/Admin/Invoice/InvoiceController');
+const warehouseController = require('../app/Http/Controllers/Admin/Warehouse/WarehouseController');
+const categoryController = require('../app/Http/Controllers/Admin/Category/CategoryController');
+const clothController = require('../app/Http/Controllers/Admin/Cloth/ClothController');
 
 
 const route = express.Router();
@@ -92,6 +96,8 @@ route.get('/roles',isAuth, roleController.index);
 //Users
 route.get('/user/create',isAuth ,userController.create);
 route.post('/user/update/:id',isAuth,userController.update);
+route.get('/user/resetpw/:id',isAuth,userController.resetinfo);
+route.post('/user/resetpw/:id',isAuth,userController.resetpw);
 route.get('/user/edit/:id',isAuth,userController.edit);
 route.post('/user/delete/:id',isAuth,userController.delete);
 route.post('/user/store',
@@ -188,6 +194,261 @@ body('password')
 .bail()    
 ,isAuth, role.validateRole("admin") ,supplierController.store);
 route.get('/supplier', isAuth, role.validateRole("admin"), supplierController.index);
+
+//Techpack
+route.get('/techpack/create',isAuth ,techpackController.create);
+route.post('/techpack/update/:id',isAuth,techpackController.update);
+route.get('/techpack/edit/:id',isAuth,techpackController.edit);
+route.post('/techpack/delete/:id',isAuth,techpackController.delete);
+route.post('/techpack/store',
+body('name')
+.not()
+.isEmpty()
+.withMessage('Name is required!')
+.bail()
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
+.bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
+body('email')
+.not()
+.isEmpty()
+.withMessage('Email is required!')
+.bail()
+.isEmail()
+.withMessage('Enter Valid Email!')
+.bail()
+.custom(value => {
+    return db.User.findOne({ where : {email:value}}).then(user => {
+        if (user) {
+            return Promise.reject('E-mail already in use');
+        }   
+    });
+})
+.bail(),
+body('password')
+.not()
+.isEmpty()
+.withMessage('Password is required!')
+.bail() 
+.isLength({min: 5})
+.withMessage('Password is minimum 5 charcters long!')
+.bail()    
+,isAuth, role.validateRole("admin") ,techpackController.store);
+route.get('/techpack', isAuth, role.validateRole("admin"), techpackController.index);
+
+route.post('/techpack/upload',isAuth,techpackController.upload);
+
+route.get('/techpack/detail/:id',isAuth,techpackController.detail);
+
+//category
+route.get('/category/create',isAuth ,categoryController.create);
+route.post('/category/update/:id',isAuth,categoryController.update);
+route.get('/category/edit/:id',isAuth,categoryController.edit);
+route.post('/category/delete/:id',isAuth,categoryController.delete);
+route.post('/category/store',
+body('name')
+.not()
+.isEmpty()
+.withMessage('Name is required!')
+.bail()
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
+.bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
+body('email')
+.not()
+.isEmpty()
+.withMessage('Email is required!')
+.bail()
+.isEmail()
+.withMessage('Enter Valid Email!')
+.bail()
+.custom(value => {
+    return db.User.findOne({ where : {email:value}}).then(user => {
+        if (user) {
+            return Promise.reject('E-mail already in use');
+        }   
+    });
+})
+.bail(),
+body('password')
+.not()
+.isEmpty()
+.withMessage('Password is required!')
+.bail() 
+.isLength({min: 5})
+.withMessage('Password is minimum 5 charcters long!')
+.bail()    
+,isAuth, role.validateRole("admin") ,categoryController.store);
+route.get('/category', isAuth, role.validateRole("admin"), categoryController.index);
+
+//cloth
+route.get('/cloth/create',isAuth ,clothController.create);
+route.post('/cloth/update/:id',isAuth,clothController.update);
+route.get('/cloth/edit/:id',isAuth,clothController.edit);
+route.post('/cloth/delete/:id',isAuth,clothController.delete);
+route.post('/cloth/store',
+body('name')
+.not()
+.isEmpty()
+.withMessage('Name is required!')
+.bail()
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
+.bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
+body('email')
+.not()
+.isEmpty()
+.withMessage('Email is required!')
+.bail()
+.isEmail()
+.withMessage('Enter Valid Email!')
+.bail()
+.custom(value => {
+    return db.User.findOne({ where : {email:value}}).then(user => {
+        if (user) {
+            return Promise.reject('E-mail already in use');
+        }   
+    });
+})
+.bail(),
+body('password')
+.not()
+.isEmpty()
+.withMessage('Password is required!')
+.bail() 
+.isLength({min: 5})
+.withMessage('Password is minimum 5 charcters long!')
+.bail()    
+,isAuth, role.validateRole("admin") ,clothController.store);
+route.get('/cloth', isAuth, role.validateRole("admin"), clothController.index);
+
+//Invoice
+route.get('/invoice/create',isAuth ,invoiceController.create);
+route.post('/invoice/update/:id',isAuth,invoiceController.update);
+route.get('/invoice/edit/:id',isAuth,invoiceController.edit);
+route.post('/invoice/delete/:id',isAuth,invoiceController.delete);
+route.post('/invoice/store',
+body('name')
+.not()
+.isEmpty()
+.withMessage('Name is required!')
+.bail()
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
+.bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
+body('email')
+.not()
+.isEmpty()
+.withMessage('Email is required!')
+.bail()
+.isEmail()
+.withMessage('Enter Valid Email!')
+.bail()
+.custom(value => {
+    return db.User.findOne({ where : {email:value}}).then(user => {
+        if (user) {
+            return Promise.reject('E-mail already in use');
+        }   
+    });
+})
+.bail(),
+body('password')
+.not()
+.isEmpty()
+.withMessage('Password is required!')
+.bail() 
+.isLength({min: 5})
+.withMessage('Password is minimum 5 charcters long!')
+.bail()    
+,isAuth, role.validateRole("admin") ,invoiceController.store);
+route.get('/invoice', isAuth, role.validateRole("admin"), invoiceController.index);
+
+//Warehouse
+route.get('/warehouse/create',isAuth ,warehouseController.create);
+route.post('/warehouse/update/:id',isAuth,warehouseController.update);
+route.get('/warehouse/edit/:id',isAuth,warehouseController.edit);
+route.post('/warehouse/delete/:id',isAuth,warehouseController.delete);
+route.post('/warehouse/store',
+body('name')
+.not()
+.isEmpty()
+.withMessage('Name is required!')
+.bail()
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
+.bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
+body('email')
+.not()
+.isEmpty()
+.withMessage('Email is required!')
+.bail()
+.isEmail()
+.withMessage('Enter Valid Email!')
+.bail()
+.custom(value => {
+    return db.User.findOne({ where : {email:value}}).then(user => {
+        if (user) {
+            return Promise.reject('E-mail already in use');
+        }   
+    });
+})
+.bail(),
+body('password')
+.not()
+.isEmpty()
+.withMessage('Password is required!')
+.bail() 
+.isLength({min: 5})
+.withMessage('Password is minimum 5 charcters long!')
+.bail()    
+,isAuth, role.validateRole("admin") ,warehouseController.store);
+route.get('/warehouse', isAuth, role.validateRole("admin"), warehouseController.index);
+
 
 
 //User Routes

@@ -6,6 +6,9 @@ const { Model } = require('sequelize');
       models.TechpackCategory.hasMany(models.Techpack, {
         foreignKey: 'categoryId'
       });
+      models.TechpackCategory.hasMany(models.Techpack, {
+        foreignKey: 'sub_categoryId'
+      });
     }
   }
   TechpackCategory.init({

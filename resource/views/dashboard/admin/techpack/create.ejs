@@ -1,0 +1,212 @@
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar') %>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
+
+          <div class="row">
+            <div class="col-xl-2 col-sm-2 mb-xl-0 mb-4">
+            </div>
+            <div class="col-xl-8 col-sm-8 mb-xl-0 mb-4">
+              <div class="card">
+
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Add New Techpack</h6>
+                  </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                  <%- include('../../../errors/flash-message') %>
+                    <form action="/techpack/store" method="POST">
+                      <div class="input-group input-group-outline mb-3 ">
+                        <label class="form-label">Techpack name</label>
+                        <input type="text" class="form-control" name="name" value="" required>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="input-group input-group-outline mb-3">
+                            <select name="categoryId" class="form-control">
+                              <option value="" disabled selected>Category</option>
+                              <% categoriesList.forEach(element=> { %>
+                                <option value="<%= element.id %>" title="<%= element.description %>">
+                                  <%= element.name %>
+                                    <%= '(' + element.code +')' %>
+                                </option>
+                                <% }) %>
+                            </select>
+                          </div>
+                          <div class="input-group input-group-outline mb-3 ">
+                            <label class="form-label">Seasion</label>
+                            <input type="text" class="form-control" name="seasion" value="">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-group input-group-outline mb-3">
+                            <select name="sub_categoryId" class="form-control">
+                              <option value="" disabled selected>Sub-category</option>
+                              <% sub_categoriesList.forEach(element=> { %>
+                                <option value="<%= element.id %>" title="<%= element.description %>">
+                                  <%= element.name %>
+                                    <%= '(' + element.code +')' %>
+                                </option>
+                                <% }) %>
+                            </select>
+                          </div>
+                          <div class="input-group input-group-outline mb-3">
+                            <select name="clothId" class="form-control">
+                              <option value="" disabled selected>Cloth Type</option>
+                              <% clothList.forEach(element=> { %>
+                                <option value="<%= element.id %>" title="<%= element.description %>">
+                                  <%= element.name %>
+                                    <%= '(' + element.code +')' %>
+                                </option>
+                                <% }) %>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group mb-3">
+                        <label class="form-label" for="image_f">Photo</label>
+                        <input type="file" name="image_f" id="image_f" accept="image/png, image/gif, image/jpeg, image/webp" />
+                        <input type="hidden" id="f_image" name="f_image"/>
+                      </div>
+                      <div class="form-group mb-3 ">
+                        <label class="form-label" for="image_b">Front side</label>
+                        <input type="file" name="image_b" id="image_b" accept="image/png, image/gif, image/jpeg, image/webp" />
+                        <input type="hidden" id="b_image" name="b_image"/>
+                      </div>
+                      <div class="form-group mb-3 ">
+                        <label class="form-label" for="image_a">Back side</label>
+                        <input type="file" name="image_a" id="image_a" accept="image/png, image/gif, image/jpeg, image/webp" />
+                        <input type="hidden" id="a_image" name="a_image"/>
+                      </div>
+                      <div class="input-group input-group-outline mb-3 ">
+                        <textarea type="text" class="form-control" name="description"
+                          placeholder="description"></textarea>
+                      </div>
+                      <div class="input-group input-group-outline mb-3">
+                        <select name="createById" class="form-control">
+                          <option value="" disabled selected>Assign to</option>
+                          <% usersList.forEach(element=> { %>
+                            <option value="<%= element.id %>">
+                              <%= element.id %>-<%= element.name %>
+                            </option>
+                            <% }) %>
+                        </select>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg mt-4 mb-0">Submit</button>
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_f').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('f_image').value= f.filename;
+             })
+            
+          },
+          error: function () {
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.');
+          }
+        });
+      });
+
+    </script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_a').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('a_image').value= f.filename;
+             })
+            
+          },
+          error: function () {
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.');
+          }
+        });
+      });
+
+    </script>
+
+
+<script>
+  // Khi người dùng chọn tệp
+  document.getElementById('image_b').addEventListener('change', function (event) {
+    var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+    // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+    var formData = new FormData();
+    for (var i = 0; i < selectedFiles.length; i++) {
+      formData.append('file', selectedFiles[i]);
+    }
+
+    // Gửi dữ liệu đến máy chủ bằng AJAX
+    $.ajax({
+      url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+      type: 'POST',
+      data: formData,
+      processData: false, // Không xử lý dữ liệu
+      contentType: false, // Không đặt kiểu dữ liệu
+      success: function (data) {
+        // Xử lý phản hồi từ máy chủ
+        console.log('Dữ liệu đã được gửi thành công:', data);
+        data.file.forEach(f => {
+          document.getElementById('b_image').value= f.filename;
+         })
+        
+      },
+      error: function () {
+        alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.');
+      }
+    });
+  });
+
+</script>
+
+
+    <%- include('../../common/footer') %>

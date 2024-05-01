@@ -1,0 +1,122 @@
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar') %>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
+
+          <div class="row">
+
+            <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+              <div class="card">
+
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Techpack: <%= techpack.id %>
+                    </h6>
+                  </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                  <%- include('../../../errors/flash-message') %>
+                    <div>
+                      <div class="input-group input-group-outline mb-3 is-filled ">
+                        <label class="form-label">Techpack name</label>
+                        <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Category</label>
+                            <input type="text" class="form-control" name="category" disabled
+                              value="<%= techpack.category.name %>-<%= techpack.category.code %>">
+                          </div>
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Seasion</label>
+                            <input type="text" class="form-control" disabled name="seasion"
+                              value="<%= techpack.seasion %>">
+                          </div>
+
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Sub-category</label>
+                            <input type="text" class="form-control" name="sub_category" disabled
+                              value="<%= techpack.sub_category.name !== null  ? techpack.sub_category.name : '' %>">
+                          </div>
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Assign to</label>
+                            <input type="text" class="form-control" name="createby" disabled
+                              value="<%= techpack.createby !== null ? techpack.sub_category.name : '' %>">
+                          </div>
+
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Cloth type</label>
+                            <input type="text" class="form-control" name="cloth" disabled
+                              value="<%= techpack.cloth.name %>-<%= techpack.cloth.code %>">
+                          </div>
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Confirm by</label>
+                            <input type="text" class="form-control" name="Confirm" disabled
+                              value="<%= techpack.confirmby !== null ? techpack.sub_category.name : '' %>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <img src="/uploads/<%= techpack.a_image %>" height="290px" width="290px" />
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <img src="/uploads/<%= techpack.b_image %>" height="290px" width="290px" />
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <img src="/uploads/<%= techpack.f_image %>" height="290px" width="290px" />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="input-group input-group-outline mb-3 is-filled">
+                        <textarea type="text" class="form-control" name="description"
+                          placeholder="description"><%= techpack.description %></textarea>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Status</label>
+                            <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Created</label>
+                            <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Update</label>
+                            <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+
+
+    <%- include('../../common/footer') %>

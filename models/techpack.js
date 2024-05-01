@@ -5,13 +5,24 @@ module.exports = (sequelize, DataTypes) => {
   class Techpack extends Model {
     static associate(models) {
       models.Techpack.belongsTo(models.TechpackCategory, {
-        foreignKey: 'categoryId'
+        foreignKey: 'categoryId',
+        as : 'category'
+      });
+      models.Techpack.belongsTo(models.TechpackCategory, {
+        foreignKey: 'sub_categoryId',
+        as : 'sub_category'
       });
       models.Techpack.belongsTo(models.User, {
-        foreignKey: 'createById'
+        foreignKey: 'createById',
+        as : 'createby'
+      });
+      models.Techpack.belongsTo(models.User, {
+        foreignKey: 'confirmById',
+        as : 'confirmby'
       });
       models.Techpack.belongsTo(models.TechpackCloth, {
-        foreignKey: 'clothId'
+        foreignKey: 'clothId',
+        as : 'cloth'
       });
       models.Techpack.belongsToMany(models.Invoice, {
         through: models.InvoiceDeltail,
@@ -39,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     name: DataTypes.STRING,
+    seasion: DataTypes.STRING,
     status: DataTypes.INTEGER,
     b_image: DataTypes.STRING,
     a_image: DataTypes.STRING,

@@ -31,7 +31,7 @@ exports.edit = async (req, resp, next) =>{
     .then((result) => {
         resp.render('dashboard/admin/supplier/edit',{
             supplier: result,
-            supplierList: roles,
+            supplierList: suppliers,
             pageTitle: 'Supplier'
         });  
     })
@@ -58,7 +58,7 @@ exports.update = (req, resp, next) =>{
         }
     })
     .then( result => {        
-        req.flash('warning', `Role updated ${ req.body.name } successfully!`)
+        req.flash('success', `Supplier updated ${ req.body.name } successfully!`)
         resp.status(200).redirect('/supplier');
     })
     .catch(error => {
@@ -73,7 +73,7 @@ exports.delete = async (req, resp, next) =>{
         }
     })
     .then( () => {      
-        req.flash('warning', `Role deleted successfully!`);        
+        req.flash('warning', `Supplier deleted successfully!`);        
         resp.status(200).redirect('/supplier');
     })
     .catch(error => {

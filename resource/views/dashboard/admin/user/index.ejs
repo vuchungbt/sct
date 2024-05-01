@@ -14,12 +14,14 @@
               </div>
             <div class="card-body py-3 pb-2">
                 <%- include('../../../errors/flash-message')  %>
-
-                <a href="user/create" class="btn btn-sm btn-info" style="float: right;">Add New</a>
+                <% if (roles=='manager' || roles=='admin') { %>
+                <a href="roles" class="btn btn-sm btn-success " style="float: right;margin-left: 10px;">Roles</a>
+                <% } %>
+                <a href="user/create" class="btn btn-sm btn-info" style="float: right;">Add New User</a>
                 <table class="table align-items-center justify-content-center mb-0">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Tel</th>
@@ -34,8 +36,6 @@
                             <% } else {%>
                                 <tr style="background-color: rgb(149, 255, 163);">
                             <% } %>
-                               
-
                                 <td><%= element.id %></td>
                                 <td><%= element.name %></td>
                                 <td><%= element.email %></td>
@@ -45,8 +45,7 @@
                                     <a href="user/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
                                     &nbsp;
                                     <form action="user/delete/<%= element.id %>" method="POST">
-                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </td>
                             </tr>

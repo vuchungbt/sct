@@ -1,22 +1,25 @@
-<%- include('../dashboard/common/header') %> 
-<%- include('../front-end/common/navbar') %> 
-    
-<main class="main-content mt-3">
-    <div class="page-header align-items-start min-vh-100">       
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/_errors/main.css"/>
+	<title>Error 500</title>
+	<style>
+                html{
+                        background-color: #f1c40f;
+                }
 
-      <span class="mask bg-gradient-dark opacity-6"></span>
+                body{
+                        color: #fefefe;
+                }
+        </style>
 
-      <div class="container mt-10" style="text-align: center;">
-        <div class="row">
-            <div class="col-12 col-md-6 my-auto"></div>
-                <h5 style="color: brown;">Woops Something went wrong! Please try after sometime...</h5>
-                <p style="color: red;"><%= error %></p>
-            </div>
-        </div>
-    </div>
-    
-    <%- include('../dashboard/common/bottom') %> 
-    </div>
-  </main>
+</head>
 
-<%- include('../dashboard/common/footer')  %>   
+<body>
+<div class="error-middle">
+        <h1>Error 500 - Internal Server Error</h1>
+        <h1><%= error %></h1>
+        <p>The 500 (Internal Server Error) status code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request.</p>
+</div>
+</body>
+</html>

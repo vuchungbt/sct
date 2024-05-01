@@ -19,15 +19,14 @@
               <form role="form" action="/role/update/<%= role.id %>" method="post">
                 <div class="input-group input-group-outline mb-3">
                   <!-- <label class="form-label">Select Role</label> -->
-                  <select name="role" class="form-control" id="role-name">
+                  <select name="role" class="form-control" id="role-name" disabled >
                       <option value="">Select Role</option>
                       <% roleList.forEach(userRole => { %>
                         <option value="<%= userRole.id %>" <%= userRole.name == role.name? 'selected':'' %> ><%= userRole.name %></option>
                       <% }) %>
                   </select>
                 </div>
-                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                  <div class="input-group input-group-outline mb-3 is-filled">
+                   <div class="input-group input-group-outline mb-3 is-filled">
                     <label class="form-label">Description</label>
                     <input type="text" class="form-control" name="description" value="<%= role.description %>" required>
                   </div>
