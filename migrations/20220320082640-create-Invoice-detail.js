@@ -28,6 +28,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      price: {
+        type: Sequelize.INTEGER,
+      },
+      quantity: {
+        type: Sequelize.INTEGER,
+      },
+      type: {
+        type: Sequelize.STRING,
+      },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE

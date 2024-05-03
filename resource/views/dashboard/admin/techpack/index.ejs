@@ -38,14 +38,22 @@
                                 <td><%= element.sub_category !== null ? element.sub_category.name : '' %></td>
                                 <td><%= element.seasion %></td>
                                 <td>
-                                    <% if(element.status==0) { %>
-                                        <span class="btn btn-sm btn-info">New</span>
-                                        <% } %>
+                                    <span class="btn btn-sm btn-info"><% if (element.status==0) { %>
+                                        new techpack
+                                        <% } else if (element.status==1) { %>
+                                          confirmed
+                                          <% } else if (element.status==2) { %>
+                                            processing
+                                            <% } else if (element.status==3) { %>
+                                              product
+                                              <% } else { %>
+                                                storage
+                                            <% }  %></span>
                                 </td>
                                 <td style="display: flex;">
                                     <a href="techpack/detail/<%= element.id %>" class="btn btn-sm btn-info">Detail</a>
                                     &nbsp;
-                                    <a href="#" class="btn btn-sm btn-success">Clone</a>
+                                    <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
                                     &nbsp;
                                     <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
                                     &nbsp;

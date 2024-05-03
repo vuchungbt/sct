@@ -47,7 +47,7 @@
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">Assign to</label>
                             <input type="text" class="form-control" name="createby" disabled
-                              value="<%= techpack.createby !== null ? techpack.sub_category.name : '' %>">
+                              value="<%= techpack.createby !== null ? techpack.createby.name : '' %>">
                           </div>
 
                         </div>
@@ -60,7 +60,7 @@
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">Confirm by</label>
                             <input type="text" class="form-control" name="Confirm" disabled
-                              value="<%= techpack.confirmby !== null ? techpack.sub_category.name : '' %>">
+                            value="<%= techpack.confirmby !== null ? techpack.confirmby.name : '' %>">
                           </div>
                         </div>
                       </div>
@@ -92,21 +92,33 @@
                         <div class="col-md-4">
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">Status</label>
-                            <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                            <input type="text" class="form-control" name="name" disabled 
+                            value="<% if (techpack.status==0) { %>
+                              new techpack
+                              <% } else if (techpack.status==1) { %>
+                                confirmed
+                                <% } else if (techpack.status==2) { %>
+                                  processing
+                                  <% } else if (techpack.status==3) { %>
+                                    product
+                                    <% } else { %>
+                                      storage
+                                  <% }  %>
+                              ">
                           </div>
                         </div>
 
                         <div class="col-md-4">
                           <div class="input-group input-group-outline mb-3 is-filled ">
                             <label class="form-label">Created</label>
-                            <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                            <input type="text" class="form-control" id="created" name="created" disabled value="<%= techpack.createdAt %>">
                           </div>
                         </div>
 
                         <div class="col-md-4">
                           <div class="input-group input-group-outline mb-3 is-filled ">
                             <label class="form-label">Update</label>
-                            <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                            <input type="text" class="form-control" id="updated" name="updated" disabled value="<%= techpack.updatedAt %>">
                           </div>
                         </div>
                       </div>
@@ -117,6 +129,16 @@
           </div>
         </div>
     </main>
+    <script> 
+        var create = document.getElementById('created');
+        var update = document.getElementById('updated');
+
+        var date_created = new Date(create.value);
+        create.value = date_created.toLocaleString();
+        var date_updated = new Date(update.value);
+        update.value = date_updated.toLocaleString();
+
+    </script>
 
 
     <%- include('../../common/footer') %>

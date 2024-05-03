@@ -1,61 +1,341 @@
-<%- include('../../common/header') %> 
-<%- include('../../common/side-bar') %>
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar') %>
 
-<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <%- include('../../common/navbar') %>
-    <div class="container-fluid py-4">
-      <div class="row">
-        <div class="col-xl-3 col-sm-3 mb-xl-0 mb-4">
-        </div>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
 
-        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                  <h6 class="text-white text-capitalize ps-3">Edit Techpack</h6>
+          <div class="row">
+
+            <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+              <div class="card">
+
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Edit Techpack: <%= techpack.id %>
+                    </h6>
+                  </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                  <%- include('../../../errors/flash-message') %>
+                    <form action="/techpack/update/<%= techpack.id %>" method="POST">
+                      <div>
+                        <div class="input-group input-group-outline mb-3 is-filled ">
+                          <label class="form-label">Techpack name</label>
+                          <input type="text" class="form-control" name="name" value="<%= techpack.name %>">
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <label class="form-label">Category</label>
+                              <select name="categoryId" class="form-control">
+                                <option value="" disabled selected>Category</option>
+                                <% categoriesList.forEach(element=> { %>
+                                  <option <%=techpack !==null && techpack.category !==null &&
+                                    techpack.category.id==element.id ? 'selected' : '' %>
+                                    value="<%= element.id %>" title="<%= element.description %>">
+                                        <%= element.name %>
+                                          <%= '(' + element.code +')' %>
+                                  </option>
+                                  <% }) %>
+                              </select>
+                            </div>
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <label class="form-label">Seasion</label>
+                              <input type="text" class="form-control" name="seasion" value="<%= techpack.seasion %>">
+                            </div>
+
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <label class="form-label">Sub-category</label>
+                              <select name="sub_categoryId" class="form-control">
+                                <option value="" disabled selected>Sub-category</option>
+                                <% sub_categoriesList.forEach(element=> { %>
+                                  <option <%=techpack !==null && techpack.sub_category !==null &&
+                                    techpack.sub_category.id==element.id ? 'selected' : '' %> value="<%= element.id %>"
+                                      title="<%= element.description %>">
+                                        <%= element.name %>
+                                          <%= '(' + element.code +')' %>
+                                  </option>
+                                  <% }) %>
+                              </select>
+                            </div>
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <label class="form-label">Assigned to</label>
+                              <select name="createById" class="form-control">
+                                <option disabled value="" selected>----</option>
+                                <% usersList.forEach(element=> { %>
+                                  <option <%=techpack !==null && techpack.createby !==null &&
+                                    techpack.createby.id==element.id ? 'selected' : '' %> value="<%= element.id %>"
+                                      title="<%= element.description %>">
+                                        <%= element.name %>
+                                  </option>
+                                  <% }) %>
+                              </select>
+                            </div>
+
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <label class="form-label">Cloth type</label>
+                              <select name="clothId" class="form-control">
+                                <option disabled selected>Cloth Type</option>
+                                <% clothList.forEach(element=> { %>
+                                  <option <%=techpack !==null && techpack.cloth !==null && techpack.cloth.id==element.id
+                                    ? 'selected' : '' %> value="<%= element.id %>" title="<%= element.description %>">
+                                        <%= element.name %>
+                                          <%= '(' + element.code +')' %>
+                                  </option>
+                                  <% }) %>
+                              </select>
+                            </div>
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <label class="form-label">Confirm by</label>
+                              <select name="confirmById" class="form-control">
+                                <option disabled value="" selected>----</option>
+                                <% usersList.forEach(element=> { %>
+                                  <option <%=techpack !==null && techpack.confirmby !==null &&
+                                    techpack.confirmby.id==element.id ? 'selected' : '' %> value="<%= element.id %>">
+                                      <%= element.name %>
+                                  </option>
+                                  <% }) %>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <img id="v_image_f" src="/uploads/<%= techpack.a_image %>" height="290px" width="290px" />
+                            </div>
+                            <div class="form-group mb-3">
+                              <label class="form-label" for="image_f">Change Photo</label>
+                              <input type="file" name="image_f" id="image_f"
+                                accept="image/png, image/gif, image/jpeg, image/webp" />
+                              <input value="<%= techpack.a_image %>" type="hidden" id="f_image" name="f_image" />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled ">
+                              <img id="v_image_b" src="/uploads/<%= techpack.b_image %>" height="290px" width="290px" />
+                            </div>
+                            <div class="form-group mb-3 ">
+                              <label class="form-label" for="image_b">Change front side</label>
+                              <input type="file" name="image_b" id="image_b"
+                                accept="image/png, image/gif, image/jpeg, image/webp" />
+                              <input value="<%= techpack.b_image %>" type="hidden" id="b_image" name="b_image" />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled ">
+                              <img id="v_image_a" src="/uploads/<%= techpack.f_image %>" height="290px" width="290px" />
+                            </div>
+                            <div class="form-group mb-3 ">
+                              <label class="form-label" for="image_a">Change back side</label>
+                              <input type="file" name="image_a" id="image_a"
+                                accept="image/png, image/gif, image/jpeg, image/webp" />
+                              <input value="<%= techpack.f_image %>" type="hidden" id="a_image" name="a_image" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="input-group input-group-outline mb-3 is-filled">
+                          <label class="form-label" for="image_a">Description</label>
+                          <textarea type="text" class="form-control" name="description" placeholder="description"
+                            rows="5"><%= techpack.description %></textarea>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <label class="form-label">Status</label>
+                              <select name="status" class="form-control">
+                                <option <%=techpack !==null && techpack.status==0 ? 'selected' : '' %> value="0">
+                                  new techpack</option>
+                                <option <%=techpack !==null && techpack.status==1 ? 'selected' : '' %> value="1">
+                                  confirmed</option>
+                                <option <%=techpack !==null && techpack.status==2 ? 'selected' : '' %> value="2">
+                                  processing</option>
+                                <option <%=techpack !==null && techpack.status==3 ? 'selected' : '' %> value="3">
+                                  product</option>
+                                <option <%=techpack !==null && techpack.status==4 ? 'selected' : '' %> value="3">
+                                  draft</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled ">
+                              <label class="form-label">Created</label>
+                              <input disabled type="text" class="form-control" id="created"
+                                value="<%= techpack.createdAt %>">
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled ">
+                              <label class="form-label">Update</label>
+                              <input type="text" class="form-control" disabled id="updated" name="updated"
+                                value="<%= techpack.updatedAt %>">
+                            </div>
+                          </div>
+                        </div>
+<!--
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled">
+                              <label class="form-label">Size</label>
+                              <input type="text" class="form-control" id="type" name="type"
+                                value="<%= techpack.type %>">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled ">
+                              <label class="form-label">Price</label>
+                              <input type="number" class="form-control" id="price" name="price"
+                                value="<%= techpack.price %>">
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled ">
+                              <label class="form-label">Quantity</label>
+                              <input type="number" class="form-control" id="quantity" name="quantity"
+                                value="<%= techpack.quantity %>">
+                            </div>
+                          </div>
+                        </div>
+-->
+                        <div class="text-center">
+                          <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg mt-4 mb-0">Submit</button>
+                        </div>
+                      </div>
+                    </form>
                 </div>
               </div>
-            <div class="card-body px-3 pb-2">
-                <form role="form" action="/techpack/update/<%= techpack.id %>" method="post" novalidate>
-                    <div class="input-group input-group-outline mb-3 is-filled">
-                      <label class="form-label">Name</label>
-                      <input type="text" class="form-control" name="name" value="<%= techpack.name %>" required>
-                          </div>
-                    <div class="input-group input-group-outline mb-3 is-filled">
-                      <label class="form-label">Address</label>
-                      <input type="text" class="form-control" name="text" value="<%= techpack.address %>" required>
-                    </div>
-                    <div class="input-group input-group-outline mb-3 is-filled">
-                      <label class="form-label">Tel</label>
-                      <input type="number" class="form-control" name="tel" value="<%= techpack.tel %>" required>
-                    </div>
-                    <div class="input-group input-group-outline mb-3 is-filled">
-                      <label class="form-label">Description</label>
-                      <input type="text" class="form-control" name="text" value="<%= techpack.description %>" required>
-                    </div>
-                    <div class="input-group input-group-outline mb-3 is-filled">
-                      <label class="form-label">Tel</label>
-                      <input type="number" class="form-control" name="tel" value="<%= techpack.tel %>" required>
-                    </div>
-                    
-                    <div class="input-group input-group-outline mb-3">
-                      <select name="type" class="form-control">
-                        <option value="garment_factory">Garment factory</option>
-                        <option value="embroidery_factory">Embroidery factory</option>
-                        <option value="print_factory">Print factory</option>
-                      </select>
-                    </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg mt-4 mb-0">Update</button>
-                    </div>
-                  </form>
+            </div>
+          </div>
         </div>
-    </div>
-    </div>
-    </div>
-</div>
-</main>
+    </main>
+    <script>
+      var create = document.getElementById('created');
+      var update = document.getElementById('updated');
+
+      var date_created = new Date(create.value);
+      create.value = date_created.toLocaleString();
+      var date_updated = new Date(update.value);
+      update.value = date_updated.toLocaleString();
+
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_f').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data, textStatus, jqXHR) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('f_image').value = f.filename;
+              document.getElementById("v_image_f").src = '/uploads/' + f.filename;
+            })
+
+          },
+          error: function (err) {
+            console.log(err);
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.', err);
+          }
+        });
+      });
+
+    </script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_a').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data, textStatus, jqXHR) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('a_image').value = f.filename;
+              document.getElementById("v_image_a").src = '/uploads/' + f.filename;
+            })
+
+          },
+          error: function (err) {
+            console.log(err);
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.', err.message);
+          }
+        });
+      });
+
+    </script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_b').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('b_image').value = f.filename;
+              console.log('Dữ liệu đã được gửi thành công:', '/uploads/' + f.filename);
+              document.getElementById("v_image_b").src = '/uploads/' + f.filename;
+            })
+
+          },
+          error: function (err) {
+            console.log(err);
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.', err.message);
+          }
+        });
+      });
+
+    </script>
 
 
-<%- include('../../common/footer') %> 
+    <%- include('../../common/footer') %>

@@ -35,7 +35,7 @@ exports.edit = async (req, resp, next) =>{
             pageTitle: 'Cloth'
         });  
     })
-    .catch(() => {
+    .catch((error) => {
         throw new Error(error);
     });
 }
@@ -46,7 +46,7 @@ exports.store = (req, resp, next) =>{
         req.flash('success', `New Cloth added ${ req.body.name } successfully!`);
         resp.status(200).redirect('/cloth');
     })
-    .catch(() => {
+    .catch((error) => {
         throw new Error(error);
     });
 }

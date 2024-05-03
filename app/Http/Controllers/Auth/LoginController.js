@@ -41,6 +41,7 @@ exports.login = async (req,resp,next) => {
             }
             req.session.username = user.name;
             req.session.email = user.email;
+            req.session.user_id = user.id;
             req.session.auth = true;
             req.session.roles = roles;
 

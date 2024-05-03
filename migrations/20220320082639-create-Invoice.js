@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      createById: {
+      createdById: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -31,6 +31,9 @@ module.exports = {
         type: Sequelize.INTEGER,
       }, 
       status: {
+        type: Sequelize.STRING
+      }, 
+      note: {
         type: Sequelize.STRING
       }, 
 

@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   InvoiceDeltail.init({
     invoiceId: DataTypes.INTEGER,
+    quantity: DataTypes.INTEGER,
+    price: DataTypes.INTEGER,
+    type: DataTypes.INTEGER,
     techpackId: DataTypes.INTEGER
   }, {
     sequelize,

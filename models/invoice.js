@@ -5,10 +5,12 @@ module.exports = (sequelize, DataTypes) => {
   class Invoice extends Model {
     static associate(models) {
       models.Invoice.belongsTo(models.User, {
-        foreignKey: 'createdById'
+        foreignKey: 'createdById',
+        as :'createdby'
       });
       models.Invoice.belongsTo(models.TechpackStock, {
-        foreignKey: 'toStockId'
+        foreignKey: 'toStockId',
+        as : 'supplier'
       });
       models.Invoice.belongsToMany(models.Techpack, {
         through: models.InvoiceDeltail,
@@ -22,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     toStockId: DataTypes.INTEGER,
     typePayment: DataTypes.STRING,
     total: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    status: DataTypes.STRING,
+    note: DataTypes.STRING
   }, {
     sequelize,
     timestamps: true,

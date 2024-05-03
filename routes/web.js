@@ -197,6 +197,7 @@ route.get('/supplier', isAuth, role.validateRole("admin"), supplierController.in
 
 //Techpack
 route.get('/techpack/create',isAuth ,techpackController.create);
+route.get('/techpack/create/:id',isAuth ,techpackController.create);
 route.post('/techpack/update/:id',isAuth,techpackController.update);
 route.get('/techpack/edit/:id',isAuth,techpackController.edit);
 route.post('/techpack/delete/:id',isAuth,techpackController.delete);
@@ -397,6 +398,9 @@ body('password')
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
 ,isAuth, role.validateRole("admin") ,invoiceController.store);
+
+route.post('/invoice/item',isAuth, role.validateRole("admin") ,invoiceController.additem);
+
 route.get('/invoice', isAuth, role.validateRole("admin"), invoiceController.index);
 
 //Warehouse

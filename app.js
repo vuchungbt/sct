@@ -38,6 +38,7 @@ app.use((req, resp, next) => {
     //resp.locals.csrfToken = req.csrfToken();
     resp.locals.auth = req.session.auth? req.session.auth : false;
     resp.locals.username = req.session.username? req.session.username : '';
+    resp.locals.user_id = req.session.id? req.session.id : '';
     resp.locals.roles = req.session.roles?req.session.roles:'';
     resp.locals.routeName = req.originalUrl.split('/')[1];
     resp.locals.message = req.flash();

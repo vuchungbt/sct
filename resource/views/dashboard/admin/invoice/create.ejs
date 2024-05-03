@@ -11,44 +11,49 @@
               <div class="card">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Add New Supplier</h6>
+                    <h6 class="text-white text-capitalize ps-3">New Invoice</h6>
                   </div>
                 </div>
                 <div class="card-body px-3 pb-2">
                   <%- include('../../../errors/flash-message') %>
-                    <form role="form" action="/supplier/store" method="post">
+                    <form role="form" action="/invoice/store" method="post">
                       <div class="input-group input-group-outline mb-3 is-filled">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" value="" required>
-                      
-                      </div>
-                      <div class="input-group input-group-outline mb-3 is-filled">
-                        <label class="form-label">Address</label>
-                        <input type="text" class="form-control" name="address" value="" required>
-                      </div>
-                      <div class="input-group input-group-outline mb-3 is-filled">
-                        <label class="form-label">Tel</label>
-                        <input type="number" class="form-control" name="tel" value="" required>
-                      </div>
-                      <div class="input-group input-group-outline mb-3 is-filled">
-                        <label class="form-label">Description</label>
-                        <input type="text" class="form-control" name="description" value="" required>
-                      </div>
-                      <div class="input-group input-group-outline mb-3 is-filled">
-                        <label class="form-label">password</label>
-                        <input type="password" class="form-control" name="tel" value="" required>
-                      </div>
-                      
-                      <div class="input-group input-group-outline mb-3">
-                        <select name="type" class="form-control">
-                          <option value="" disabled selected>Type</option>
-                          <option value="garment_factory">Garment factory</option>
-                          <option value="embroidery_factory">Embroidery factory</option>
-                          <option value="print_factory">Print factory</option>
+                        <label class="form-label">Choose factory</label>
+                        <select name="toStockId" class="form-control">
+                          <% supplierList.forEach((element) => { %>
+                            <option value="<%= element.id %>">
+                              <%= element.type %>-<%= element.name %>
+                            </option>
+                            <% }) %>
                         </select>
                       </div>
+                      <div class="input-group input-group-outline mb-3 is-filled">
+                        <label class="form-label">TypePayment</label>
+                        <select name="typePayment" class="form-control">
+                          <option value="Cash">Cash</option>
+                          <option value="Bank transfer">Bank transfer</option>
+                          <option value="Credits">Credits</option>
+                        </select>
+                      </div>
+                      <div class="input-group input-group-outline mb-3 is-filled">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-control">
+                          <option value="Prepairing">Prepairing</option>
+                          <option value="A paft">A paft</option>
+                          <option value="Done">Done</option>
+                        </select>
+                      </div>
+                      <div class="input-group input-group-outline mb-3 is-filled">
+                        <label class="form-label">Total</label>
+                        <input type="number" class="form-control" name="total" value="0">
+                      </div>
+                      <div class="input-group input-group-outline mb-3 is-filled">
+                        <label class="form-label">note</label>
+                        <input type="text" class="form-control" name="note" value="" >
+                      </div>
+                      
                       <div class="text-center">
-                        <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg mt-4 mb-0">Sign Up</button>
+                        <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg mt-4 mb-0">Submit and add item</button>
                       </div>
                     </form>
                 </div>

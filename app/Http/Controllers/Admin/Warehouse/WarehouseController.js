@@ -46,7 +46,7 @@ exports.store = (req, resp, next) =>{
         req.flash('success', `New Warehouse added ${ req.body.name } successfully!`);
         resp.status(200).redirect('/warehouse');
     })
-    .catch(() => {
+    .catch((error) => {
         throw new Error(error);
     });
 }

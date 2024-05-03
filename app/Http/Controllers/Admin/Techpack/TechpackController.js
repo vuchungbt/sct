@@ -73,12 +73,32 @@ exports.detail = async (req, resp, next) => {
                 pageTitle: 'Techpack'
             });
         })
-        .catch(() => {
+        .catch((error) => {
             throw new Error(error);
         });
 }
 
 exports.create = async (req, resp, next) => {
+    let techpack_clone =null;
+    if (req.params.id ) {
+        techpack_clone = await db.Techpack.findByPk(req.params.id , {
+            include: [
+                {
+                    model: db.TechpackCategory,
+                    as: 'category'
+                },
+                {
+                    model: db.TechpackCategory,
+                    as: 'sub_category'
+                },{
+                    model: db.TechpackCloth,
+                    as: 'cloth'
+                }
+            ]
+        });
+        console.log('techpack_clone',techpack_clone);
+    }
+
     let categories = await db.TechpackCategory.findAll({
         where: {
             type: 'category'
@@ -97,24 +117,60 @@ exports.create = async (req, resp, next) => {
         sub_categoriesList: sub_categories,
         clothList: cloth,
         usersList: users,
+        techpack_clone : techpack_clone,
         pageTitle: 'Techpack'
     });
 }
 
 exports.edit = async (req, resp, next) => {
-    let techpacks = await db.Techpack.findAll()
-        .then((techpacks) => {
-            return techpacks;
-        });
-    await db.Techpack.findByPk(req.params.id)
+    let categories = await db.TechpackCategory.findAll({
+        where: {
+            type: 'category'
+        }
+    });
+    let sub_categories = await db.TechpackCategory.findAll({
+        where: {
+            type: 'sub-category'
+        }
+    });
+    let cloth = await db.TechpackCloth.findAll();
+    let users = await db.User.findAll();
+    
+    await db.Techpack.findByPk(req.params.id, {
+        include: [
+            {
+                model: db.TechpackCategory,
+                as: 'category'
+            },
+            {
+                model: db.TechpackCategory,
+                as: 'sub_category'
+            },
+            {
+                model: db.TechpackCloth,
+                as: 'cloth'
+            },
+            {
+                model: db.User,
+                as: 'createby'
+            },
+            {
+                model: db.User,
+                as: 'confirmby'
+            }
+        ]
+    })
         .then((result) => {
             resp.render('dashboard/admin/techpack/edit', {
                 techpack: result,
-                techpackList: techpacks,
+                categoriesList: categories,
+                sub_categoriesList: sub_categories,
+                clothList: cloth,
+                usersList: users,
                 pageTitle: 'Techpack'
             });
         })
-        .catch(() => {
+        .catch((error) => {
             throw new Error(error);
         });
 }
@@ -138,7 +194,7 @@ exports.update = (req, resp, next) => {
     })
         .then(result => {
             req.flash('success', `Techpack updated ${req.body.name} successfully!`)
-            resp.status(200).redirect('/supplier');
+            resp.status(200).redirect('/techpack');
         })
         .catch(error => {
             throw new Error(error);
