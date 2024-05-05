@@ -15,7 +15,7 @@
             <div class="card-body py-3 pb-2">
                 <%- include('../../../errors/flash-message')  %>
                 <a href="supplier/create" class="btn btn-sm btn-info" style="float: right;">Add New</a>
-                <table class="table align-items-center justify-content-center mb-0">
+                <table id="tbsup" class="table align-items-center justify-content-center mb-0">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -53,6 +53,15 @@
         </div>
     </div>
 </main>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.0.6/datatables.min.js">
+</script>
+<script >
+   $("#tbsup").DataTable({
+        "paging":   false,
+        "info":     false
+    });
+</script>
+<!--https://datatables.net/forums/discussion/68595/remove-show-entries remove entities-->
 
 <%- include('../../common/footer') %> 

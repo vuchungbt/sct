@@ -44,9 +44,27 @@ exports.edit = async (req, resp, next) =>{
                 .then( (supplierList) =>{
                     return supplierList;
                 });
-    await db.Invoice.findByPk(req.params.id)
+    await db.Invoice.findByPk(req.params.id,{
+        include: [
+            {
+                model: db.User,
+                as: 'createdby'
+            },
+            {
+                model: db.Techpack,
+                as: 'techpacks'
+            },
+            {
+                model: db.TechpackStock,
+                as: 'supplier'
+            }]
+        
+    })
     .then((result) => {
-        console.log(result);
+        console.log('>>===========result.techpacks---------\n',result.techpacks);
+        result.techpacks.forEach(element => {
+            console.log('>>===========result.techpacks.array.forEach.InvoiceDeltail---------\n',element.InvoiceDeltail);
+        });
         resp.render('dashboard/admin/invoice/edit',{
             invoice: result,
             supplierList,

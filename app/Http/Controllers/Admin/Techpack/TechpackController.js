@@ -21,6 +21,11 @@ exports.upload = async (req, res, next) => {
 }
 exports.index = async (req, resp, next) => {
     await db.Techpack.findAll({
+        where: {
+            status: {
+                [db.Sequelize.Op.ne]: 3,
+            }
+        },
         include: [
             {
                 model: db.TechpackCategory,
@@ -64,11 +69,16 @@ exports.detail = async (req, resp, next) => {
             {
                 model: db.User,
                 as: 'confirmby'
+            },
+            {
+                model: db.TechpackHistory,
+                as: 'history'
             }
         ]
     })
         .then((result) => {
             resp.render('dashboard/admin/techpack/detail', {
+                history:result.history,
                 techpack: result,
                 pageTitle: 'Techpack'
             });
@@ -177,7 +187,13 @@ exports.edit = async (req, resp, next) => {
 
 exports.store = (req, res, next) => {
     db.Techpack.create(req.body)
-        .then(() => {
+        .then((result) => {
+            db.TechpackHistory.create(
+                {
+                    techpackId : result.id,
+                    content :'create a new techpack - ' + req.session.username
+                }
+            );
             req.flash('success', `New Techpack added ${req.body.name} successfully!`);
             res.status(200).redirect('/techpack');
         })
@@ -187,12 +203,25 @@ exports.store = (req, res, next) => {
 }
 
 exports.update = (req, resp, next) => {
+    let content;
+    if(req.body.status==3) {
+        content = 'the techpack has been completed - ' + req.session.username;
+    }
+    else {
+        content = 'the techpack has been updated - ' + req.session.username;
+    }
     db.Techpack.update(req.body, {
         where: {
             id: req.params.id
         }
     })
         .then(result => {
+            db.TechpackHistory.create(
+                {
+                    techpackId :  req.params.id,
+                    content 
+                }
+            );
             req.flash('success', `Techpack updated ${req.body.name} successfully!`)
             resp.status(200).redirect('/techpack');
         })
@@ -202,6 +231,11 @@ exports.update = (req, resp, next) => {
 }
 
 exports.delete = async (req, resp, next) => {
+    await db.TechpackHistory.destroy({
+        where: {
+          techpackId: req.params.id,
+        },
+      });
     await db.Techpack.destroy({
         where: {
             id: req.params.id

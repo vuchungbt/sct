@@ -2,11 +2,26 @@ const db = require('../../../../../models');
 const { validationResult } = require('express-validator');
 
 exports.index = async (req, resp, next) => {
-    await db.Warehouse.findAll()
+    await db.Techpack.findAll( {
+        where: {
+            status: {
+                [db.Sequelize.Op.eq]: 3,
+            }
+        },
+        include: [
+            {
+                model: db.TechpackCategory,
+                as: 'category'
+            },
+            {
+                model: db.TechpackCategory,
+                as: 'sub_category'
+            }]
+    })
     .then((result) => {
         console.log('Warehouse Controller',result);
         resp.render('dashboard/admin/warehouse/index',{
-            warehouseList: result,
+            techpackList: result,
             pageTitle: 'Warehouse'
         });        
     })

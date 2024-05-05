@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     invoiceId: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     techpackId: DataTypes.INTEGER
   }, {
     sequelize,

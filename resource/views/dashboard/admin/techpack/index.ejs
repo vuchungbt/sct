@@ -17,7 +17,7 @@
                 <a href="cloth" class="btn btn-sm btn-success " style="float: right;margin-left: 10px;">Cloth Type</a>
                 <a href="category" class="btn btn-sm btn-success " style="float: right;margin-left: 10px;">Category </a>
                 <a href="techpack/create" class="btn btn-sm btn-info" style="float: right;">Add New Techpack</a>
-                <table class="table align-items-center justify-content-center mb-0">
+                <table id="tb" class="table align-items-center justify-content-center mb-0">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -33,7 +33,7 @@
                         <% techpackList.forEach((element,key) => { %>
                             <tr>
                                 <td><%= element.id %></td>
-                                <td><%= element.name %></td>
+                                <td><a href="techpack/detail/<%= element.id %>" class="text-primary"><%= element.name %></a></td>
                                 <td><%= element.category.name %></td>
                                 <td><%= element.sub_category !== null ? element.sub_category.name : '' %></td>
                                 <td><%= element.seasion %></td>
@@ -47,18 +47,16 @@
                                             <% } else if (element.status==3) { %>
                                               product
                                               <% } else { %>
-                                                storage
+                                                draft
                                             <% }  %></span>
                                 </td>
                                 <td style="display: flex;">
-                                    <a href="techpack/detail/<%= element.id %>" class="btn btn-sm btn-info">Detail</a>
-                                    &nbsp;
                                     <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
                                     &nbsp;
                                     <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
                                     &nbsp;
                                     <form action="techpack/delete/<%= element.id %>" method="POST">
-                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                         <button type="submit" class="btn btn-sm btn-danger"><i class="material-icons">close</i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -72,5 +70,11 @@
     </div>
 </main>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.0.6/datatables.min.js">
+</script>
+<script >
+   $("#tb").DataTable();
+</script>
 
 <%- include('../../common/footer') %> 

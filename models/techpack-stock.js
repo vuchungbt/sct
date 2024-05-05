@@ -7,7 +7,7 @@ const { Model } = require('sequelize');
         foreignKey: 'toStockId'
       });
       models.TechpackStock.belongsToMany(models.Techpack, {
-        through: models.InvoiceDeltail,
+        through: models.TechpackProcess,
         foreignKey: 'stockId',
         otherKey: 'techpackId'
       });

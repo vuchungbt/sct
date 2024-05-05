@@ -15,8 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       models.Invoice.belongsToMany(models.Techpack, {
         through: models.InvoiceDeltail,
         foreignKey: 'invoiceId',
-        otherKey: 'techpackId'
+        otherKey: 'techpackId',
+        as: 'techpacks'
       });
+
     }
   }
   Invoice.init({

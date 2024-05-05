@@ -13,7 +13,7 @@
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                     <h6 class="text-white text-capitalize ps-3">Techpack: <%= techpack.id %>
-                    </h6>
+                    </h6> 
                   </div>
                 </div>
                 <div class="card-body px-3 pb-2">
@@ -85,7 +85,8 @@
                       </div>
                       
                       <div class="input-group input-group-outline mb-3 is-filled">
-                        <textarea type="text" class="form-control" name="description"
+                        <label class="form-label">description</label>
+                        <textarea type="text" disabled class="form-control" name="description"
                           placeholder="description"><%= techpack.description %></textarea>
                       </div>
                       <div class="row">
@@ -93,17 +94,11 @@
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">Status</label>
                             <input type="text" class="form-control" name="name" disabled 
-                            value="<% if (techpack.status==0) { %>
-                              new techpack
-                              <% } else if (techpack.status==1) { %>
-                                confirmed
-                                <% } else if (techpack.status==2) { %>
-                                  processing
-                                  <% } else if (techpack.status==3) { %>
-                                    product
-                                    <% } else { %>
-                                      storage
-                                  <% }  %>
+                            value="<% if (techpack.status==0) { %>new techpack<% } else
+                             if (techpack.status==1) { %> confirmed <% } else
+                              if (techpack.status==2) { %> processing <% } else
+                               if (techpack.status==3) { %> product <% } 
+                               else { %> draft <% }  %>
                               ">
                           </div>
                         </div>
@@ -117,10 +112,15 @@
 
                         <div class="col-md-4">
                           <div class="input-group input-group-outline mb-3 is-filled ">
-                            <label class="form-label">Update</label>
+                            <label class="form-label">Last modified</label>
                             <input type="text" class="form-control" id="updated" name="updated" disabled value="<%= techpack.updatedAt %>">
                           </div>
                         </div>
+                      </div>
+                      <div class="input-group input-group-outline mb-3 ">
+                        <textarea rows="6" disabled type="text" class="form-control" name="history"
+                          placeholder="history"><% history.forEach(element=> { %> <%=element.createdAt %>: <%= element.content +'\n' %><% }) %>
+                        </textarea>
                       </div>
                     </div>
                 </div>
