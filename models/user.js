@@ -13,9 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       models.User.hasMany(models.Invoice, {
         foreignKey: 'createdById'
       });
-      models.User.hasMany(models.SystemHistory, {
-        foreignKey: 'createdById'
-      });
     }
   }
   User.init({

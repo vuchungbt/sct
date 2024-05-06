@@ -1,0 +1,167 @@
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar') %>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
+
+          <div class="row">
+
+            <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+              <div class="card">
+
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Item : <%= techpack.id %>
+                    </h6> 
+                  </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                  <%- include('../../../errors/flash-message') %>
+                    <div>
+                      <div class="input-group input-group-outline mb-3 is-filled ">
+                        <label class="form-label">Techpack name</label>
+                        <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Category</label>
+                            <input type="text" class="form-control" name="category" disabled
+                              value="<%= techpack.category.name %>-<%= techpack.category.code %>">
+                          </div>
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Seasion</label>
+                            <input type="text" class="form-control" disabled name="seasion"
+                              value="<%= techpack.seasion %>">
+                          </div>
+
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Sub-category</label>
+                            <input type="text" class="form-control" name="sub_category" disabled
+                              value="<%= techpack.sub_category.name !== null  ? techpack.sub_category.name : '' %>">
+                          </div>
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Assign to</label>
+                            <input type="text" class="form-control" name="createby" disabled
+                              value="<%= techpack.createby !== null ? techpack.createby.name : '' %>">
+                          </div>
+
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Cloth type</label>
+                            <input type="text" class="form-control" name="cloth" disabled
+                              value="<%= techpack.cloth.name %>-<%= techpack.cloth.code %>">
+                          </div>
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Confirm by</label>
+                            <input type="text" class="form-control" name="Confirm" disabled
+                            value="<%= techpack.confirmby !== null ? techpack.confirmby.name : '' %>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <img src="/uploads/<%= techpack.a_image %>" height="290px" width="290px" />
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <img src="/uploads/<%= techpack.b_image %>" height="290px" width="290px" />
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <img src="/uploads/<%= techpack.f_image %>" height="290px" width="290px" />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="input-group input-group-outline mb-3 is-filled">
+                        <label class="form-label">description</label>
+                        <textarea type="text" disabled class="form-control" name="description"
+                          placeholder="description"><%= techpack.description %></textarea>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Garment factory</label>
+                            <input type="text" class="form-control" id="Garment" name="created" disabled value="<%= techpack.createdAt %>">
+                          
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Embroidery factory</label>
+                            <input type="text" class="form-control" id="Embroidery" name="created" disabled value="<%= techpack.createdAt %>">
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Print factory</label>
+                            <input type="text" class="form-control" id="Print" name="updated" disabled value="<%= techpack.updatedAt %>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Status</label>
+                            <input type="text" class="form-control" name="name" disabled 
+                            value="<% if (techpack.status==0) { %>new techpack<% } else
+                             if (techpack.status==1) { %> confirmed <% } else
+                              if (techpack.status==2) { %> processing <% } else
+                               if (techpack.status==3) { %> product <% } 
+                               else { %> draft <% }  %>
+                              ">
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Created</label>
+                            <input type="text" class="form-control" id="created" name="created" disabled value="<%= techpack.createdAt %>">
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Last modified</label>
+                            <input type="text" class="form-control" id="updated" name="updated" disabled value="<%= techpack.updatedAt %>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="input-group input-group-outline mb-3 ">
+                        <textarea rows="6" disabled type="text" class="form-control" name="history"
+                          placeholder="history"><% history.forEach(element=> { %> <%=element.createdAt %>: <%= element.content +'\n' %><% }) %>
+                        </textarea>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <script> 
+        var create = document.getElementById('created');
+        var update = document.getElementById('updated');
+
+        var date_created = new Date(create.value);
+        create.value = date_created.toLocaleString();
+        var date_updated = new Date(update.value);
+        update.value = date_updated.toLocaleString();
+
+    </script>
+
+
+    <%- include('../../common/footer') %>

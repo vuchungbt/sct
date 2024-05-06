@@ -20,7 +20,7 @@ const warehouseController = require('../app/Http/Controllers/Admin/Warehouse/War
 const categoryController = require('../app/Http/Controllers/Admin/Category/CategoryController');
 const clothController = require('../app/Http/Controllers/Admin/Cloth/ClothController');
 
-
+const historyController = require('../app/Http/Controllers/Admin/SystemHistory/HistoryController');
 const route = express.Router();
 
 //Auth routes
@@ -453,6 +453,11 @@ body('password')
 ,isAuth, role.validateRole("admin") ,warehouseController.store);
 route.get('/warehouse', isAuth, role.validateRole("admin"), warehouseController.index);
 
+route.get('/warehouse/detail/:id',isAuth,warehouseController.detail);
+
+
+//History
+route.get('/history', isAuth, role.validateRole("admin"), historyController.index);
 
 
 //User Routes

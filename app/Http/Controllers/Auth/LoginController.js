@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require("../../../../models");
+const LogConstant = require("../../../../app/Http/Constant/log.constant");
+const historyLogged = require("../../../../app/Http/Helper/HistoryLogged").historyLogged;
 
 exports.index = (req, resp, next) =>{
     return resp.render('front-end/auth/login',{
@@ -28,10 +30,6 @@ exports.login = async (req,resp,next) => {
             });
         }
         let roles = user.Role.name;
-        console.log('1----roles',roles);
-        console.log('2----user',user);
-        console.log('3----user.Role',user.Role);
-
         bcrypt.compare(req.body.password, user.password)
         .then(result =>{
             if(!result){
@@ -60,15 +58,18 @@ exports.login = async (req,resp,next) => {
             // console.log("accessToken",accessToken);
             
             resp.cookie("jwt", accessToken, {secure: true, httpOnly: true/*, samesite:"lax"*/});
+            historyLogged(req.session.username,'login',LogConstant.SUCCESS);
             return resp.redirect('/home');
         })
     })
     .catch(error => {
+        historyLogged(req.body.email,'login',LogConstant.FAILED,error.message);
         throw new Error(error);
     });    
 }
 
 exports.logout = async (req,resp,next) => { 
+    historyLogged(req.session.username,'logout',LogConstant.SUCCESS);
     await req.session.destroy();
     await resp.clearCookie("jwt");
     await resp.clearCookie("my-session-name");

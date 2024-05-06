@@ -1,5 +1,7 @@
 const db = require('../../../../../models');
 const { validationResult } = require('express-validator');
+const LogConstant = require("../../../Constant/log.constant");
+const historyLogged = require("../../../Helper/HistoryLogged").historyLogged
 
 exports.index = async (req, resp, next) => {
     await db.Role.findAll()
@@ -41,11 +43,13 @@ exports.edit = async (req, resp, next) =>{
 
 exports.store = (req, resp, next) =>{
     db.Role.create(req.body)
-    .then(() => {
+    .then((result) => {
+        historyLogged(req.session.username,'create role',LogConstant.SUCCESS,item=result.id);
         req.flash('success', `New Role added ${ req.body.name } successfully!`);
         resp.status(200).redirect('/roles');
     })
     .catch((error) => {
+        historyLogged(req.session.username,'create role',LogConstant.FAILED,error.message);
         throw new Error(error);
     });
 }
@@ -56,11 +60,14 @@ exports.update = (req, resp, next) =>{
             id: req.params.id
         }
     })
-    .then( result => {        
+    .then( result => {
+        historyLogged(req.session.username,'create role',LogConstant.SUCCESS,req.params.id);
+                
         req.flash('success', `Role updated successfully!`)
         resp.status(200).redirect('/roles');
     })
     .catch(error => {
+        historyLogged(req.session.username,'update role',LogConstant.FAILED,error.message);
         throw new Error(error);
     })
 }
@@ -71,11 +78,15 @@ exports.delete = async (req, resp, next) =>{
             id: req.params.id
         }
     })
-    .then( () => {      
+    .then( () => {
+        historyLogged(req.session.username,'delete role',LogConstant.SUCCESS,req.params.id);
+             
         req.flash('warning', `Role deleted successfully!`);        
         resp.status(200).redirect('/roles');
     })
     .catch(error => {
+        historyLogged(req.session.username,'update role',LogConstant.FAILED,error.message);
+        
         throw new Error(error);
     })
 }

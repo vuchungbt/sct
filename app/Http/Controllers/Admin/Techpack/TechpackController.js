@@ -1,18 +1,22 @@
 const db = require('../../../../../models');
 const { validationResult } = require('express-validator');
 const { uploadImage } = require('../../../Middleware/upload');
+const LogConstant = require("../../../Constant/log.constant");
+const historyLogged = require("../../../Helper/HistoryLogged").historyLogged
 
 exports.upload = async (req, res, next) => {
     uploadImage(req, res, function(err) {
         console.log('=============img=============\n',req.files);
         if (err) {
             console.log('Something went wrong :',err);
+            historyLogged(req.session.username,'upload image techpack',LogConstant.FAILED + err);
             return res.status(400).json({
                 status: 400,
                 msg:err
             });
         }
         console.log('Image uploaded sucessfully');
+        historyLogged(req.session.username,'upload image techpack',LogConstant.SUCCESS );
         return res.status(200).json({
             status: 200,
             file:req.files
@@ -44,6 +48,7 @@ exports.index = async (req, resp, next) => {
             });
         })
         .catch(error => {
+            historyLogged(req.session.username,'load techpack',LogConstant.FAILED,error.message );
             throw new Error(error.message);
         });
 }
@@ -84,6 +89,7 @@ exports.detail = async (req, resp, next) => {
             });
         })
         .catch((error) => {
+            historyLogged(req.session.username,'load techpack',LogConstant.FAILED,error.message );
             throw new Error(error);
         });
 }
@@ -121,7 +127,7 @@ exports.create = async (req, resp, next) => {
     });
     let cloth = await db.TechpackCloth.findAll();
     let users = await db.User.findAll();
-
+            
     resp.render('dashboard/admin/techpack/create', {
         categoriesList: categories,
         sub_categoriesList: sub_categories,
@@ -171,6 +177,7 @@ exports.edit = async (req, resp, next) => {
         ]
     })
         .then((result) => {
+            
             resp.render('dashboard/admin/techpack/edit', {
                 techpack: result,
                 categoriesList: categories,
@@ -194,10 +201,13 @@ exports.store = (req, res, next) => {
                     content :'create a new techpack - ' + req.session.username
                 }
             );
+            
+            historyLogged(req.session.username,'create techpack',LogConstant.SUCCESS, item=result.id );
             req.flash('success', `New Techpack added ${req.body.name} successfully!`);
             res.status(200).redirect('/techpack');
         })
         .catch((error) => {
+            historyLogged(req.session.username,'create techpack',LogConstant.FAILED,error.message );
             throw new Error(error);
         });
 }
@@ -222,10 +232,14 @@ exports.update = (req, resp, next) => {
                     content 
                 }
             );
+            
+            historyLogged(req.session.username,'update techpack',LogConstant.SUCCESS,req.params.id );
             req.flash('success', `Techpack updated ${req.body.name} successfully!`)
             resp.status(200).redirect('/techpack');
         })
         .catch(error => {
+            
+            historyLogged(req.session.username,'update techpack',LogConstant.FAILED,error.message );
             throw new Error(error);
         })
 }
@@ -242,10 +256,13 @@ exports.delete = async (req, resp, next) => {
         }
     })
         .then(() => {
+            historyLogged(req.session.username,'delete techpack',LogConstant.SUCCESS ,req.params.id);
             req.flash('warning', `Techpack deleted successfully!`);
             resp.status(200).redirect('/techpack');
         })
         .catch(error => {
+            historyLogged(req.session.username,'delete supplier',LogConstant.FAILED,error.message );
+          
             throw new Error(error);
         })
 }

@@ -1,5 +1,7 @@
 const db = require('../../../../../models');
 const { validationResult } = require('express-validator');
+const LogConstant = require("../../../Constant/log.constant");
+const historyLogged = require("../../../Helper/HistoryLogged").historyLogged
 
 exports.index = async (req, resp, next) => {
     await db.TechpackStock.findAll()
@@ -42,11 +44,15 @@ exports.edit = async (req, resp, next) =>{
 
 exports.store = (req, resp, next) =>{
     db.TechpackStock.create(req.body)
-    .then(() => {
+    .then((result) => {
+        historyLogged(req.session.username,'create supplier',LogConstant.SUCCESS, item=result.id );
+            
         req.flash('success', `New Supplier added ${ req.body.name } successfully!`);
         resp.status(200).redirect('/supplier');
     })
-    .catch((error) => {
+    .catch((error) => { 
+        historyLogged(req.session.username,'create supplier',LogConstant.FAILED,error.message );
+            
         throw new Error(error);
     });
 }
@@ -57,11 +63,16 @@ exports.update = (req, resp, next) =>{
             id: req.params.id
         }
     })
-    .then( result => {        
+    .then( result => {   
+        historyLogged(req.session.username,'update supplier',LogConstant.SUCCESS,req.params.id );
+                 
         req.flash('success', `Supplier updated ${ req.body.name } successfully!`)
         resp.status(200).redirect('/supplier');
     })
     .catch(error => {
+         
+        historyLogged(req.session.username,'update supplier',LogConstant.FAILED,error.message );
+           
         throw new Error(error);
     })
 }
@@ -72,11 +83,15 @@ exports.delete = async (req, resp, next) =>{
             id: req.params.id
         }
     })
-    .then( () => {      
+    .then( () => {    
+        historyLogged(req.session.username,'delete supplier',LogConstant.SUCCESS ,req.params.id);
+              
         req.flash('warning', `Supplier deleted successfully!`);        
         resp.status(200).redirect('/supplier');
     })
     .catch(error => {
+        historyLogged(req.session.username,'delete supplier',LogConstant.FAILED,error.message );
+            
         throw new Error(error);
     })
 }

@@ -1,5 +1,7 @@
 
 const multer = require('multer');
+const historyLogged = require("../../Http/Helper/HistoryLogged").historyLogged;
+const LogConstant = require("../../../app/Http/Constant/log.constant")
 
 var Storage = multer.diskStorage({
 
@@ -9,7 +11,10 @@ var Storage = multer.diskStorage({
     },
     filename: function(req, file, callback) {
         console.log('file.originalname',file.originalname);
-        callback(null, file.fieldname.replace(/\s/g, '_') + "_" + Date.now() + "_" + file.originalname.replace(/\//g,'-').replace(/\s/g, '_'));
+        let f = file.fieldname.replace(/\s/g, '_') + "_" + Date.now() + "_" + file.originalname.replace(/\//g,'-').replace(/\s/g, '_');
+        historyLogged(req.session.username,'upload image '+f,LogConstant.SUCCESS);
+            
+        callback(null,f );
     }
 });
 const uploadImage = multer({

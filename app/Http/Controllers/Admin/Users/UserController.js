@@ -2,6 +2,8 @@ const db = require('../../../../../models');
 const roles = require('../../../Helper/UserRolesHelperFunctions');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const LogConstant = require("../../../Constant/log.constant");
+const historyLogged = require("../../../Helper/HistoryLogged").historyLogged
 
 exports.index = async (req,res,next) => {  
     // console.log(await roles.usersByRoles());
@@ -58,14 +60,15 @@ exports.resetpw = async (req,res,next) => {
             }
         })
         .then((result) => {
+            historyLogged(req.session.username,'reset password',LogConstant.SUCCESS ,req.params.id);
+           
             req.flash('success', `Reset password successfully!`);
             res.status(200).redirect('/users');
         })
-        .catch(err =>{
-            throw new Error(err);
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error);
+        .catch(error =>{
+            historyLogged(req.session.username,'reset password',LogConstant.FAILED,error.message );
+          
+            throw new Error(error);
         }); 
     })
        
@@ -119,21 +122,23 @@ exports.store = async (req,res,next) => {
             password: passwordHash,
             roleId: req.body.role
         })
-        .then((user) => {  
-    
+        .then((result) => {  
+            historyLogged(req.session.username,'add user',LogConstant.SUCCESS ,result.id);
+            
             req.flash('success', `New User added ${ req.body.name } successfully!`);
             res.status(200).redirect('/users');
     
         })
         .catch(error => {
+            historyLogged(req.session.username,'add user',LogConstant.FAILED,error.message );
+          
             throw new Error(error);
         });       
     })
-    .catch((err) => {
-        throw new Error(err);
-        const error = new Error(err);
-        error.httpStatusCode = 500;
-        return next(error);
+    .catch((error) => {
+        historyLogged(req.session.username,'add user',LogConstant.FAILED,error.message );
+          
+        throw new Error(error);
     }); 
 
 }
@@ -145,14 +150,15 @@ exports.update = (req,res,next) => {
         }
     })
     .then((result) => {
+        historyLogged(req.session.username,'update user',LogConstant.SUCCESS ,req.params.id);
+            
         req.flash('success', `User update ${ req.body.name } successfully!`);
         res.status(200).redirect('/users');
     })
-    .catch(err =>{
-        throw new Error(err);
-        const error = new Error(err);
-        error.httpStatusCode = 500;
-        return next(error);
+    .catch(error =>{
+        historyLogged(req.session.username,'update user',LogConstant.FAILED,error.message );
+          
+        throw new Error(error);
     });    
 }
 
@@ -163,14 +169,15 @@ exports.delete = (req,res,next) => {
         }    
     })
     .then(() => {
+        historyLogged(req.session.username,'delete user',LogConstant.SUCCESS ,req.params.id);
+        
         req.flash('success', `User deleted successfully!`);
         res.status(200).redirect('/users');
     })
-    .catch(err => {
-        throw new Error(err);
-        const error = new Error(err);
-        error.httpStatusCode = 500;
-        return next(error);
+    .catch(error => {
+        historyLogged(req.session.username,'delete user',LogConstant.FAILED,error.message );
+          
+        throw new Error(error);
     }); 
 }
 

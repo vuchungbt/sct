@@ -1,5 +1,7 @@
 const db = require('../../../../../models');
 const { validationResult } = require('express-validator');
+const LogConstant = require("../../../Constant/log.constant");
+const historyLogged = require("../../../Helper/HistoryLogged").historyLogged
 
 exports.index = async (req, resp, next) => {
     await db.TechpackCloth.findAll()
@@ -42,11 +44,14 @@ exports.edit = async (req, resp, next) =>{
 
 exports.store = (req, resp, next) =>{
     db.TechpackCloth.create(req.body)
-    .then(() => {
+    .then((result) => {
+        historyLogged(req.session.username,'create cloth type',LogConstant.SUCCESS,item=result.id);
+       
         req.flash('success', `New Cloth added ${ req.body.name } successfully!`);
         resp.status(200).redirect('/cloth');
     })
     .catch((error) => {
+        historyLogged(req.session.username,'create cloth type',LogConstant.FAILED,error.message);
         throw new Error(error);
     });
 }
@@ -57,11 +62,15 @@ exports.update = (req, resp, next) =>{
             id: req.params.id
         }
     })
-    .then( result => {        
+    .then( result => {       
+        historyLogged(req.session.username,'update cloth type',LogConstant.SUCCESS,req.params.id);
+        
         req.flash('success', `Cloth updated ${ req.body.name } successfully!`)
         resp.status(200).redirect('/cloth');
     })
     .catch(error => {
+        historyLogged(req.session.username,'update cloth type',LogConstant.FAILED,error.message);
+        
         throw new Error(error);
     })
 }
@@ -73,11 +82,15 @@ exports.delete = async (req, resp, next) =>{
         }
     })
     .then( () => {      
+        historyLogged(req.session.username,'delete cloth type',LogConstant.SUCCESS,req.params.id);
+        
         req.flash('warning', `Cloth deleted successfully!`);        
         resp.status(200).redirect('/cloth');
         
     })
     .catch(error => {
+        historyLogged(req.session.username,'delete cloth type',LogConstant.FAILED,error.message);
+        
         throw new Error(error);
     })
 }

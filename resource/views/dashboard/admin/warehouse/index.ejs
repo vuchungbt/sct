@@ -31,7 +31,7 @@
                         <% techpackList.forEach((element,key) => { %>
                             <tr>
                                 <td><%= element.id %></td>
-                                <td><a href="techpack/detail/<%= element.id %>" class="text-primary"><%= element.name %></a></td>
+                                <td><a href="warehouse/detail/<%= element.id %>" class="text-primary"><%= element.name %></a></td>
                                 <td><%= element.category.name %></td>
                                 <td><%= element.sub_category !== null ? element.sub_category.name : '' %></td>
                                 <td><%= element.quantity %></td>
