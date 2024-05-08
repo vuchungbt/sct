@@ -1,0 +1,109 @@
+<%- include('../../common/header') %>
+    <%- include('../../common/side-bar') %>
+
+        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+            <%- include('../../common/navbar') %>
+                <div class="container-fluid py-4">
+                    <div class="row">
+                        <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+                            <div class="card">
+                                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                        <h6 class="text-white text-capitalize ps-3">Sub-Category [<%= category.id %>]</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body py-3 pb-2">
+                                    <%- include('../../../errors/flash-message') %>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="input-group input-group-outline mb-3 ">
+                                                    <input disabled type="text" class="form-control" value="Name:<%= category.name %>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group input-group-outline mb-3 ">
+                                                    <input disabled type="text" class="form-control" value="Code:<%= category.code %>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline mb-3 ">
+                                                    <input disabled type="text" class="form-control" value="<%= category.description %>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span>Sublist</span>
+                                        <table id="tbcate"
+                                            class="table table-responsive align-items-center justify-content-center mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Code</th>
+                                                    <th>Description</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% category.sub_category.forEach((element,key)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= element.id %>
+                                                        </td>
+                                                        <td> 
+                                                            <%= element.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= element.code %>
+                                                        </td>
+                                                        <td title="<%= element.description %>">
+                                                            <%= element.description %>
+                                                        </td>
+                                                        <td style="display: flex;">
+                                                            <a href="../../category/edit_sub/<%= element.id %>"
+                                                                class="btn btn-sm btn-warning">Edit</a>
+                                                            &nbsp;
+                                                            <form action="../../category/delete_sub/<%= element.id %>"
+                                                                method="POST">
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-danger">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                            </tbody>
+                                        </table>
+                                        <form class="pt-4" role="form" action="/category/sublist" method="post">
+
+                                            <button type="submit" class="btn btn-sm btn-info" style="float: right;">Add</button>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="input-group input-group-outline mb-3 is-filled">
+                                                        <label class="form-label">Name</label>
+                                                        <input type="text" class="form-control" name="name" value="">
+                                                        <input type="hidden" class="form-control" name="categoryId" value="<%=category.id%>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group input-group-outline mb-3 is-filled ">
+                                                        <label class="form-label">Code</label>
+                                                        <input type="text" class="form-control" name="code" value="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="input-group input-group-outline mb-3 is-filled ">
+                                                        <label class="form-label">Description</label>
+                                                        <input type="text" class="form-control" name="description"
+                                                            value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </main>
+        <%- include('../../common/footer') %>

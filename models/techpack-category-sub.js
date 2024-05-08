@@ -1,24 +1,23 @@
 'use strict';
 const { Model } = require('sequelize');
   module.exports = (sequelize, DataTypes) => {
-  class TechpackCategory extends Model {
+  class TechpackSubCategory extends Model {
     static associate(models) {
-      models.TechpackCategory.hasMany(models.Techpack, {
+      models.Techpack.belongsTo(models.TechpackCategory, {
         foreignKey: 'categoryId'
       });
-      models.TechpackCategory.hasMany(models.TechpackSubCategory, {
-        foreignKey: 'categoryId',
-        as :'sub_category'
+      models.TechpackSubCategory.hasMany(models.Techpack, {
+        foreignKey: 'sub_categoryId'
       });
     }
   }
-  TechpackCategory.init({
+  TechpackSubCategory.init({
     name: DataTypes.STRING,
     code: DataTypes.STRING,
     description: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'TechpackCategory'
+    modelName: 'TechpackSubCategory'
   });
-  return TechpackCategory;
+  return TechpackSubCategory;
 };

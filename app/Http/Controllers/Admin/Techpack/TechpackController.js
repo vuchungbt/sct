@@ -25,18 +25,13 @@ exports.upload = async (req, res, next) => {
 }
 exports.index = async (req, resp, next) => {
     await db.Techpack.findAll({
-        where: {
-            status: {
-                [db.Sequelize.Op.ne]: 3,
-            }
-        },
         include: [
             {
                 model: db.TechpackCategory,
                 as: 'category'
             },
             {
-                model: db.TechpackCategory,
+                model: db.TechpackSubCategory,
                 as: 'sub_category'
             }]
     })
@@ -60,7 +55,7 @@ exports.detail = async (req, resp, next) => {
                 as: 'category'
             },
             {
-                model: db.TechpackCategory,
+                model: db.TechpackSubCategory,
                 as: 'sub_category'
             },
             {
@@ -104,7 +99,7 @@ exports.create = async (req, resp, next) => {
                     as: 'category'
                 },
                 {
-                    model: db.TechpackCategory,
+                    model: db.TechpackSubCategory,
                     as: 'sub_category'
                 },{
                     model: db.TechpackCloth,
@@ -115,16 +110,8 @@ exports.create = async (req, resp, next) => {
         console.log('techpack_clone',techpack_clone);
     }
 
-    let categories = await db.TechpackCategory.findAll({
-        where: {
-            type: 'category'
-        }
-    });
-    let sub_categories = await db.TechpackCategory.findAll({
-        where: {
-            type: 'sub-category'
-        }
-    });
+    let categories = await db.TechpackCategory.findAll();
+    let sub_categories = await db.TechpackSubCategory.findAll();
     let cloth = await db.TechpackCloth.findAll();
     let users = await db.User.findAll();
             
@@ -144,11 +131,7 @@ exports.edit = async (req, resp, next) => {
             type: 'category'
         }
     });
-    let sub_categories = await db.TechpackCategory.findAll({
-        where: {
-            type: 'sub-category'
-        }
-    });
+    let sub_categories = await db.TechpackSubCategory.findAll();
     let cloth = await db.TechpackCloth.findAll();
     let users = await db.User.findAll();
     
@@ -159,7 +142,7 @@ exports.edit = async (req, resp, next) => {
                 as: 'category'
             },
             {
-                model: db.TechpackCategory,
+                model: db.TechpackSubCategory,
                 as: 'sub_category'
             },
             {

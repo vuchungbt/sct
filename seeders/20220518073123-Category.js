@@ -6,7 +6,6 @@ module.exports = {
      await queryInterface.bulkInsert('techpackcategories', [{
         name: 'Cate1',
         code: 'C1',
-        type:'category',
         description: 'body',
         createdAt: new Date(),
         updatedAt: new Date()
@@ -14,7 +13,6 @@ module.exports = {
       {
         name: 'sub-cate',
         code: 'S1',
-        type:'sub-category',
         description: 'cloth1',
         createdAt: new Date(),
         updatedAt: new Date()

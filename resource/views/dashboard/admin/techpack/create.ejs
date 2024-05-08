@@ -28,7 +28,7 @@
                         <div class="col-md-6">
                           <div class="input-group input-group-outline mb-3  is-filled">
                             <label class="form-label">Category</label>
-                            <select name="categoryId" class="form-control">
+                            <select id="categoryId" name="categoryId" class="form-control">
                               <option value="" disabled selected>Category</option>
                               <% categoriesList.forEach(element=> { %>
                                 <option <%=techpack_clone !==null && techpack_clone.category !==null &&
@@ -49,16 +49,9 @@
                         <div class="col-md-6">
                           <div class="input-group input-group-outline mb-3 is-filled ">
                             <label class="form-label">Sub-category</label>
-                            <select name="sub_categoryId" class="form-control">
+                            <select id="sub_categoryId" name="sub_categoryId" class="form-control">
                               <option value="" disabled selected>Sub-category</option>
-                              <% sub_categoriesList.forEach(element=> { %>
-                                <option <%=techpack_clone !==null && techpack_clone.sub_category !==null &&
-                                  techpack_clone.sub_category.id==element.id ? 'selected' : '' %> value="<%= element.id
-                                    %>" title="<%= element.description %>">
-                                      <%= element.name %>
-                                        <%= '(' + element.code +')' %>
-                                </option>
-                                <% }) %>
+
                             </select>
                           </div>
                           <div class="input-group input-group-outline mb-3 is-filled ">
@@ -221,5 +214,36 @@
 
     </script>
 
+    <script>
+      // Chọn category
+      document.getElementById('categoryId').addEventListener('change', function (event) {
 
+        var categoryId = document.getElementById('categoryId').value;
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: "../category/getchild",
+          type: "POST",
+          data: JSON.stringify({ categoryId}),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (data, textStatus, jqXHR) {
+            console.log('---getchild success',data);
+            while (document.getElementById('sub_categoryId').firstChild) {
+              document.getElementById('sub_categoryId').removeChild(document.getElementById('sub_categoryId').firstChild);
+            }
+            data.result.forEach(item => {
+                var option = document.createElement('option');
+                option.value = item.id;
+                option.text = item.name;
+                document.getElementById('sub_categoryId').appendChild(option);
+            });
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log('---failed');
+          }
+        });
+      });
+
+    </script>
     <%- include('../../common/footer') %>

@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'categoryId',
         as : 'category'
       });
-      models.Techpack.belongsTo(models.TechpackCategory, {
+      models.Techpack.belongsTo(models.TechpackSubCategory, {
         foreignKey: 'sub_categoryId',
         as : 'sub_category'
       });

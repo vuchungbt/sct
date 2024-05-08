@@ -14,7 +14,7 @@ exports.index = async (req, resp, next) => {
                 as: 'category'
             },
             {
-                model: db.TechpackCategory,
+                model: db.TechpackSubCategory,
                 as: 'sub_category'
             }]
     })
@@ -37,7 +37,7 @@ exports.detail = async (req, resp, next) => {
                 as: 'category'
             },
             {
-                model: db.TechpackCategory,
+                model: db.TechpackSubCategory,
                 as: 'sub_category'
             },
             {

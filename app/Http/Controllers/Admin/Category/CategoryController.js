@@ -3,6 +3,24 @@ const { validationResult } = require('express-validator');
 const LogConstant = require("../../../Constant/log.constant");
 const historyLogged = require("../../../Helper/HistoryLogged").historyLogged
 
+exports.getchild = async (req, resp, next) => {
+    await db.TechpackSubCategory.findAll({
+        where: {
+            categoryId: req.body.categoryId
+        }
+    })
+    .then((result) => {
+            historyLogged(req.session.username,'getchild',LogConstant.SUCCESS);
+            return resp.status(200).json({
+                status: 200,
+                result
+            });       
+    })
+    .catch(error => {
+        throw new Error(error);
+    });
+} 
+
 exports.index = async (req, resp, next) => {
     await db.TechpackCategory.findAll()
     .then((result) => {
@@ -42,6 +60,25 @@ exports.edit = async (req, resp, next) =>{
     });
 }
 
+exports.sub = async (req, resp, next) =>{
+    await db.TechpackCategory.findByPk(req.params.id,
+        {
+            include: {
+            model: db.TechpackSubCategory,
+            as: 'sub_category'
+        }} )
+    .then((result) => {
+        console.log('Sub-cate**************************',result);
+        resp.render('dashboard/admin/category/detail',{
+            category: result,
+            pageTitle: 'Category'
+        });  
+    })
+    .catch((error) => {
+        throw new Error(error);
+    });
+}
+
 exports.store = (req, resp, next) =>{
     db.TechpackCategory.create(req.body)
     .then((result) => {
@@ -49,6 +86,32 @@ exports.store = (req, resp, next) =>{
        
         req.flash('success', `New Category added ${ req.body.name } successfully!`);
         resp.status(200).redirect('/category');
+    })
+    .catch((error) => {
+        historyLogged(req.session.username,'create category',LogConstant.FAILED,error.message);
+        throw new Error(error.message);
+    });
+}
+exports.edit_sub = async (req, resp, next) =>{
+    await db.TechpackSubCategory.findByPk(req.params.id)
+    .then((result) => {
+        resp.render('dashboard/admin/category/edit_sub',{
+            sub_category: result,
+            pageTitle: 'Sub-Category'
+        });  
+    })
+    .catch((error) => {
+        throw new Error(error);
+    });
+}
+exports.store_sub = (req, resp, next) =>{
+    console.log(req.body);
+    db.TechpackSubCategory.create(req.body)
+    .then((result) => {
+        historyLogged(req.session.username,'create sub category',LogConstant.SUCCESS,item=result.id);
+       
+        req.flash('success', `New Sub Category added ${ req.body.name } of CategoryID ${ req.body.categoryId } successfully!`);
+        resp.status(200).redirect('/category/detail/'+req.body.categoryId);
     })
     .catch((error) => {
         historyLogged(req.session.username,'create category',LogConstant.FAILED,error.message);
@@ -76,6 +139,11 @@ exports.update = (req, resp, next) =>{
 }
 
 exports.delete = async (req, resp, next) =>{
+    await db.TechpackSubCategory.destroy({
+        where: {
+            categoryId: req.params.id
+        }
+    });
     await db.TechpackCategory.destroy({
         where: {
             id: req.params.id
@@ -88,7 +156,44 @@ exports.delete = async (req, resp, next) =>{
         resp.status(200).redirect('/category');
     })
     .catch(error => {
+        historyLogged(req.session.username,'delete category',LogConstant.FAILED,error.message);
+        
+        throw new Error(error);
+    })
+}
+exports.update_sub = (req, resp, next) =>{
+    db.TechpackSubCategory.update(req.body,{
+        where: {
+            id: req.params.id
+        }
+    })
+    .then( result => {        
+        historyLogged(req.session.username,'update sub category',LogConstant.SUCCESS,req.params.id);
+       
+        req.flash('success', `Category updated ${ req.body.name } successfully!`)
+        resp.status(200).redirect('/category/edit_sub/'+req.params.id);
+    })
+    .catch(error => {
         historyLogged(req.session.username,'update category',LogConstant.FAILED,error.message);
+        
+        throw new Error(error);
+    })
+}
+
+exports.delete_sub = async (req, resp, next) =>{
+    await db.TechpackCategory.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then( () => {   
+        historyLogged(req.session.username,'delete sub category',LogConstant.SUCCESS,req.params.id);
+           
+        req.flash('warning', `Sub-Category deleted successfully!`);        
+        resp.status(200).redirect('/category');
+    })
+    .catch(error => {
+        historyLogged(req.session.username,'Sub-category delete',LogConstant.FAILED,error.message);
         
         throw new Error(error);
     })

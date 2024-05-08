@@ -254,6 +254,7 @@ route.get('/techpack/detail/:id',isAuth,techpackController.detail);
 route.get('/category/create',isAuth ,categoryController.create);
 route.post('/category/update/:id',isAuth,categoryController.update);
 route.get('/category/edit/:id',isAuth,categoryController.edit);
+route.get('/category/detail/:id',isAuth,categoryController.sub);
 route.post('/category/delete/:id',isAuth,categoryController.delete);
 route.post('/category/store',
 body('name')
@@ -298,6 +299,55 @@ body('password')
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
 ,isAuth, role.validateRole("admin") ,categoryController.store);
+
+route.post('/category/sublist',
+body('name')
+.not()
+.isEmpty()
+.withMessage('Name is required!')
+.bail()
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
+.bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
+body('email')
+.not()
+.isEmpty()
+.withMessage('Email is required!')
+.bail()
+.isEmail()
+.withMessage('Enter Valid Email!')
+.bail()
+.custom(value => {
+    return db.User.findOne({ where : {email:value}}).then(user => {
+        if (user) {
+            return Promise.reject('E-mail already in use');
+        }   
+    });
+})
+.bail(),
+body('password')
+.not()
+.isEmpty()
+.withMessage('Password is required!')
+.bail() 
+.isLength({min: 5})
+.withMessage('Password is minimum 5 charcters long!')
+.bail()    
+,isAuth, role.validateRole("admin") ,categoryController.store_sub);
+route.post('/category/delete_sub/:id',isAuth,categoryController.delete_sub);
+route.get('/category/edit_sub/:id',isAuth,categoryController.edit_sub);
+route.post('/category/update_sub/:id',isAuth,categoryController.update_sub);
+route.post('/category/getchild',isAuth,categoryController.getchild);
+
 route.get('/category', isAuth, role.validateRole("admin"), categoryController.index);
 
 //cloth
@@ -455,10 +505,8 @@ route.get('/warehouse', isAuth, role.validateRole("admin"), warehouseController.
 
 route.get('/warehouse/detail/:id',isAuth,warehouseController.detail);
 
-
 //History
 route.get('/history', isAuth, role.validateRole("admin"), historyController.index);
-
 
 //User Routes
 

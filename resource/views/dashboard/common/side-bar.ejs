@@ -35,7 +35,7 @@
 
 
           <li class="nav-item">
-            <a class="nav-link text-white <%=  routeName == 'cloth' ||routeName == 'category' || routeName == 'techpack'?' active bg-gradient-primary':' ' %>
+            <a class="nav-link text-white <%= routeName == 'techpack'?' active bg-gradient-primary':' ' %>
             " href="/techpack">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
@@ -43,6 +43,26 @@
               <span class="nav-link-text ms-1">Techpacks</span>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-white <%=  routeName == 'category'?' active bg-gradient-primary':' ' %>
+            " href="/category">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">assignment</i>
+              </div>
+              <span class="nav-link-text ms-1">Categories</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white <%=  routeName == 'cloth'?' active bg-gradient-primary':' ' %>
+            " href="/cloth">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">assignment</i>
+              </div>
+              <span class="nav-link-text ms-1">Cloths</span>
+            </a>
+          </li>
+
           <% if (roles=='hr' || roles=='admin') { %>
           <li class="nav-item">
             <a class="nav-link text-white <%= routeName == 'invoice' || routeName == 'invoice'?' active bg-gradient-primary':' ' %>
@@ -97,6 +117,12 @@
                 <i class="material-icons opacity-10">assignment</i>
               </div>
               <span class="nav-link-text ms-1">Change informations</span>
+            </a>
+            <a class="nav-link text-white " href="#">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">assignment</i>
+              </div>
+              <span class="nav-link-text ms-1">Change password</span>
             </a>
           </li>
 
