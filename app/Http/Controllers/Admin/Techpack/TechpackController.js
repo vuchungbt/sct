@@ -2,7 +2,8 @@ const db = require('../../../../../models');
 const { validationResult } = require('express-validator');
 const { uploadImage } = require('../../../Middleware/upload');
 const LogConstant = require("../../../Constant/log.constant");
-const historyLogged = require("../../../Helper/HistoryLogged").historyLogged
+const historyLogged = require("../../../Helper/HistoryLogged").historyLogged ;
+const pushNotify = require("../../../Helper/NotifyController").store ;
 
 exports.upload = async (req, res, next) => {
     uploadImage(req, res, function(err) {
@@ -126,11 +127,7 @@ exports.create = async (req, resp, next) => {
 }
 
 exports.edit = async (req, resp, next) => {
-    let categories = await db.TechpackCategory.findAll({
-        where: {
-            type: 'category'
-        }
-    });
+    let categories = await db.TechpackCategory.findAll();
     let sub_categories = await db.TechpackSubCategory.findAll();
     let cloth = await db.TechpackCloth.findAll();
     let users = await db.User.findAll();
@@ -186,6 +183,7 @@ exports.store = (req, res, next) => {
             );
             
             historyLogged(req.session.username,'create techpack',LogConstant.SUCCESS, item=result.id );
+            pushNotify(result.createById,result.id,'techpack has been created',type='techpack',req,res,next) ;
             req.flash('success', `New Techpack added ${req.body.name} successfully!`);
             res.status(200).redirect('/techpack');
         })
@@ -217,6 +215,8 @@ exports.update = (req, resp, next) => {
             );
             
             historyLogged(req.session.username,'update techpack',LogConstant.SUCCESS,req.params.id );
+            pushNotify(req.body.createById,req.params.id,'techpack has been updated',type='techpack',req,resp,next) ;
+            
             req.flash('success', `Techpack updated ${req.body.name} successfully!`)
             resp.status(200).redirect('/techpack');
         })

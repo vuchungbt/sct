@@ -42,6 +42,7 @@ app.use((req, resp, next) => {
     resp.locals.roles = req.session.roles?req.session.roles:'';
     resp.locals.routeName = req.originalUrl.split('/')[1];
     resp.locals.message = req.flash();
+    resp.locals.notification = req.session.notification;
     next();
 });
 

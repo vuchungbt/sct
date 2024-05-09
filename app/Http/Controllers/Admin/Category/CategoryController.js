@@ -2,6 +2,7 @@ const db = require('../../../../../models');
 const { validationResult } = require('express-validator');
 const LogConstant = require("../../../Constant/log.constant");
 const historyLogged = require("../../../Helper/HistoryLogged").historyLogged
+const pushNotify = require("../../../Helper/NotifyController").store ;
 
 exports.getchild = async (req, resp, next) => {
     await db.TechpackSubCategory.findAll({
@@ -83,7 +84,8 @@ exports.store = (req, resp, next) =>{
     db.TechpackCategory.create(req.body)
     .then((result) => {
         historyLogged(req.session.username,'create category',LogConstant.SUCCESS,item=result.id);
-       
+        //pushNotify(req.session.user_id,result.id,'category has been created',type='category',req,resp,next) ;
+            
         req.flash('success', `New Category added ${ req.body.name } successfully!`);
         resp.status(200).redirect('/category');
     })
@@ -127,7 +129,8 @@ exports.update = (req, resp, next) =>{
     })
     .then( result => {        
         historyLogged(req.session.username,'update category',LogConstant.SUCCESS,req.params.id);
-       
+        //pushNotify(req.session.user_id,req.params.id,'category has been updated','category',req,resp,next) ;
+            
         req.flash('success', `Category updated ${ req.body.name } successfully!`)
         resp.status(200).redirect('/category');
     })

@@ -100,7 +100,8 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% techpackList.forEach((element,key)=> { if(element.status==3 ) { %>
+                        <% techpackList.forEach((element,key)=> { 
+                          if(element.status==3 ) { %>
                           <tr>
                             <td>
                               <%= element.id %>
@@ -118,18 +119,7 @@
                               <%= element.seasion %>
                             </td>
                             <td>
-                              <span class="btn btn-sm btn-info">
-                                <% if (element.status==0) { %>
-                                  new techpack
-                                  <% } else if (element.status==1) { %>
-                                    confirmed
-                                    <% } else if (element.status==2) { %>
-                                      processing
-                                      <% } else if (element.status==3) { %>
-                                        product
-                                        <% } else { %>
-                                          draft
-                                          <% } } %>
+                              <span class="btn btn-sm btn-info"> product
                               </span>
                             </td>
                             <td style="display: flex;">
@@ -143,7 +133,7 @@
                               </form>
                             </td>
                           </tr>
-                          <% }) %>
+                          <% } }) %>
                       </tbody>
                     </table>
                 </div>

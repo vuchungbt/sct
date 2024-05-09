@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       models.User.hasMany(models.Invoice, {
         foreignKey: 'createdById'
       });
+      models.User.hasMany(models.Notify, {
+        foreignKey: 'assignToId'
+      });
     }
   }
   User.init({

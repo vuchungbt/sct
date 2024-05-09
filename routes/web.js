@@ -21,6 +21,8 @@ const categoryController = require('../app/Http/Controllers/Admin/Category/Categ
 const clothController = require('../app/Http/Controllers/Admin/Cloth/ClothController');
 
 const historyController = require('../app/Http/Controllers/Admin/SystemHistory/HistoryController');
+const notifyController = require('../app/Http/Helper/NotifyController');
+
 const route = express.Router();
 
 //Auth routes
@@ -249,6 +251,8 @@ route.get('/techpack', isAuth, role.validateRole("admin"), techpackController.in
 route.post('/techpack/upload',isAuth,techpackController.upload);
 
 route.get('/techpack/detail/:id',isAuth,techpackController.detail);
+
+route.post('/notify/click',isAuth,notifyController.updateNotify);
 
 //category
 route.get('/category/create',isAuth ,categoryController.create);

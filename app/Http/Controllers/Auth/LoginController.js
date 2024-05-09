@@ -4,6 +4,7 @@ const db = require("../../../../models");
 const LogConstant = require("../../../../app/Http/Constant/log.constant");
 const historyLogged = require("../../../../app/Http/Helper/HistoryLogged").historyLogged;
 
+
 exports.index = (req, resp, next) =>{
     return resp.render('front-end/auth/login',{
         errorMessage: []
@@ -42,6 +43,8 @@ exports.login = async (req,resp,next) => {
             req.session.user_id = user.id;
             req.session.auth = true;
             req.session.roles = roles;
+           
+            
 
             let payload = {
                 auth: true,
