@@ -63,6 +63,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      SKU: {
+        type: Sequelize.STRING
+      },
       seasion: {
         type: Sequelize.STRING
       },
