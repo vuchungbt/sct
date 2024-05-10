@@ -40,6 +40,7 @@ exports.index = async (req, resp, next) => {
             console.log('Techpack Controller', result);
             resp.render('dashboard/admin/techpack/index', {
                 techpackList: result,
+                userId: req.session.user_id,
                 pageTitle: 'Techpack'
             });
         })

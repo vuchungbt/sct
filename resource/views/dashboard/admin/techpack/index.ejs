@@ -9,7 +9,7 @@
               <div class="card">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Techpack table</h6>
+                    <h6 class="text-white text-capitalize ps-3">Techpack processing</h6>
                   </div>
                 </div>
                 <div class="card-body py-3 pb-2">
@@ -26,9 +26,81 @@
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
+                      </thead> 
+                      <tbody>
+                        <% techpackList.forEach((element,key)=> { if(element.createById == userId ) { %>
+                          <tr>
+                            <td>
+                              <%= element.id %> 
+                            </td>
+                            <td><a href="techpack/detail/<%= element.id %>" class="text-primary">
+                                <%= element.name %>
+                              </a></td>
+                            <td>
+                              <%= element.category.name %>
+                            </td>
+                            <td>
+                              <%= element.sub_category !==null ? element.sub_category.name : '' %>
+                            </td>
+                            <td>
+                              <%= element.seasion %>
+                            </td>
+                            <td>
+                              <span class="btn btn-sm btn-info">
+                                <% if (element.status==0) { %>
+                                  new techpack
+                                  <% } else if (element.status==1) { %>
+                                    confirmed
+                                    <% } else if (element.status==2) { %>
+                                      processing
+                                      <% } else if (element.status==3) { %>
+                                        product
+                                        <% } else { %>
+                                          draft
+                                          <% }  %>
+                              </span>
+                            </td>
+                            <td style="display: flex;">
+                              <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
+                              &nbsp;
+                              <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
+                              &nbsp;
+                              <form action="techpack/delete/<%= element.id %>" method="POST">
+                                <button type="submit" class="btn btn-sm btn-danger"><i
+                                    class="material-icons">close</i></button>
+                              </form>
+                            </td>
+                          </tr>
+                          <% } }) %>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row pt-6">
+            <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+              <div class="card">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">All Techpack of Item</h6>
+                  </div>
+                </div>
+                <div class="card-body ">
+                    <table id="tb_item" class="table align-items-center justify-content-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Category</th>
+                          <th>Sub-category</th>
+                          <th>Seasion</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
                       </thead>
                       <tbody>
-                        <% techpackList.forEach((element,key)=> { if(element.status!=3 ) { %>
+                        <% techpackList.forEach((element)=> { %>
                           <tr>
                             <td>
                               <%= element.id %>
@@ -57,7 +129,7 @@
                                         product
                                         <% } else { %>
                                           draft
-                                          <% } } %>
+                                          <% } %>
                               </span>
                             </td>
                             <td style="display: flex;">
@@ -71,69 +143,7 @@
                               </form>
                             </td>
                           </tr>
-                          <% }) %>
-                      </tbody>
-                    </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row pt-6">
-            <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
-              <div class="card">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Techpack of Item</h6>
-                  </div>
-                </div>
-                <div class="card-body ">
-                    <table id="tb_item" class="table align-items-center justify-content-center mb-0">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Name</th>
-                          <th>Category</th>
-                          <th>Sub-category</th>
-                          <th>Seasion</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% techpackList.forEach((element,key)=> { 
-                          if(element.status==3 ) { %>
-                          <tr>
-                            <td>
-                              <%= element.id %>
-                            </td>
-                            <td><a href="techpack/detail/<%= element.id %>" class="text-primary">
-                                <%= element.name %>
-                              </a></td>
-                            <td>
-                              <%= element.category.name %>
-                            </td>
-                            <td>
-                              <%= element.sub_category !==null ? element.sub_category.name : '' %>
-                            </td>
-                            <td>
-                              <%= element.seasion %>
-                            </td>
-                            <td>
-                              <span class="btn btn-sm btn-info"> product
-                              </span>
-                            </td>
-                            <td style="display: flex;">
-                              <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
-                              &nbsp;
-                              <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
-                              &nbsp;
-                              <form action="techpack/delete/<%= element.id %>" method="POST">
-                                <button type="submit" class="btn btn-sm btn-danger"><i
-                                    class="material-icons">close</i></button>
-                              </form>
-                            </td>
-                          </tr>
-                          <% } }) %>
+                          <%  }) %>
                       </tbody>
                     </table>
                 </div>
