@@ -218,8 +218,8 @@ exports.update = (req, resp, next) => {
             historyLogged(req.session.username,'update techpack',LogConstant.SUCCESS,req.params.id );
             pushNotify(req.body.createById,req.params.id,'techpack has been updated',type='techpack',req,resp,next) ;
             
-            req.flash('success', `Techpack updated ${req.body.name} successfully!`)
-            resp.status(200).redirect('/techpack');
+            req.flash('success', `Techpack updated successfully!`)
+            resp.status(200).redirect('/techpack/edit/'+req.params.id);
         })
         .catch(error => {
             
@@ -249,4 +249,56 @@ exports.delete = async (req, resp, next) => {
           
             throw new Error(error);
         })
+}
+
+exports.confirm = (req, resp, next) => {
+    let  content = 'the techpack has been confirmed - ' + req.session.username;
+
+    const uId = req.body.createById;
+
+    db.Techpack.update({confirmById:req.session.user_id ,status : 1}, {
+        where: {
+            id: req.params.id
+        }
+    }).then(result => {
+            db.TechpackHistory.create(
+                {
+                    techpackId :  req.params.id,
+                    content 
+                }
+            );
+            historyLogged(req.session.username,'confirm techpack',LogConstant.SUCCESS,req.params.id );
+            pushNotify(uId,req.params.id,'techpack has been confirm',type='techpack',req,resp,next) ;
+            
+            req.flash('success', `Techpack updated ${req.body.name} successfully!`)
+            resp.status(200).redirect('/techpack/edit/'+req.params.id);
+        })
+        .catch(error => {
+            
+            historyLogged(req.session.username,'confirm techpack',LogConstant.FAILED,error.message );
+            throw new Error(error);
+        })
+}
+
+exports.process = async (req, resp, next) => {
+    let suppliers = await db.TechpackStock.findAll({
+        where: {
+            type:'garment_factory'
+        }
+    }).then( (suppliers) =>{
+        return suppliers;
+    });
+    await db.Techpack.findByPk(req.params.id)
+        .then((result) => {
+            resp.render('dashboard/admin/techpack/process', {
+                supplierList:suppliers,
+                techpack:result,
+                processList: null,
+                pageTitle: 'process'
+            });
+        })
+        .catch((error) => {
+            historyLogged(req.session.username,'load techpack',LogConstant.FAILED,error.message );
+            throw new Error(error);
+        });
 }
