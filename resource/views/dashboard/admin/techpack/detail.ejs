@@ -89,6 +89,13 @@
                         <textarea type="text" disabled class="form-control" name="description"
                           placeholder="description"><%= techpack.description %></textarea>
                       </div>
+                      <%if(techpack.status!=0) {%>
+                      <div class="input-group input-group-outline mb-3 is-filled">
+                        <label class="form-label">reason</label>
+                        <textarea type="text" disabled class="form-control" name="reason"
+                          placeholder="reason"><%= techpack.reason %></textarea>
+                      </div>
+                      <%}%>
                       <div class="row">
                         <div class="col-md-4">
                           <div class="input-group input-group-outline mb-3 is-filled">
@@ -98,7 +105,7 @@
                              if (techpack.status==1) { %> confirmed <% } else
                               if (techpack.status==2) { %> processing <% } else
                                if (techpack.status==3) { %> product <% } 
-                               else { %> draft <% }  %>
+                               else if(techpack.status==4) { %> draft <% }  %>
                               ">
                           </div>
                         </div>

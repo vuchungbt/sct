@@ -1,0 +1,245 @@
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar') %>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
+
+          <div class="row">
+            <div class="col-xl-1 col-sm-2 mb-xl-0 mb-4">
+            </div>
+            <div class="col-xl-10 col-sm-8 mb-xl-0 mb-4">
+              <div class="card">
+
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Add Process</h6>
+                  </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                  <%- include('../../../errors/flash-message') %>
+                <!-- </form>    <form action="/techpack/process_st" method="POST">-->
+
+                    <button type="submit" class="btn btn-sm btn-info" style="float: right;">Add</button>
+                    <div class="row">
+                        <div class="col-md-9">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Choose factory</label>
+                            <select name="stockId" class="form-control">
+                              <% supplierList.forEach((element)=> { %>
+                                <option value="<%= element.id %>">
+                                  [<%= element.type %>]<%= element.name %>
+                                </option>
+                                <% }) %>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">duedate</label>
+                            <input type="date" class="form-control" name="duedate">
+                          </div>
+                        </div>
+                    </div>
+               <!-- </form>-->
+
+
+                <table id="tb_process" class="table align-items-center justify-content-center mb-0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Factory</th>
+                      <th>Duedate</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   <tr>
+                    <td>temp</td>
+                    <td>temp</td>
+                    <td><input type="date" name="duedate" value="10/10/2024"></td>
+                    <td><select>
+                      <option>Not started</option>
+                      <option>Open</option>
+                      <option>Processing</option>
+                      <option>On hold</option>
+                      <option>Completed</option>
+                      <option>Cancelled</option>
+                    </select></td>
+                    <td>o x -</td>
+                    
+                   </tr>
+                   <tr>
+                    <td>temp</td>
+                    <td>temp</td>
+                    <td><input type="date" name="duedate" value="10/10/2024"></td>
+                    <td><select>
+                      <option>Not started</option>
+                      <option>Open</option>
+                      <option>Processing</option>
+                      <option>On hold</option>
+                      <option>Completed</option>
+                      <option>Cancelled</option>
+                    </select></td>
+                    <td>o x -</td>
+                   </tr>
+                   <tr>
+                    <td>temp</td>
+                    <td>temp</td>
+                    <td><input type="date" name="duedate" value="10/10/2024"></td>
+                    <td><select>
+                      <option>Not started</option>
+                      <option>Open</option>
+                      <option>Processing</option>
+                      <option>On hold</option>
+                      <option>Completed</option>
+                      <option>Cancelled</option>
+                    </select></td>
+                    <td>o x -</td>
+                   </tr>
+
+
+
+                  </tbody>
+                </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_f').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('f_image').value = f.filename;
+            })
+
+          },
+          error: function () {
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.');
+          }
+        });
+      });
+
+    </script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_a').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('a_image').value = f.filename;
+            })
+
+          },
+          error: function () {
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.');
+          }
+        });
+      });
+
+    </script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_b').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('b_image').value = f.filename;
+            })
+
+          },
+          error: function () {
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.');
+          }
+        });
+      });
+
+    </script>
+
+    <script>
+      // Chọn category
+      document.getElementById('categoryId').addEventListener('change', function (event) {
+
+        var categoryId = document.getElementById('categoryId').value;
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: "../category/getchild",
+          type: "POST",
+          data: JSON.stringify({ categoryId }),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (data, textStatus, jqXHR) {
+            console.log('---getchild success', data);
+            while (document.getElementById('sub_categoryId').firstChild) {
+              document.getElementById('sub_categoryId').removeChild(document.getElementById('sub_categoryId').firstChild);
+            }
+            data.result.forEach(item => {
+              var option = document.createElement('option');
+              option.value = item.id;
+              option.text = item.name;
+              document.getElementById('sub_categoryId').appendChild(option);
+            });
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log('---failed');
+          }
+        });
+      });
+
+    </script>
+    <%- include('../../common/footer') %>

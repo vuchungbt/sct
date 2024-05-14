@@ -249,7 +249,8 @@ body('password')
 route.get('/techpack', isAuth, role.validateRole("admin"), techpackController.index);
 
 route.post('/techpack/upload',isAuth,techpackController.upload);
-
+route.post('/techpack/confirm/:id',isAuth,techpackController.confirm);
+route.get('/techpack/process/:id',isAuth,techpackController.process);
 route.get('/techpack/detail/:id',isAuth,techpackController.detail);
 
 route.post('/notify/click',isAuth,notifyController.updateNotify);

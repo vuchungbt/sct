@@ -61,7 +61,8 @@ module.exports = (sequelize, DataTypes) => {
     a_image: DataTypes.STRING,
     f_image: DataTypes.STRING,
     description: DataTypes.STRING,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    reason: DataTypes.STRING
   }, {
     sequelize,
     timestamps: true,

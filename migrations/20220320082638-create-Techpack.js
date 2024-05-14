@@ -87,6 +87,9 @@ module.exports = {
       status: {
         type: Sequelize.INTEGER,
         defaultValue: 0
+      }, 
+      reason: {
+        type: Sequelize.STRING,
       },    
       createdAt: {
         allowNull: false,

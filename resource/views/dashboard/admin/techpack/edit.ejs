@@ -18,6 +18,40 @@
                 </div>
                 <div class="card-body px-3 pb-2">
                   <%- include('../../../errors/flash-message') %>
+                  <!-- processing button -->
+                  <div class="row">
+                    
+                    <div class="col-md-12">
+                      <div style="display: flex;"> <% if (roles=='manager' || roles=='admin')  if (techpack.status==0){ %>
+                        <form action="../../techpack/confirm/<%= techpack.id %>" method="POST">
+                          <input type="hidden" name="createById" value="<%= techpack.createById %>"></button>
+                          <button type="submit" class="btn btn-sm btn-success">Confirm</button>
+                        </form>
+                        <%} else { %>
+                        <a href="../../techpack/process/<%= techpack.id %>" class="btn btn-sm btn-info">Request process</a>
+                        <%} %> 
+                      </div> 
+                    </div>
+                  </div>
+                  <!--
+
+                    <div class="col-md-1">
+                      <div class="input-group input-group-outline mb-3 is-filled ">
+                        <label class="form-label">Created</label>
+                        <input disabled type="text" class="form-control" id="created"
+                          value="<%= techpack.createdAt %>">
+                      </div>
+                    </div>
+
+                    <div class="col-md-1">
+                      <div class="input-group input-group-outline mb-3 is-filled ">
+                        <label class="form-label">Update</label>
+                        <input type="text" class="form-control" disabled id="updated" name="updated"
+                          value="<%= techpack.updatedAt %>">
+                      </div>
+                    </div>
+
+                  -->
                     <form action="/techpack/update/<%= techpack.id %>" method="POST">
                       <div>
                         <div class="input-group input-group-outline mb-3 is-filled ">
@@ -152,7 +186,7 @@
                           <div class="col-md-4">
                             <div class="input-group input-group-outline mb-3 is-filled">
                               <label class="form-label">Status</label>
-                              <select name="status" class="form-control">
+                              <select id="stt" name="status" class="form-control">
                                 <option <%=techpack !==null && techpack.status==0 ? 'selected' : '' %> value="0">
                                   new techpack</option>
                                 <option <%=techpack !==null && techpack.status==1 ? 'selected' : '' %> value="1">
@@ -181,6 +215,11 @@
                                 value="<%= techpack.updatedAt %>">
                             </div>
                           </div>
+                        </div>
+                        <div id="reason" class="input-group input-group-outline mb-3 is-filled">
+                          <label class="form-label" for="image_a">reason</label>
+                          <textarea type="text" class="form-control" name="reason" placeholder="reason"
+                            rows="2"><%= techpack.reason %></textarea>
                         </div>
 <!--
                         <div class="row">
