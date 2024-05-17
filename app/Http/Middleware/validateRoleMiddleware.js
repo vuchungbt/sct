@@ -3,7 +3,7 @@ class ValidateRoleMiddleware{
     console.log("validateRole",role);
     return async (req, res, next) => {
       //try {
-        console.log("rolesss",role,req.session.roles[0],req.session.roles.includes(role));
+        console.log("rolesss::",role,req.session.roles,req.session.roles.includes(role));
         if(req.session.roles.includes(role)){
           console.log("rolss",role);
           return next();

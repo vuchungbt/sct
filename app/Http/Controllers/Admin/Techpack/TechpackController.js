@@ -288,17 +288,55 @@ exports.process = async (req, resp, next) => {
     }).then( (suppliers) =>{
         return suppliers;
     });
+
+    let processList = await db.TechpackProcess.findAll({
+        where: {
+            techpackId:req.params.id,
+    
+        },
+        include: 
+            {
+                model: db.TechpackStock,
+                as: 'stockprocess'
+            }
+    }).then( (processList) =>{
+        return processList;
+    });
     await db.Techpack.findByPk(req.params.id)
         .then((result) => {
+            console.log('$$$$$$$$$$$$$$',processList)
             resp.render('dashboard/admin/techpack/process', {
                 supplierList:suppliers,
                 techpack:result,
-                processList: null,
+                processList: processList,
                 pageTitle: 'process'
             });
         })
         .catch((error) => {
             historyLogged(req.session.username,'load techpack',LogConstant.FAILED,error.message );
+            throw new Error(error);
+        });
+}
+exports.store_process = (req, res, next) => {
+    console.log(req.body.duedate)
+    req.body.status=0;
+    db.TechpackProcess.create(req.body)
+        .then((result) => {
+            // db.TechpackHistory.create(
+            //     {
+            //         techpackId : result.id,
+            //         content :'create a new process - ' + req.session.username
+            //     }
+            // );
+            
+            // historyLogged(req.session.username,'new process',LogConstant.SUCCESS, item=result.id );
+            // pushNotify(result.createById,result.id,'techpack has been created',type='techpack',req,res,next) ;
+            
+            req.flash('success', `New Process added successfully!`);
+            res.status(200).redirect('/techpack/process/'+req.body.techpackId);
+        })
+        .catch((error) => {
+            //historyLogged(req.session.username,'create techpack',LogConstant.FAILED,error.message );
             throw new Error(error);
         });
 }

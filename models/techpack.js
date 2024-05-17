@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       models.Techpack.belongsToMany(models.TechpackStock, {
         through: models.TechpackProcess,
         foreignKey: 'stockId',
-        otherKey: 'techpackId' 
+        otherKey: 'techpackId'
       });
       models.Techpack.hasMany(models.TechpackHistory, {
         foreignKey: 'techpackId',

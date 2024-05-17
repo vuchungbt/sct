@@ -16,11 +16,18 @@ exports.login = async (req,resp,next) => {
         where:{
             email: req.body.email
         },
-        include: {
-            model: db.Role
-        }
+        include: [{
+            model: db.Role,
+            as: 'role'
+            },{
+            model: db.TechpackStock,
+            as: 'stocks'
+            
+            },
+                ]
     })
-    .then(user =>{         
+    .then(user =>{  
+         
         if(!user){
             return resp.status(422).render('front-end/auth/login',{
                 errorMessage: [{msg: 'User not found. Please sign up!'}]
@@ -30,7 +37,7 @@ exports.login = async (req,resp,next) => {
                 errorMessage: [{msg: 'Account deactive . Please contact to admin!'}]
             });
         }
-        let roles = user.Role.name;
+        let roles = user.role.name;
         bcrypt.compare(req.body.password, user.password)
         .then(result =>{
             if(!result){
@@ -49,8 +56,8 @@ exports.login = async (req,resp,next) => {
             let payload = {
                 auth: true,
                 name: user.name,
-                email: user.email
-
+                email: user.email,
+                role : roles
             };
            
             let accessToken = jwt.sign(payload, 'longest secreate key node admin', {
@@ -62,6 +69,10 @@ exports.login = async (req,resp,next) => {
             
             resp.cookie("jwt", accessToken, {secure: true, httpOnly: true/*, samesite:"lax"*/});
             historyLogged(req.session.username,'login',LogConstant.SUCCESS);
+            if(roles=='supplier') {
+                
+                return resp.redirect('/stock');
+            }
             return resp.redirect('/home');
         })
     })

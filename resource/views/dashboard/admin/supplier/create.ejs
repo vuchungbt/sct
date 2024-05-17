@@ -35,8 +35,14 @@
                       </div>
                       
                       <div class="input-group input-group-outline mb-3 is-filled">
-                        <label class="form-label">password</label>
-                        <input type="password" class="form-control" name="passsword" value="" required>
+                        <label class="form-label">Owner</label>
+                        <select name="ownerById" class="form-control">
+                          <% userList.forEach((element) => { %>
+                            <option value="<%= element.id %>">
+                              <%= element.id %>-<%= element.name %>
+                            </option>
+                            <% }) %>
+                        </select>  
                       </div>
                       
                       <div class="input-group input-group-outline mb-3">

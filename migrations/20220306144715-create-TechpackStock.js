@@ -8,6 +8,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      
+      ownerById: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        }
+      },
       name: {
         allowNull: false,
         unique: true,
@@ -23,10 +32,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       tel: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      password: {
         allowNull: false,
         type: Sequelize.STRING
       },

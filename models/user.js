@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       models.User.belongsTo(models.Role, {
-        foreignKey: 'roleId'
+        foreignKey: 'roleId',
+        as : 'role'
       });
       models.User.hasMany(models.Techpack, {
         foreignKey: 'createById'
@@ -16,10 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       models.User.hasMany(models.Notify, {
         foreignKey: 'assignToId'
       });
+      models.User.hasMany(models.TechpackStock, {
+        foreignKey: 'ownerById',
+        as : 'stocks'
+      });
+
     }
   }
   User.init({
-    roleId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     status: DataTypes.INTEGER,
     tel: DataTypes.STRING,

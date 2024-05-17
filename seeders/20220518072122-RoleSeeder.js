@@ -24,6 +24,20 @@ module.exports = {
         description: 'user',
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        name: 'hr',
+        id:3,
+        description: 'HR',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'supplier',
+        id:4,
+        description: 'supplier manager Dashboard',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }], {});
   },
 

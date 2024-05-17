@@ -17,11 +17,19 @@ exports.index = async (req, resp, next) => {
     });
 } 
 
-exports.create = (req, resp, next) =>{
-    resp.render('dashboard/admin/supplier/create',{
-        pageTitle: 'Supplier'
-        
-    });
+exports.create = async(req, resp, next) =>{
+   let rs=  await db.User.findAll({
+        where : {
+            roleId : 4
+        }
+      }).then ((rs) =>{
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',rs)
+        resp.render('dashboard/admin/supplier/create',{
+            pageTitle: 'Supplier',
+            userList : rs
+        });
+      })
+    
 }
 
 exports.edit = async (req, resp, next) =>{
@@ -94,4 +102,68 @@ exports.delete = async (req, resp, next) =>{
             
         throw new Error(error);
     })
+}
+
+// -------------roles-----------------
+exports.home = async (req, resp, next) =>{
+
+    const  notification = await db.Notify.findAll({
+        where: {
+            assignToId: req.session.user_id
+        },
+        limit : 6
+    }) 
+    const  count_notification = await db.Notify.findAll({
+        where: {
+            assignToId: req.session.user_id,
+            status:1
+        },
+        limit : 6
+    });
+
+    const  my_store = await db.User.findByPk(id=req.session.user_id,{
+        
+        include: 
+            {
+                model: db.TechpackStock,
+                as: 'stocks',
+                include : [
+                    {
+                        model: db.Techpack,
+                        as: 'techpack',
+                    }, {
+                        model: db.Invoice,
+                        include: 
+                            { 
+                                model: db.User,
+                                as: 'createdby'
+                            }
+                    }
+            ]
+            }       
+    });
+    
+
+     console.log(' my_store-before--\n',my_store);
+    // console.log(' my_store----end---');
+
+    
+    const techpack = my_store.stocks.flatMap(st => st.techpack);
+    
+    const invoices = my_store.stocks.flatMap(st => st.Invoices);
+    //console.log(' my_store----end---',invoices.length);
+
+    let count_not = 0;
+     techpack.forEach(tp=>{
+        if(tp.TechpackProcess.status==0) count_not++;
+     })
+
+    return resp.render('dashboard/layout/stock',{
+        my_store,
+        process:techpack,
+        invoices,
+        count_not,
+        notification,
+        count_notification
+    });
 }

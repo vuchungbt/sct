@@ -1,0 +1,414 @@
+<%- include('../common/header') %>
+  <%- include('../common/side-bar-stock') %>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <!-- Navbar -->
+      <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+        navbar-scroll="true">
+        <div class="container-fluid py-1 px-3">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+              <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+              <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+            </ol>
+            <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+          </nav>
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+            </div>
+            <ul class="navbar-nav  justify-content-end">
+              <li class="nav-item d-flex align-items-center">
+                <form action="/logout" method="post">
+                  <button type="submit" class="btn btn-sm btn-info">Logout</button>
+                </form>
+              </li>
+              <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                  <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item px-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-body p-0">
+                  <span class="material-icons">
+                    settings
+                  </span>
+                </a>
+              </li>
+              <!--Here-->
+              <li class="nav-item dropdown pe-2 d-flex align-items-center ">
+                <a href="javascript:;" class="nav-link text-body" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <i class="material-icons">
+                    notifications
+                  </i>
+                  <% if( count_notification.length>0) {%>
+                    <span id="notification_id" class="notification-badge">
+                      <%= count_notification.length %>
+                    </span>
+                    <% } %>
+                </a>
+                <% if(notification) {%>
+                  <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                    <% notification.forEach((element,key)=> { %>
+                      <li class="mb-2">
+                        <a class="dropdown-item border-radius-md" <% if (element.type=='techpack' )
+                          {%>href="/techpack/detail/<%=element.data%>" <% }%> href="javascript:;">
+                              <div class="d-flex py-1">
+
+                                <div class="my-auto ">
+                                  <i
+                                    class="icon icon-lg icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl opacity-10">
+                                    <i class="material-icons opacity-10 ">weekend</i> </i>
+                                </div>
+
+
+                                <div style="margin-left: 10px;" class="d-flex flex-column justify-content-center pl-1">
+                                  <h6 class="text-sm font-weight-normal mb-1">
+                                    <span class="font-weight-bold">
+                                      <%= element.content %> [ID:<%=element.data%>]
+                                    </span>
+                                  </h6>
+                                  <p class="text-xs text-secondary mb-0">
+                                    <i class="fa fa-clock me-1"></i>
+                                    <%= element.createdAt %>
+                                  </p>
+                                </div>
+                              </div>
+                        </a>
+                      </li>
+                      <% }) %>
+                  </ul>
+                  <% } %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="container-fluid py-4">
+        <div class="row">
+          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-3 pt-2">
+                <div
+                  class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">weekend</i>
+                </div>
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Techpack</p>
+                  <h4 class="mb-0">24</h4>
+                </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-footer p-3">
+                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">Need verify: </span> 1000</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-3 pt-2">
+                <div
+                  class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">person</i>
+                </div>
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Items</p>
+                  <h4 class="mb-0">2,300</h4>
+                </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-footer p-3">
+                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than lask month</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-3 pt-2">
+                <div
+                  class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">person</i>
+                </div>
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Invoices</p>
+                  <h4 class="mb-0">3,462</h4>
+                </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-footer p-3">
+                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6">
+            <div class="card">
+              <div class="card-header p-3 pt-2">
+                <div
+                  class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">weekend</i>
+                </div>
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Money</p>
+                  <h4 class="mb-0">$103,430</h4>
+                </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-footer p-3">
+                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4 mb-4">
+          <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+            <div class="card">
+              <div class="card-header pb-0">
+                <div class="row">
+                  <div class="col-lg-6 col-7">
+                    <h6>My task</h6>
+                    <p class="text-sm mb-0">
+                      <i class="fa fa-arrow-right text-danger" aria-hidden="true"></i>
+                      <span class="font-weight-bold ms-1">
+                        <%=count_not%>
+                      </span> not started
+                    </p>
+                  </div>
+                  <div class="col-lg-6 col-5 my-auto text-end">
+                    <div class="dropdown float-lg-end pe-4">
+                      <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v text-secondary"></i>
+                      </a>
+                      <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body px-0 pb-2">
+                <div class="table-responsive">
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Techpack</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DueDay
+                        </th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                          Status</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                          Note</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%process.forEach(element=> { %>
+                        <tr>
+                          <td>
+                            <div class="d-flex px-2 py-1">
+                              <!-- <div> <img src="/dashboard/img/small-logos/logo-xd.svg" class="avatar avatar-sm me-3" alt="xd">
+                            </div> -->
+                              <div class="d-flex flex-column justify-content-center">
+
+                                <h6 class="mb-0 text-sm">
+                                  <!-- Button trigger modal -->
+                                  <a type="button" class="note" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    data-notex="<%= element.note %>">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                  </a>
+                                  <%=element.name%>
+                                </h6>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="mb-0 text-sm duedate">
+                              <%=element.TechpackProcess.duedate%>
+                            </div>
+                          </td>
+                          <td class="align-middle text-center text-sm">
+                            <span class="text-xs font-weight-bold">
+                              <% if (element.TechpackProcess.status==0) { %>
+                                Not started
+                                <% } else if (element.TechpackProcess.status==1) { %>
+                                  Open
+                                  <% } else if (element.TechpackProcess.status==2) { %>
+                                    Processing
+                                    <% } else if (element.TechpackProcess.status==3) { %>
+                                      On hold
+                                      <% } else if (element.TechpackProcess.status==4) { %>
+                                        Completed
+                                        <% } else if (element.TechpackProcess.status==5) { %>
+                                          Cancelled
+                                          <% } %>
+                            </span>
+                          </td>
+                          <td class="align-middle text-center text-sm">
+                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+
+                          </td>
+                        </tr>
+                        <% } )%>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100">
+              <div class="card-header pb-0">
+                <h6>My Store</h6>
+              </div>
+              <div class="card-body p-3">
+                <% my_store.stocks.forEach(element=> { %>
+                  <div class="timeline timeline-one-side">
+                    <div class="timeline-block mb-3">
+                      <span class="timeline-step">
+                        <i class="material-icons text-success text-gradient">credit_card</i>
+                      </span>
+                      <div class="timeline-content">
+                        <h6 class="text-dark text-sm font-weight-bold mb-0">
+                          <%=element.name%>
+                        </h6>
+                        <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"> Process:
+                          <%=element.techpack.length%>
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+                  <% }) %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4 mb-4">
+          <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+            <div class="card">
+              <div class="card-header pb-0">
+                <h6>Invoice</h6>
+              </div>
+                <div class="row">
+
+                  
+                  <div class="card-body py-3 pb-2">
+                    <table class="table align-items-center justify-content-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Create By</th>
+                          <th>Total</th>
+                          <th>Payment</th>
+                          <th>Status</th>
+                          <th>Note</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% invoices.forEach((element,key) => { %>
+                          <tr>
+                              <td><%= element.id %></td>
+                              <td><%= element.createdby.name %></td>
+                              <td><%= element.total %></td>
+                              <td><%= element.typePayment %></td>
+                              <td><%= element.status %></td>
+                              <td><%= element.note %></td>
+                          </tr>
+                      <% }) %>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+      
+      </div>
+    </main>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Note</h5>
+            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('dropdownMenuButton').addEventListener('click', function (event) {
+        console.log('dropdownMenuButton click');
+        $.ajax({
+          url: '../notify/click', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: 'click',
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Notify đã được update thành công:', data);
+            document.getElementById('notification_id').remove();
+          },
+          error: function () {
+            alert('Xin lỗi, có lỗi xảy ra');
+          }
+        });
+      });
+
+    </script>
+
+    <script>
+      var create = document.getElementsByClassName("duedate");
+      var update = document.getElementsByClassName("completeddate");
+      const optionsa = { year: 'numeric', month: 'long', day: 'numeric' };
+
+      // for (let i = 0; i < create.length; i++) {
+      //   console.log(create[i].innerHTML.trim())
+      //   if (create[i].innerHTML.trim().length >= 6) {
+      //     var date_created = new Date(create[i].innerHTML);
+      //     create[i].innerHTML = date_created.toLocaleString(optionsa);
+      //   }
+      // }
+      // for (let i = 0; i < update.length; i++) {
+      //   console.log('-----', update[i].innerHTML.trim())
+      //   if (update[i].innerHTML.trim().length >= 6) {
+      //     var date_update = new Date(update[i].innerHTML);
+      //     update[i].innerHTML = date_update.toLocaleString(optionsa);
+      //   }
+      // }
+
+    </script>
+    <%- include('../common/footer') %>

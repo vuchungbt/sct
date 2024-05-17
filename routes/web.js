@@ -252,7 +252,7 @@ route.post('/techpack/upload',isAuth,techpackController.upload);
 route.post('/techpack/confirm/:id',isAuth,techpackController.confirm);
 route.get('/techpack/process/:id',isAuth,techpackController.process);
 route.get('/techpack/detail/:id',isAuth,techpackController.detail);
-
+route.post('/techpack/process_first',isAuth,techpackController.store_process);
 route.post('/notify/click',isAuth,notifyController.updateNotify);
 
 //category
@@ -452,11 +452,11 @@ body('password')
 .isLength({min: 5})
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
-,isAuth, role.validateRole("admin") ,invoiceController.store);
+,isAuth ,invoiceController.store);
 
-route.post('/invoice/item',isAuth, role.validateRole("admin") ,invoiceController.additem);
+route.post('/invoice/item',isAuth,  invoiceController.additem);
 
-route.get('/invoice', isAuth, role.validateRole("admin"), invoiceController.index);
+route.get('/invoice', isAuth, invoiceController.index);
 
 //Warehouse
 route.get('/warehouse/create',isAuth ,warehouseController.create);

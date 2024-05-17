@@ -8,7 +8,7 @@ exports.index = async function(req, resp, next){
             assignToId: req.session.user_id,
             status :1
         },
-        limit : 15
+        limit : 6
     }) 
 }
 

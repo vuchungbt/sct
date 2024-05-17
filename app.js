@@ -8,6 +8,7 @@ var cors = require('cors');
 
 // const dbConnect = require('./config/database');
 const webRoutes = require('./routes/web');
+const supplierRoutes = require('./routes/supplier');
 
 const app = express();
 
@@ -47,7 +48,8 @@ app.use((req, resp, next) => {
 });
 
 
-app.use(webRoutes);
+app.use(webRoutes);//
+app.use('/stock',supplierRoutes);
 
  app.use((req,resp,next) => {
     // resp.status(404).sendFile(path.join(__dirname,'views','errors','404.html'));

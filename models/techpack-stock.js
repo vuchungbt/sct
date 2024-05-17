@@ -9,15 +9,24 @@ const { Model } = require('sequelize');
       models.TechpackStock.belongsToMany(models.Techpack, {
         through: models.TechpackProcess,
         foreignKey: 'stockId',
-        otherKey: 'techpackId'
+        otherKey: 'techpackId',
+        as: 'techpack'
+      });
+      models.TechpackStock.hasMany(models.TechpackProcess, {
+        foreignKey: 'stockId',
+        as: 'stockprocess'
+      });
+      models.TechpackStock.belongsTo(models.User, {
+        foreignKey: 'ownerById'
+        
       });
     }
   }
   TechpackStock.init({
+    ownerById:DataTypes.STRING,
     name: DataTypes.STRING,
     address: DataTypes.STRING,
     tel: DataTypes.STRING,
-	  password: DataTypes.STRING,
     description: DataTypes.STRING,
     type: DataTypes.STRING
   }, {

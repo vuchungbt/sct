@@ -35,7 +35,20 @@ module.exports = {
                     .then(passwordHash => { return passwordHash; }),
         createdAt: new Date(),
         updatedAt: new Date()
-      }], {});
+      },
+      {
+        id:3,
+        roleId :4,
+        name: 'Supplier 1',
+        tel: '0123456784',
+        status: 1,
+        email: 'supplier@admin.com',
+        password: await bcrypt.hash('123456qqq',12)
+                    .then(passwordHash => { return passwordHash; }),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ], {});
   },
 
   async down (queryInterface, Sequelize) {

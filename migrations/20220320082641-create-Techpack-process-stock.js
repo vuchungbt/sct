@@ -1,13 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('TechpackProcess', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
+    await queryInterface.createTable('TechpackProcesses', {
       techpackId: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -26,16 +20,21 @@ module.exports = {
       },
       duedate : {
         allowNull: true,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       } , 
       completeddate : {
         allowNull: true,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       } , 
       status : {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        defauleValue:0
       } ,   
+      note : {
+        allowNull: true,
+        type: Sequelize.STRING
+      } ,  
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -47,6 +46,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('TechpackProcess');
+    await queryInterface.dropTable('TechpackProcesses');
   }
 };
