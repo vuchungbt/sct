@@ -21,13 +21,14 @@
 
                       <button type="submit" class="btn btn-sm btn-info" style="float: right;">Add</button>
                       <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-5">
                           <div class="input-group input-group-outline mb-3 is-filled ">
                             <input type="hidden" name="techpackId" value="<%=techpack.id%>">
                             <label class="form-label">Choose factory</label>
-                            <select name="stockId" class="form-control">
+                            <select id="stockId" name="stockId" class="form-control">
+                              <option selected disabled>Choose factory</option>
                               <% supplierList.forEach((element)=> { %>
-                                <option value="<%= element.id %>">
+                                <option data-typeof="<%= element.type %>" value="<%= element.id %>">
                                   [<%= element.type %>]<%= element.name %>
                                 </option>
                                 <% }) %>
@@ -38,6 +39,14 @@
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">duedate</label>
                             <input type="date" class="form-control" name="duedate">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">type</label>
+                            <select id="type" name="type" class="form-control">
+                              <option value="" disabled selected>Type</option>
+                            </select>
                           </div>
                         </div>
                         <div class="col-md-3">
@@ -58,18 +67,19 @@
                           <th>Duedate</th>
                           <th>Complete</th>
                           <th>Note</th>
+                          <th>Type</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <% processList.forEach((element)=> { %>
-                          <tr>
+                          <tr class="<%=element.status==4?'bg-gradient-info text-white':''%>">
                             <td>
                               <%= element.id %>
                             </td>
                             <td>
-                              <%= element.stockprocess.name %>
+                              <%= element.stockprocess.type %>-<%= element.stockprocess.name %>
                             </td>
                             <td class="duedate">
                               <%= element.duedate %>
@@ -77,11 +87,15 @@
                             <td class="completeddate">
                               <%= element.completeddate %>
                             </td>
+
                             <td>
                               <!-- Button trigger modal -->
-                              <a type="button" class="note" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-notex="<%= element.note %>"><i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                            </a>
+                              <a type="button" class="note" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                data-notex="<%= element.note %>"><i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                              </a>
+                            </td>
+                            <td class="">
+                              <%= element.Type.name %>
                             </td>
                             <td>
                               <span>
@@ -101,7 +115,11 @@
                               </span>
                             </td>
                             <td style="display: flex;">
-                              <form action="techpack/delete/<%= element.id %>" method="POST">
+                              <a href="../../techpack_process/update/<%= element.id %>">
+                              <i class="fa fa-pencil-square-o p-2" aria-hidden="true"></i> </a>
+                              
+                              <form action="../../techpack_process/delete/<%= element.id %>" method="POST">
+                                <input type="hidden" class="form-control" name="techpackId" value="<%=element.techpackId%>">
                                 <button type="submit" class="btn btn-sm btn-danger"><i
                                     class="material-icons">close</i></button>
                               </form>
@@ -116,26 +134,27 @@
           </div>
         </div>
     </main>
-    
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Note</h5>
-        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Note</h5>
+            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script>
       var create = document.getElementsByClassName("duedate");
@@ -157,17 +176,52 @@
       // }
 
     </script>
-     <script>
+    <script>
       var noteButtons = document.querySelectorAll('.note');
       const modalBody = document.querySelector('.modal-body');
       noteButtons.forEach(button => {
-          button.addEventListener('click', () => {
-              const notexValue = button.getAttribute('data-notex');
-              console.log(`Giá trị của data-notex: ${notexValue}`);
-              modalBody.innerHTML=notexValue;
-          });
+        button.addEventListener('click', () => {
+          const notexValue = button.getAttribute('data-notex');
+          console.log(`Giá trị của data-notex: ${notexValue}`);
+          modalBody.innerHTML = notexValue;
+        });
       });
-     </script>
+    </script>
+    <script>
+      // Chọn category
+      document.getElementById('stockId').addEventListener('change', function (event) {
+        console.log('---stockId clicked');
+        var select = document.getElementById('stockId');
+        var selectedOption = select.options[select.selectedIndex];
+        var typeOf = selectedOption.dataset.typeof;
+        console.log('---typeOf1', typeOf);
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: "../../api/type/getchild",
+          type: "POST",
+          data: JSON.stringify({ typeOf }),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (data, textStatus, jqXHR) {
+            console.log('---getchild success', data);
+            while (document.getElementById('type').firstChild) {
+              document.getElementById('type').removeChild(document.getElementById('type').firstChild);
+            }
+            data.result.forEach(item => {
+              var option = document.createElement('option');
+              option.value = item.id;
+              option.text = item.name;
+              document.getElementById('type').appendChild(option);
+            });
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log('---failed');
+          }
+        });
+      });
+
+    </script>
 
 
     <%- include('../../common/footer') %>

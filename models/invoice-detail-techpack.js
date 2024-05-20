@@ -5,7 +5,14 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class InvoiceDeltail extends Model {
     static associate(models) {
-      // define association here
+      models.InvoiceDeltail.belongsTo(models.Invoice, {
+        foreignKey: 'invoiceId'
+      });
+      
+      models.InvoiceDeltail.belongsTo(models.Techpack, {
+        foreignKey: 'techpackId',
+        as :'techpack'
+      });
     }
   }
   InvoiceDeltail.init({

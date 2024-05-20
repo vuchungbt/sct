@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'techpackId',
         as: 'techpacks'
       });
+      models.Invoice.hasMany(models.InvoiceDeltail, {
+        foreignKey: 'invoiceId',
+        as :'detail'
+      });
 
     }
   }

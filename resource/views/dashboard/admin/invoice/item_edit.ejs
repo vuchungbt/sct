@@ -11,45 +11,37 @@
               <div class="card">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white ps-3">Add item to Invoice ID:<%= invoiceId %>
+                    <h6 class="text-white ps-3">Edit ID:<%= detail.id %>
                     </h6>
 
                   </div>
                 </div>
                 <div class="card-body px-3 pb-2">
                   <%- include('../../../errors/flash-message') %>
-                    <form role="form" action="/invoice/item" method="post">
+                    <form role="form" action="../../../invoice/item/update/<%=detail.id%>" method="post">
                       <div class="input-group input-group-outline mb-3 is-filled">
-                        <input name="invoiceId" type="hidden" value="<%= invoiceId %>" />
+                        <input name="invoiceId" type="hidden" value="<%= detail.invoiceId %>" />
                         <label class="form-label">Choose techpack</label>
-                        <select name="techpackId" class="form-control">
-                          <% techpackList.forEach((element)=> { %>
-                            <option value="<%= element.id %>">
-                              <%= element.id %>-<%= element.name %>
-                            </option>
-                            <% }) %>
-                        </select>
+                        <input type="text"  class="form-control" disabled value="<%=detail.techpack.name%>">
+                        <input type="hidden"  class="form-control" name="techpackId" required value="<%=detail.techpack.id%>">
                       </div>
                       <div class="input-group input-group-outline mb-3 is-filled">
                         <label class="form-label">Size</label>
-                        <input type="text" class="form-control" name="type" required value="M:30, L:30">
+                        <input type="text" class="form-control" name="type" required value="<%=detail.type%>">
                       </div>
                       <div class="row">
                         <div class="col-md-6">
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">quantity</label>
-                            <input type="number" class="form-control" name="quantity" required value="1">
+                            <input type="number" class="form-control" name="quantity" required value="<%=detail.quantity%>">
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">Price</label>
-                            <input type="number" class="form-control" name="price" value="0">
+                            <input type="number" class="form-control" name="price" value="<%=detail.price%>">
                           </div>
                         </div>
-                      </div>
-                      <div class="text-center" style="float:left ;">
-                        <a href="../invoice" class="btn btn-lg bg-gradient-success btn-lg mt-4 mb-0">Done</a>
                       </div>
                       <div class="text-center" style="float: right;">
                         <button type="submit" class="btn btn-lg bg-gradient-info btn-lg mt-4 mb-0">Save >></button>

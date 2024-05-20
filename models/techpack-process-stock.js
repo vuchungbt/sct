@@ -9,12 +9,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'stockId',
         as: 'stockprocess'
       });
+      models.TechpackProcess.belongsTo(models.Type, {
+        foreignKey: 'type'
+      });
     }
   }
   TechpackProcess.init({
     duedate: DataTypes.DATEONLY , 
     completeddate: DataTypes.DATEONLY  , 
-    status: DataTypes.INTEGER  ,   
+    status: DataTypes.INTEGER,   
     note : DataTypes.STRING
   }, {
     sequelize,

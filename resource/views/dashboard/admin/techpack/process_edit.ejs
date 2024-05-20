@@ -1,0 +1,207 @@
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar') %>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
+
+          <div class="row">
+
+            <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+              <div class="card">
+
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Edit Techpack Process: <%= process.id %>
+                    </h6>
+                  </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                  <%- include('../../../errors/flash-message') %>
+
+                    <form action="/techpack_process/update/<%=process.id%>" method="POST">
+
+                      <button type="submit" class="btn btn-sm btn-info" style="float: right;">Submit</button>
+
+                      <div class="row">
+                        <div class="col-md-5">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <input type="hidden" name="techpackId" value="<%=process.techpackId%>">
+                            <label class="form-label">Choose factory</label>
+                            <input type="text" disabled class="form-control" value="<%=process.stockprocess.name%>">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">duedate</label>
+                            <input type="date" class="form-control" name="duedate" value="<%=process.duedate%>">
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">type</label>
+                            <select id="type" name="type" class="form-control">
+                              <% typeList.forEach((element)=> { %>
+                                <option data-typeof="<%= element.type %>" value="<%= element.id %>">
+                                  <%= element.name %>
+                                </option>
+                                <% }) %>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">status</label>
+                            <select id="stt" name="status" class="form-control">
+                              <option <%=process !==null && process.status==0 ? 'selected' : '' %> value="0">
+                                Not started</option>
+                              <option <%=process !==null && process.status==1 ? 'selected' : '' %> value="1">
+                                Open</option>
+                              <option <%=process !==null && process.status==2 ? 'selected' : '' %> value="2">
+                                Processing</option>
+                              <option <%=process !==null && process.status==3 ? 'selected' : '' %> value="3">
+                                On hold</option>
+                              <option <%=process !==null && process.status==4 ? 'selected' : '' %> value="4">
+                                Completed</option>
+                              <option <%=process !==null && process.status==5 ? 'selected' : '' %> value="5">
+                                Cancelled</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">note</label>
+                            <textarea type="text" class="form-control" name="note" placeholder="note"
+                              rows="4"><%=process.note%></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <script>
+      var create = document.getElementById('created');
+      var update = document.getElementById('updated');
+
+      var date_created = new Date(create.value);
+      create.value = date_created.toLocaleString();
+      var date_updated = new Date(update.value);
+      update.value = date_updated.toLocaleString();
+
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_f').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data, textStatus, jqXHR) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('f_image').value = f.filename;
+              document.getElementById("v_image_f").src = '/uploads/' + f.filename;
+            })
+
+          },
+          error: function (err) {
+            console.log(err);
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.', err);
+          }
+        });
+      });
+
+    </script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_a').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data, textStatus, jqXHR) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('a_image').value = f.filename;
+              document.getElementById("v_image_a").src = '/uploads/' + f.filename;
+            })
+
+          },
+          error: function (err) {
+            console.log(err);
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.', err.message);
+          }
+        });
+      });
+
+    </script>
+    <script>
+      // Khi người dùng chọn tệp
+      document.getElementById('image_b').addEventListener('change', function (event) {
+        var selectedFiles = event.target.files; // Lấy danh sách các tệp đã chọn
+
+        // Tạo đối tượng FormData và thêm các tệp đã chọn vào
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+          formData.append('file', selectedFiles[i]);
+        }
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: '../upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          type: 'POST',
+          data: formData,
+          processData: false, // Không xử lý dữ liệu
+          contentType: false, // Không đặt kiểu dữ liệu
+          success: function (data) {
+            // Xử lý phản hồi từ máy chủ
+            console.log('Dữ liệu đã được gửi thành công:', data);
+            data.file.forEach(f => {
+              document.getElementById('b_image').value = f.filename;
+              console.log('Dữ liệu đã được gửi thành công:', '/uploads/' + f.filename);
+              document.getElementById("v_image_b").src = '/uploads/' + f.filename;
+            })
+
+          },
+          error: function (err) {
+            console.log(err);
+            alert('Xin lỗi, có lỗi xảy ra khi gửi ảnh.', err.message);
+          }
+        });
+      });
+
+    </script>
+
+
+    <%- include('../../common/footer') %>

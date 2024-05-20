@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'techpackId',
         as :'history'
       });
+      models.Techpack.hasMany(models.InvoiceDeltail, {
+        foreignKey: 'techpackId',
+        as :'techpack'
+      });
     }
   }
   Techpack.init({

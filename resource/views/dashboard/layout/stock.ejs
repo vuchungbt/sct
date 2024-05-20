@@ -251,7 +251,9 @@
                             </span>
                           </td>
                           <td class="align-middle text-center text-sm">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                            <a type="button" class="note" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                data-notex="<%= element.note %>"><i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                              </a>
 
                           </td>
                         </tr>
@@ -321,7 +323,9 @@
                               <td><%= element.total %></td>
                               <td><%= element.typePayment %></td>
                               <td><%= element.status %></td>
-                              <td><%= element.note %></td>
+                              <td><a type="button" class="note" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                data-notex="<%= element.note %>"><i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                              </a></td>
                           </tr>
                       <% }) %>
                       </tbody>
@@ -410,5 +414,16 @@
       //   }
       // }
 
+    </script>
+    <script>
+      var noteButtons = document.querySelectorAll('.note');
+      const modalBody = document.querySelector('.modal-body');
+      noteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const notexValue = button.getAttribute('data-notex');
+          console.log(`Giá trị của data-notex: ${notexValue}`);
+          modalBody.innerHTML = notexValue;
+        });
+      });
     </script>
     <%- include('../common/footer') %>

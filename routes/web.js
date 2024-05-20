@@ -19,6 +19,7 @@ const invoiceController = require('../app/Http/Controllers/Admin/Invoice/Invoice
 const warehouseController = require('../app/Http/Controllers/Admin/Warehouse/WarehouseController');
 const categoryController = require('../app/Http/Controllers/Admin/Category/CategoryController');
 const clothController = require('../app/Http/Controllers/Admin/Cloth/ClothController');
+const typeController = require('../app/Http/Controllers/Admin/Type/TypeController');
 
 const historyController = require('../app/Http/Controllers/Admin/SystemHistory/HistoryController');
 const notifyController = require('../app/Http/Helper/NotifyController');
@@ -252,7 +253,12 @@ route.post('/techpack/upload',isAuth,techpackController.upload);
 route.post('/techpack/confirm/:id',isAuth,techpackController.confirm);
 route.get('/techpack/process/:id',isAuth,techpackController.process);
 route.get('/techpack/detail/:id',isAuth,techpackController.detail);
+
 route.post('/techpack/process_first',isAuth,techpackController.store_process);
+route.post('/techpack_process/delete/:id',isAuth,techpackController.delete_process);
+route.post('/techpack_process/update/:id',isAuth,techpackController.update_process);
+route.get('/techpack_process/update/:id',isAuth,techpackController.edit_process);
+
 route.post('/notify/click',isAuth,notifyController.updateNotify);
 
 //category
@@ -405,6 +411,56 @@ body('password')
 ,isAuth, role.validateRole("admin") ,clothController.store);
 route.get('/cloth', isAuth, role.validateRole("admin"), clothController.index);
 
+//type
+route.get('/type/create',isAuth ,typeController.create);
+route.post('/type/update/:id',isAuth,typeController.update);
+route.get('/type/edit/:id',isAuth,typeController.edit);
+route.post('/type/delete/:id',isAuth,typeController.delete);
+route.post('/type/store',
+body('name')
+.not()
+.isEmpty()
+.withMessage('Name is required!')
+.bail()
+.isLength({min: 1})
+.withMessage('Name must 1 charcter long!')
+.bail(),
+
+body('tel'),
+
+body('status')
+.not()
+.isEmpty()
+.withMessage('Status is required!')
+.bail(),
+
+body('email')
+.not()
+.isEmpty()
+.withMessage('Email is required!')
+.bail()
+.isEmail()
+.withMessage('Enter Valid Email!')
+.bail()
+.custom(value => {
+    return db.User.findOne({ where : {email:value}}).then(user => {
+        if (user) {
+            return Promise.reject('E-mail already in use');
+        }   
+    });
+})
+.bail(),
+body('password')
+.not()
+.isEmpty()
+.withMessage('Password is required!')
+.bail() 
+.isLength({min: 5})
+.withMessage('Password is minimum 5 charcters long!')
+.bail()    
+,isAuth, role.validateRole("admin") ,typeController.store);
+route.get('/type', isAuth, role.validateRole("admin"), typeController.index);
+route.post('/api/type/getchild',isAuth,typeController.getchild);
 //Invoice
 route.get('/invoice/create',isAuth ,invoiceController.create);
 route.post('/invoice/update/:id',isAuth,invoiceController.update);
@@ -453,8 +509,11 @@ body('password')
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
 ,isAuth ,invoiceController.store);
-
+route.get('/invoice/store_of_edit/:id',isAuth,invoiceController.store_of_edit);
 route.post('/invoice/item',isAuth,  invoiceController.additem);
+route.post('/invoice/item/delete/:id',isAuth,  invoiceController.delete_item);
+route.get('/invoice/item/update/:id',isAuth,  invoiceController.item_update);
+route.post('/invoice/item/update/:id',isAuth,  invoiceController.item_update_store);
 
 route.get('/invoice', isAuth, invoiceController.index);
 

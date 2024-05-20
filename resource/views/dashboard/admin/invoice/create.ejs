@@ -35,21 +35,30 @@
                           <option value="Credits">Credits</option>
                         </select>
                       </div>
-                      <div class="input-group input-group-outline mb-3 is-filled">
-                        <label class="form-label">Status</label>
-                        <select name="status" class="form-control">
-                          <option value="Preparing">Preparing</option>
-                          <option value="A paft">A paft</option>
-                          <option value="Done">Done</option>
-                        </select>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-control">
+                              <option value="Preparing">Preparing</option>
+                              <option value="A paft">A paft</option>
+                              <option value="Done">Done</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Total</label>
+                            <input type="number" class="form-control" name="total" value="0">
+                          </div>
+                        </div>
                       </div>
-                      <div class="input-group input-group-outline mb-3 is-filled">
-                        <label class="form-label">Total</label>
-                        <input type="number" class="form-control" name="total" value="0">
-                      </div>
+                      
                       <div class="input-group input-group-outline mb-3 is-filled">
                         <label class="form-label">note</label>
-                        <input type="text" class="form-control" name="note" value="" >
+                        <textarea type="text" class="form-control" name="note" placeholder="note"
+                            rows="5"></textarea>
                       </div>
                       
                       <div class="text-center">

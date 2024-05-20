@@ -1,5 +1,5 @@
 const db = require('../../../../../models');
-const { validationResult } = require('express-validator');
+const { validationResult, body } = require('express-validator');
 const { uploadImage } = require('../../../Middleware/upload');
 const LogConstant = require("../../../Constant/log.constant");
 const historyLogged = require("../../../Helper/HistoryLogged").historyLogged ;
@@ -245,7 +245,7 @@ exports.delete = async (req, resp, next) => {
             resp.status(200).redirect('/techpack');
         })
         .catch(error => {
-            historyLogged(req.session.username,'delete supplier',LogConstant.FAILED,error.message );
+            historyLogged(req.session.username,'delete techpack',LogConstant.FAILED,error.message );
           
             throw new Error(error);
         })
@@ -290,15 +290,19 @@ exports.process = async (req, resp, next) => {
     });
 
     let processList = await db.TechpackProcess.findAll({
+        attributes: ['id', 'duedate','completeddate','status','note','type','createdAt','techpackId','stockId'],
         where: {
             techpackId:req.params.id,
-    
         },
         include: 
-            {
+            [{
                 model: db.TechpackStock,
                 as: 'stockprocess'
-            }
+            },
+            {
+                model: db.Type
+                
+            }]
     }).then( (processList) =>{
         return processList;
     });
@@ -308,7 +312,7 @@ exports.process = async (req, resp, next) => {
             resp.render('dashboard/admin/techpack/process', {
                 supplierList:suppliers,
                 techpack:result,
-                processList: processList,
+                processList,
                 pageTitle: 'process'
             });
         })
@@ -339,4 +343,84 @@ exports.store_process = (req, res, next) => {
             //historyLogged(req.session.username,'create techpack',LogConstant.FAILED,error.message );
             throw new Error(error);
         });
+}
+
+exports.delete_process = async (req, resp, next) => {
+    await db.TechpackHistory.destroy({
+        where: {
+          techpackId: req.params.id,
+        },
+      });
+    await db.TechpackProcess.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(() => {
+            historyLogged(req.session.username,'delete  process',LogConstant.SUCCESS ,req.params.id);
+            req.flash('warning', `Techpack process deleted successfully!`);
+            resp.status(200).redirect('/techpack/process/'+req.body.techpackId);
+        })
+        .catch(error => {
+            historyLogged(req.session.username,'delete process',LogConstant.FAILED,error.message );
+          
+            throw new Error(error);
+        })
+}
+exports.update_process = (req, resp, next) => {
+    let content;
+    if(req.body.status==4) {
+        content = 'the techpack process has been completed - ' + req.session.username;
+        req.body.completeddate = new Date();
+    }
+    else {
+        content = 'the techpack process has been updated - ' + req.session.username;
+    }
+    db.TechpackProcess.update(req.body, {
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(result => {
+            db.TechpackHistory.create(
+                {
+                    techpackId :  req.body.techpackId,
+                    content 
+                }
+            );
+            
+            historyLogged(req.session.username,'update techpack',LogConstant.SUCCESS,req.body.techpackId );
+             // pushNotify(req.body.createById,req.body.techpackId,'techpack has been updated',type='techpack',req,resp,next) ;
+            
+            req.flash('success', `Techpack updated successfully!`)
+            resp.status(200).redirect('/techpack_process/update/'+req.params.id);
+        })
+        .catch(error => {
+            
+            historyLogged(req.session.username,'update techpack',LogConstant.FAILED,error.message );
+            throw new Error(error);
+        })
+}
+exports.edit_process = async (req, resp, next) => {
+    let process = await db.TechpackProcess.findOne({
+        attributes: ['id', 'duedate','duedate','status','note','type','createdAt','techpackId','stockId'],
+        where :{
+            id:req.params.id
+        },
+        include: 
+        {
+            model: db.TechpackStock,
+            as: 'stockprocess'
+        }
+    });
+    console.log('*********>*>**>*>**',process)
+    let typeList = await db.Type.findAll({where: {
+        typeOf:process.stockprocess.type
+    }});
+    
+    resp.render('dashboard/admin/techpack/process_edit', {
+        process,
+        typeList,
+        pageTitle: 'Techpack Process Edit'
+    });
 }

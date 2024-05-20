@@ -2,6 +2,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('TechpackProcesses', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
       techpackId: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -34,6 +40,10 @@ module.exports = {
       note : {
         allowNull: true,
         type: Sequelize.STRING
+      } ,  
+      type : {
+        allowNull: true,
+        type: Sequelize.INTEGER
       } ,  
       createdAt: {
         allowNull: false,

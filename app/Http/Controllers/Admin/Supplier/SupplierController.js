@@ -141,29 +141,50 @@ exports.home = async (req, resp, next) =>{
                     }
             ]
             }       
+    }).then(my_store=> {
+
+        console.log(' my_store-before--\n',my_store);
+        // console.log(' my_store----end---');
+    
+        
+        const techpack = my_store.stocks.flatMap(st => st.techpack);
+        
+        const invoices = my_store.stocks.flatMap(st => st.Invoices);
+        //console.log(' my_store----end---',invoices.length);
+    
+        let count_not = 0;
+         techpack.forEach(tp=>{
+            //if(tp.TechpackProcess.status==0) count_not++;
+
+            let processList = db.TechpackProcess.findAll({
+                attributes: ['id', 'duedate','duedate','status','note','type','createdAt','techpackId','stockId'],
+                where: {
+                    techpackId:tp.id,
+                },
+                include: 
+                    [{
+                        model: db.TechpackStock,
+                        as: 'stockprocess'
+                    },
+                    {
+                        model: db.Type
+                        
+                    }]
+            }).then( (processList) =>{
+                return processList;
+            });
+            tp.TechpackProcess = processList;
+         })
+    
+        return resp.render('dashboard/layout/stock',{
+            my_store,
+            process:techpack,
+            invoices,
+            count_not,
+            notification,
+            count_notification
+        });
     });
     
 
-     console.log(' my_store-before--\n',my_store);
-    // console.log(' my_store----end---');
-
-    
-    const techpack = my_store.stocks.flatMap(st => st.techpack);
-    
-    const invoices = my_store.stocks.flatMap(st => st.Invoices);
-    //console.log(' my_store----end---',invoices.length);
-
-    let count_not = 0;
-     techpack.forEach(tp=>{
-        if(tp.TechpackProcess.status==0) count_not++;
-     })
-
-    return resp.render('dashboard/layout/stock',{
-        my_store,
-        process:techpack,
-        invoices,
-        count_not,
-        notification,
-        count_notification
-    });
 }

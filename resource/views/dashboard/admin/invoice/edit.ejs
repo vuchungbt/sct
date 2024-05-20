@@ -24,10 +24,10 @@
 
                         <div class="input-group input-group-outline mb-3 is-filled">
                           <label class="form-label">Choose factory</label>
-                          <select name="toStockId" class="form-control">
+                          <select disabled name="toStockId" class="form-control">
                             <% supplierList.forEach((element)=> { %>
                               <option value="<%= element.id %>">
-                                <%= element.type %>-<%= element.name %>
+                                <%= element.name %> - <%= element.id %>
                               </option>
                               <% }) %>
                           </select>
@@ -57,6 +57,7 @@
                             </option>
                             <option <%=invoice.status=="A paft" ? 'selected' : '' %> value="A paft">A paft</option>
                             <option <%=invoice.status=="Done" ? 'selected' : '' %> value="Done">Done</option>
+                            <option <%=invoice.status=="Canncel" ? 'selected' : '' %> value="Canncel">Canncel</option>
                           </select>
                         </div>
                       </div>
@@ -70,7 +71,8 @@
                     </div>
                     <div class="input-group input-group-outline mb-3 is-filled">
                       <label class="form-label">note</label>
-                      <input type="text" class="form-control" name="note" value="<%= invoice.note %>">
+                      <textarea type="text" class="form-control" name="note" placeholder="note"
+                            rows="4"><%= invoice.note %></textarea>
                     </div>
 
                     <table style="border: 1px solid #e91e63;"
@@ -81,53 +83,42 @@
                           <th>Name</th>
                           <th>Quantity</th>
                           <th>Price</th>
+                          <th>Type</th>
+                          <th>action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <% invoice.techpacks.forEach((element,key)=> { %>
+                        <% details.forEach((element,key)=> { %>
                           <tr>
                             <td>
                               <%= element.id %>
                             </td>
                             <td>
-                              <%= element.id %>
+                              <%= element.techpack.name %>
                             </td>
                             <td>
-                              <%= element.name %>
+                              <%= element.quantity %>
+                            </td>
+                            <td>
+                              <%= element.price %>
+                            </td>
+                            <td>
+                              <%= element.type %>
                             </td>
 
                             <td style="display: flex;">
-                              <a href="invoice/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
+                              <a href="../../invoice/item/update/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
                               &nbsp;
-                              <form action="invoice/delete/<%= element.id %>" method="POST">
+                              <form action="../../invoice/item/delete/<%= element.id %>" method="POST">
+                                <input type="hidden" name="invoiceId" value="<%=invoice.id%>" >
                                 <button type="submit" class="btn btn-sm btn-danger">x</button>
                               </form>
                             </td>
                           </tr>
                           <% }) %>
-
-                          <% invoice.techpacks.forEach((element,key)=> { %>
-                            <tr>
-                              <td>
-                                <%= element.id %>
-                              </td>
-                              <td>
-                                <%= element.id %>
-                              </td>
-                              <td>
-                                <%= element.name %>
-                              </td>
-  
-                              <td style="display: flex;">
-                                <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                &nbsp;
-                                  <button class="btn btn-sm btn-danger">x</button>
-                              </td>
-                            </tr>
-                            <% }) %>
                           <tr>
                             <td>
-                              <a  class="btn bg-gradient-info" href="#"> + </a></td>
+                              <a  class="btn bg-gradient-info" href="../../invoice/store_of_edit/<%=invoice.id%>"> + </a></td>
                           </tr>
                           
                       </tbody>
