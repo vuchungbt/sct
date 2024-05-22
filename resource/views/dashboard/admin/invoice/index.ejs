@@ -53,7 +53,7 @@
                                                         <td>
                                                             <%= element.typePayment %>
                                                         </td>
-                                                        <td>
+                                                        <td class="<%=element.status=='Cancel' ?'text-danger':'' %> <%=element.status=='Done' ?'text-info':'' %>">
                                                             <%= element.status %>
                                                         </td>
                                                         <td style="display: flex;">

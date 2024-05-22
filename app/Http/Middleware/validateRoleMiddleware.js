@@ -1,20 +1,19 @@
 class ValidateRoleMiddleware{
   static validateRole(role) {
-    console.log("validateRole",role);
+
     return async (req, res, next) => {
       //try {
-        console.log("rolesss::",role,req.session.roles,req.session.roles.includes(role));
-        if(req.session.roles.includes(role)){
+       // console.log("rolesss::",role,req.session.roles,req.session.roles.includes(role));
+
+        if(role.includes(req.session.roles)){
           console.log("rolss",role);
           return next();
-        }else{
+        }
+        else {
           return res.status(401).render('errors/401',{
             errorMessage: "401 Unauthorized Access!!"
           });
-        }        
-      // } catch (error) {
-      //    throw new Error(401);
-      // }      
+        }         
     }
   }
 }

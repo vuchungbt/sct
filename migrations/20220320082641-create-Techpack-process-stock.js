@@ -36,6 +36,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER,
         defauleValue:0
+      } , 
+      groupID : {
+        allowNull: true,
+        type: Sequelize.STRING
       } ,   
       note : {
         allowNull: true,

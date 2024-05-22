@@ -1,77 +1,98 @@
-<%- include('../../common/header') %> 
-<%- include('../../common/side-bar') %>
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar') %>
 
-<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <%- include('../../common/navbar') %>
-    <div class="container-fluid py-4">
-      <div class="row">
-        <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                  <h6 class="text-white text-capitalize ps-3">Item table</h6>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
+          <div class="row">
+            <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+              <div class="card">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Item table</h6>
+                  </div>
+                </div>
+                <div class="card-body py-3 pb-2">
+                  <%- include('../../../errors/flash-message') %>
+                    <table id="tb" class="table align-items-center justify-content-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Category</th>
+                          <th>Sub-category</th>
+                          <th>Quantity</th>
+                          <th>Seasion</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% techpackList.forEach((element,key)=> { %>
+                          <tr>
+                            <td>
+                              <%= element.id %>
+                            </td>
+                            <td><a href="warehouse/detail/<%= element.id %>" class="text-primary">
+                                <%= element.name %>
+                              </a></td>
+                            <td>
+                              <%= element.category.name %>
+                            </td>
+                            <td>
+                              <%= element.sub_category !==null ? element.sub_category.name : '' %>
+                            </td>
+                            <td>
+                              <%= element.quantity %>
+                            </td>
+                            <td>
+                              <%= element.seasion %>
+                            </td>
+                            <td>
+                              <span class="btn btn-sm btn-info">
+                                <% if (element.status==0) { %>
+                                  new techpack
+                                  <% } else if (element.status==1) { %>
+                                    confirmed
+                                    <% } else if (element.status==2) { %>
+                                      processing
+                                      <% } else if (element.status==3) { %>
+                                        done processing
+                                        <% } else if (element.status==4) { %>
+                                          approved
+                                          <% } else if (element.status==5) { %>
+                                            product
+                                            <% } else if (element.status==7) { %>
+                                              cancel
+                                            <% } else { %>
+                                              draft
+                                              <% } %>
+                              </span>
+                            </td>
+                            <td style="display: flex;">
+                              <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
+                              &nbsp;
+                              <form action="techpack/delete/<%= element.id %>" method="POST">
+                                <button type="submit" class="btn btn-sm btn-danger"><i
+                                    class="material-icons">close</i></button>
+                              </form>
+                            </td>
+                          </tr>
+                          <% }) %>
+                      </tbody>
+                    </table>
                 </div>
               </div>
-            <div class="card-body py-3 pb-2">
-                <%- include('../../../errors/flash-message')  %>
-                <table id="tb" class="table align-items-center justify-content-center mb-0">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Sub-category</th>
-                            <th>Quantity</th>
-                            <th>Seasion</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% techpackList.forEach((element,key) => { %>
-                            <tr>
-                                <td><%= element.id %></td>
-                                <td><a href="warehouse/detail/<%= element.id %>" class="text-primary"><%= element.name %></a></td>
-                                <td><%= element.category.name %></td>
-                                <td><%= element.sub_category !== null ? element.sub_category.name : '' %></td>
-                                <td><%= element.quantity %></td>
-                                <td><%= element.seasion %></td>
-                                <td>
-                                    <span class="btn btn-sm btn-info"><% if (element.status==0) { %>
-                                        new techpack
-                                        <% } else if (element.status==1) { %>
-                                          confirmed
-                                          <% } else if (element.status==2) { %>
-                                            processing
-                                            <% } else if (element.status==3) { %>
-                                              product
-                                              <% } else { %>
-                                                draft
-                                            <% }  %></span>
-                                </td>
-                                <td style="display: flex;">
-                                    <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
-                                    &nbsp;
-                                    <form action="techpack/delete/<%= element.id %>" method="POST">
-                                         <button type="submit" class="btn btn-sm btn-danger"><i class="material-icons">close</i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
             </div>
+          </div>
         </div>
-        </div>
-        </div>
-    </div>
-</main>
+    </main>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/v/dt/dt-2.0.6/datatables.min.js">
-</script>
-<script >
-   $("#tb").DataTable();
-</script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-2.0.6/datatables.min.js">
+    </script>
+    <script>
+      $("#tb").DataTable();
+    </script>
 
-<%- include('../../common/footer') %> 
+    <%- include('../../common/footer') %>

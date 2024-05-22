@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       models.User.hasMany(models.Techpack, {
         foreignKey: 'createById'
       });
+      models.User.hasMany(models.Techpack, {
+        foreignKey: 'verifyById'
+      });
       models.User.hasMany(models.Invoice, {
         foreignKey: 'createdById'
       });

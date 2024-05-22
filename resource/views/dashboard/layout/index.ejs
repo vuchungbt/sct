@@ -95,17 +95,18 @@
             <div class="card">
               <div class="card-header p-3 pt-2">
                 <div
-                  class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                  <i class="material-icons opacity-10">weekend</i>
+                  class="icon icon-lg icon-shape bg-gradient-info shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">person</i>
                 </div>
                 <div class="text-end pt-1">
-                  <p class="text-sm mb-0 text-capitalize">Techpack</p>
-                  <h4 class="mb-0">24</h4>
+                  <p class="text-sm mb-0 text-capitalize">Users</p>
+                  <h4 class="mb-0"><%=countDisable+countActive%></h4>
                 </div>
               </div>
               <hr class="dark horizontal my-0">
               <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">Need verify: </span> 1000</p>
+                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">Need verify: </span> <%=countDisable%> <span class="float-lg-end text-info text-sm font-weight-bolder">Active: <%=countActive%> </span>  </p>
+                
               </div>
             </div>
           </div>
@@ -114,16 +115,16 @@
               <div class="card-header p-3 pt-2">
                 <div
                   class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                  <i class="material-icons opacity-10">person</i>
+                  <i class="material-icons opacity-10">weekend</i>
                 </div>
                 <div class="text-end pt-1">
                   <p class="text-sm mb-0 text-capitalize">Items</p>
-                  <h4 class="mb-0">2,300</h4>
+                  <h4 class="mb-0"><%=countItem%></h4>
                 </div>
               </div>
               <hr class="dark horizontal my-0">
               <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than lask month</p>
+                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+ <%=countItem_processing%> </span>processing</p>
               </div>
             </div>
           </div>
@@ -136,12 +137,12 @@
                 </div>
                 <div class="text-end pt-1">
                   <p class="text-sm mb-0 text-capitalize">Invoices</p>
-                  <h4 class="mb-0">3,462</h4>
+                  <h4 class="mb-0"><%=countInvoice%></h4>
                 </div>
               </div>
               <hr class="dark horizontal my-0">
               <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
+                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder"><%=countInvoiceNoDone%></span> awaiting ...</p>
               </div>
             </div>
           </div>

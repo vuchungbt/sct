@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'confirmById',
         as : 'confirmby'
       });
+      models.Techpack.belongsTo(models.User, {
+        foreignKey: 'verifyById',
+        as : 'verifyby'
+      });
       models.Techpack.belongsTo(models.TechpackCloth, {
         foreignKey: 'clothId',
         as : 'cloth'
@@ -41,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
       models.Techpack.hasMany(models.InvoiceDeltail, {
         foreignKey: 'techpackId',
         as :'techpack'
+      });
+      models.Techpack.hasMany(models.TechpackProcess, {
+        foreignKey: 'techpackId',
+        as :'techpackDetail'
       });
     }
   }

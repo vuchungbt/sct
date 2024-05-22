@@ -50,6 +50,28 @@ exports.resetinfo = async (req, res, next) => {
         return next(error);
     }); 
 }
+
+exports.updatepw_info = async (req, res, next) => { 
+    res.render('dashboard/admin/user/changepw',{
+        pageTitle: "Reset password"
+    // });    
+    });
+}
+exports.changeinfo = async (req, res, next) => { 
+    await db.User.findByPk(req.params.id)
+        .then((result) => {           
+            // .then( (roles,result) =>{
+                res.render('dashboard/admin/user/changeinfo',{
+                pageTitle: "Reset password",
+                errorMessage: null,
+                user: result
+            // });    
+            });
+    })
+    .catch(err => {
+        throw new Error(err);
+    }); 
+}
 exports.resetpw = async (req,res,next) => {
      await bcrypt.hash(req.body.password,12)
     .then(passwordHash => { 
@@ -73,6 +95,32 @@ exports.resetpw = async (req,res,next) => {
     })
        
 }
+exports.updatepw = async (req,res,next) => {
+
+    
+
+    await bcrypt.hash(req.body.password,12)
+   .then(passwordHash => { 
+       
+       db.User.update( {'password': passwordHash},{
+           where: {
+               id: req.params.id
+           }
+       })
+       .then((result) => {
+           historyLogged(req.session.username,'reset password',LogConstant.SUCCESS ,req.params.id);
+          
+           req.flash('success', `Reset password successfully!`);
+           res.status(200).redirect('/users');
+       })
+       .catch(error =>{
+           historyLogged(req.session.username,'reset password',LogConstant.FAILED,error.message );
+         
+           throw new Error(error);
+       }); 
+   })
+      
+}
 exports.edit = async (req, res, next) => {
     let roles = await db.Role.findAll()
                 .then( (roles) =>{
@@ -80,7 +128,8 @@ exports.edit = async (req, res, next) => {
                 });
     await db.User.findByPk(req.params.id,{
         include: {
-          model: db.Role
+          model: db.Role,
+          as : 'role'
         }
       })
         .then((result) => {           
@@ -89,7 +138,7 @@ exports.edit = async (req, res, next) => {
                 pageTitle: "Add User",
                 errorMessage: null,
                 user: result,
-                role: result.Role.name,
+                role: result.role.name,
                 roleList: roles
             // });    
             });
@@ -144,6 +193,7 @@ exports.store = async (req,res,next) => {
 }
 
 exports.update = (req,res,next) => {
+    const isChange = req.body.isChange;
     db.User.update(req.body,{
         where: {
             id: req.params.id
@@ -151,9 +201,16 @@ exports.update = (req,res,next) => {
     })
     .then((result) => {
         historyLogged(req.session.username,'update user',LogConstant.SUCCESS ,req.params.id);
+        if(isChange==1) {
+            req.flash('success', `User update ${ req.body.name } successfully!`);
+            res.status(200).redirect('/superuser/changeinfo/'+req.params.id);
             
-        req.flash('success', `User update ${ req.body.name } successfully!`);
-        res.status(200).redirect('/users');
+        }   else {
+
+            req.flash('success', `User update ${ req.body.name } successfully!`);
+            res.status(200).redirect('/users'); 
+        }
+        
     })
     .catch(error =>{
         historyLogged(req.session.username,'update user',LogConstant.FAILED,error.message );

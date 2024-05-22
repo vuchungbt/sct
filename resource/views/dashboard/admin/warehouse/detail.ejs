@@ -120,7 +120,9 @@
                             value="<% if (techpack.status==0) { %>new techpack<% } else
                              if (techpack.status==1) { %> confirmed <% } else
                               if (techpack.status==2) { %> processing <% } else
-                               if (techpack.status==3) { %> product <% } 
+                              if (techpack.status==3) { %> done processing <% } else
+                              if (techpack.status==4) { %> approved <% } else
+                               if (techpack.status==5) { %> product <% } 
                                else { %> draft <% }  %>
                               ">
                           </div>

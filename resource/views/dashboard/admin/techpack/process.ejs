@@ -3,6 +3,7 @@
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
       <%- include('../../common/navbar') %>
+      <a href="../../techpack/edit/<%=techpack.id%>"><p>Back</p> </a>
         <div class="container-fluid py-4">
 
           <div class="row">
@@ -11,15 +12,30 @@
 
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Add Process</h6>
+                    <h6 class="text-white text-capitalize ps-3">Process</h6>
                   </div>
                 </div>
                 <div class="card-body px-3 pb-2">
                   <%- include('../../../errors/flash-message') %>
+                  <p class="m-2">Request</p>
+                  <div style="display: flex;">
+                    <% if(techpack.status==1){%> 
+                    <form action="../../techpack_process/alldone" method="POST">
+                      <input type="hidden" class="form-control" name="techpackId" value="<%=techpack.id%>">
+                      <button type="submit" class="btn btn-sm btn-success btn-lg mx-1">Done Process</button>
+                    </form>
+                    <%} else if(techpack.status==4){%> 
+                      <form action="../../techpack/product" method="POST">
+                        <input type="hidden" class="form-control" name="techpackId" value="<%=techpack.id%>">
+                        <button type="submit" class="btn btn-sm bg-gradient-primary btn-lg mx-1">Complete product</button>
+                      </form>
+                      <%}%>
+                  </div>
+                  <p class="m-2">Add process</p>
                     </form>
                     <form action="/techpack/process_first" method="POST">
 
-                      <button type="submit" class="btn btn-sm btn-info" style="float: right;">Add</button>
+                      <button type="submit" <%=techpack.status==0 ||techpack.status==3?'disabled':''%> class="btn btn-sm btn-info" style="float: right;">Add</button>
                       <div class="row">
                         <div class="col-md-5">
                           <div class="input-group input-group-outline mb-3 is-filled ">
@@ -58,78 +74,88 @@
                       </div>
                     </form>
 
-
-                    <table id="tb_process" class="table align-items-center justify-content-center mb-0">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Factory</th>
-                          <th>Duedate</th>
-                          <th>Complete</th>
-                          <th>Note</th>
-                          <th>Type</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% processList.forEach((element)=> { %>
-                          <tr class="<%=element.status==4?'bg-gradient-info text-white':''%>">
-                            <td>
-                              <%= element.id %>
-                            </td>
-                            <td>
-                              <%= element.stockprocess.type %>-<%= element.stockprocess.name %>
-                            </td>
-                            <td class="duedate">
-                              <%= element.duedate %>
-                            </td>
-                            <td class="completeddate">
-                              <%= element.completeddate %>
-                            </td>
-
-                            <td>
-                              <!-- Button trigger modal -->
-                              <a type="button" class="note" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                data-notex="<%= element.note %>"><i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                              </a>
-                            </td>
-                            <td class="">
-                              <%= element.Type.name %>
-                            </td>
-                            <td>
-                              <span>
-                                <% if (element.status==0) { %>
-                                  Not started
-                                  <% } else if (element.status==1) { %>
-                                    Open
-                                    <% } else if (element.status==2) { %>
-                                      Processing
-                                      <% } else if (element.status==3) { %>
-                                        On hold
-                                        <% } else if (element.status==4) { %>
-                                          Completed
-                                          <% } else if (element.status==5) { %>
-                                            Cancelled
-                                            <% } %>
-                              </span>
-                            </td>
-                            <td style="display: flex;">
-                              <a href="../../techpack_process/update/<%= element.id %>">
-                              <i class="fa fa-pencil-square-o p-2" aria-hidden="true"></i> </a>
-                              
-                              <form action="../../techpack_process/delete/<%= element.id %>" method="POST">
-                                <input type="hidden" class="form-control" name="techpackId" value="<%=element.techpackId%>">
-                                <button type="submit" class="btn btn-sm btn-danger"><i
-                                    class="material-icons">close</i></button>
-                              </form>
-                            </td>
-                          </tr>
-                          <% }) %>
-                      </tbody>
-                    </table>
                 </div>
+
               </div>
+              <% groups.forEach((processList_new)=> { %>
+
+                <div class="card mt-1">
+                  <span style="margin-left: 10px;"
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <%=processList_new[0].groupID%>
+                  </span>
+                  <table class="table align-items-center justify-content-center" style="margin-bottom:0em !important">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Factory</th>
+                        <th>Duedate</th>
+                        <th>Complete</th>
+                        <th>Note</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% processList_new.forEach((element)=> { %>
+                        <tr>
+                          <td>
+                            <%= element.id %>
+                          </td>
+                          <td>
+                            <%= element.stockprocess.type %>-<%= element.stockprocess.name %>
+                          </td>
+                          <td class="duedate">
+                            <%= element.duedate %>
+                          </td>
+                          <td class="completeddate">
+                            <%= element.completeddate %>
+                          </td>
+
+                          <td>
+                            <!-- Button trigger modal -->
+                            <a type="button" class="note" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                              data-notex="<%= element.note %>"><i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                            </a>
+                          </td>
+                          <td class="">
+                            <%= element.Type.name %>
+                          </td>
+                          <td>
+                            <span class="<%=element.status==4?'text-danger':''%>">
+                              <% if (element.status==0) { %>
+                                Not started
+                                <% } else if (element.status==1) { %>
+                                  Open
+                                  <% } else if (element.status==2) { %>
+                                    Processing
+                                    <% } else if (element.status==3) { %>
+                                      On hold
+                                      <% } else if (element.status==4) { %>
+                                        Completed
+                                        <% } else if (element.status==5) { %>
+                                          Cancelled
+                                          <% } %>
+                            </span>
+                          </td>
+                          <td style="display: flex;">
+                            <a href="../../techpack_process/update/<%= element.id %>">
+                              <i class="fa fa-pencil-square-o p-2" aria-hidden="true"></i> </a>
+
+                            <form action="../../techpack_process/delete/<%= element.id %>" method="POST">
+                              <input type="hidden" class="form-control" name="techpackId"
+                                value="<%=element.techpackId%>">
+                              <button type="submit" class="btn btn-sm btn-danger"><i
+                                  class="material-icons">close</i></button>
+                            </form>
+                          </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+                <% }) %>
             </div>
           </div>
         </div>

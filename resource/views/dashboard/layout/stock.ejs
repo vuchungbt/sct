@@ -90,82 +90,7 @@
         </div>
       </nav>
       <!-- End Navbar -->
-      <div class="container-fluid py-4">
-        <div class="row">
-          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-              <div class="card-header p-3 pt-2">
-                <div
-                  class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                  <i class="material-icons opacity-10">weekend</i>
-                </div>
-                <div class="text-end pt-1">
-                  <p class="text-sm mb-0 text-capitalize">Techpack</p>
-                  <h4 class="mb-0">24</h4>
-                </div>
-              </div>
-              <hr class="dark horizontal my-0">
-              <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">Need verify: </span> 1000</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-              <div class="card-header p-3 pt-2">
-                <div
-                  class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                  <i class="material-icons opacity-10">person</i>
-                </div>
-                <div class="text-end pt-1">
-                  <p class="text-sm mb-0 text-capitalize">Items</p>
-                  <h4 class="mb-0">2,300</h4>
-                </div>
-              </div>
-              <hr class="dark horizontal my-0">
-              <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than lask month</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-              <div class="card-header p-3 pt-2">
-                <div
-                  class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                  <i class="material-icons opacity-10">person</i>
-                </div>
-                <div class="text-end pt-1">
-                  <p class="text-sm mb-0 text-capitalize">Invoices</p>
-                  <h4 class="mb-0">3,462</h4>
-                </div>
-              </div>
-              <hr class="dark horizontal my-0">
-              <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6">
-            <div class="card">
-              <div class="card-header p-3 pt-2">
-                <div
-                  class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                  <i class="material-icons opacity-10">weekend</i>
-                </div>
-                <div class="text-end pt-1">
-                  <p class="text-sm mb-0 text-capitalize">Money</p>
-                  <h4 class="mb-0">$103,430</h4>
-                </div>
-              </div>
-              <hr class="dark horizontal my-0">
-              <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div class="container-fluid">
         <div class="row mt-4 mb-4">
           <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
             <div class="card">
@@ -186,9 +111,9 @@
                         <i class="fa fa-ellipsis-v text-secondary"></i>
                       </a>
                       <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;">More</a></li>
+                        <!-- <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li> -->
                       </ul>
                     </div>
                   </div>
@@ -202,6 +127,8 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Techpack</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DueDay
                         </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Work Type
+                        </th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                           Status</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -209,7 +136,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <%process.forEach(element=> { %>
+                      <%process.reverse().forEach(element=> { %>
                         <tr>
                           <td>
                             <div class="d-flex px-2 py-1">
@@ -219,33 +146,36 @@
 
                                 <h6 class="mb-0 text-sm">
                                   <!-- Button trigger modal -->
-                                  <a type="button" class="note" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                    data-notex="<%= element.note %>">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                  </a>
-                                  <%=element.name%>
+                                  <a href="supplier_process/update/<%=element.id%>"> 
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                  <%=element.techpackDetail.name%>
                                 </h6>
                               </div>
                             </div>
                           </td>
                           <td>
                             <div class="mb-0 text-sm duedate">
-                              <%=element.TechpackProcess.duedate%>
+                              <%=element.duedate%>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="mb-0 text-sm duedate">
+                              <%=element.Type.name%>
                             </div>
                           </td>
                           <td class="align-middle text-center text-sm">
                             <span class="text-xs font-weight-bold">
-                              <% if (element.TechpackProcess.status==0) { %>
+                              <% if (element.status==0) { %>
                                 Not started
-                                <% } else if (element.TechpackProcess.status==1) { %>
+                                <% } else if (element.status==1) { %>
                                   Open
-                                  <% } else if (element.TechpackProcess.status==2) { %>
+                                  <% } else if (element.status==2) { %>
                                     Processing
-                                    <% } else if (element.TechpackProcess.status==3) { %>
+                                    <% } else if (element.status==3) { %>
                                       On hold
-                                      <% } else if (element.TechpackProcess.status==4) { %>
+                                      <% } else if (element.status==4) { %>
                                         Completed
-                                        <% } else if (element.TechpackProcess.status==5) { %>
+                                        <% } else if (element.status==5) { %>
                                           Cancelled
                                           <% } %>
                             </span>
@@ -278,9 +208,12 @@
                       </span>
                       <div class="timeline-content">
                         <h6 class="text-dark text-sm font-weight-bold mb-0">
+                          <a href="#"> 
+                            
                           <%=element.name%>
+                        </a>
                         </h6>
-                        <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"> Process:
+                        <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"> Item:
                           <%=element.techpack.length%>
                         </p>
                       </div>
@@ -316,9 +249,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% invoices.forEach((element,key) => { %>
+                        <% invoices.reverse().forEach((element,key) => { %>
                           <tr>
-                              <td><%= element.id %></td>
+                              <td><a href="#"> 
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                <%= element.id %></td>
                               <td><%= element.createdby.name %></td>
                               <td><%= element.total %></td>
                               <td><%= element.typePayment %></td>

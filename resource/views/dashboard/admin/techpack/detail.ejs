@@ -104,8 +104,11 @@
                             value="<% if (techpack.status==0) { %>new techpack<% } else
                              if (techpack.status==1) { %> confirmed <% } else
                               if (techpack.status==2) { %> processing <% } else
-                               if (techpack.status==3) { %> product <% } 
-                               else if(techpack.status==4) { %> draft <% }  %>
+                               if (techpack.status==3) { %> done processing <% } 
+                               if (techpack.status==4) { %> approved <% } else
+                               if (techpack.status==5) { %> product <% } 
+                               if (techpack.status==7) { %> cancel <% } 
+                               else if(techpack.status==6) { %> draft <% }  %>
                               ">
                           </div>
                         </div>
@@ -123,6 +126,41 @@
                             <input type="text" class="form-control" id="updated" name="updated" disabled value="<%= techpack.updatedAt %>">
                           </div>
                         </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Confirm by</label>
+                            <input type="text" class="form-control" disabled id="Confirmby" name="Confirmby"
+                              value="<%=techpack.confirmby !==null ? techpack.confirmby.name : '' %>" >
+                            
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Created</label>
+                            <input disabled type="text" class="form-control" id="created"
+                              value="<%= techpack.createdAt %>">
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Update</label>
+                            <input type="text" class="form-control" disabled id="updated" name="updated"
+                              value="<%= techpack.updatedAt %>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Approved by</label>
+                            <input type="text" class="form-control" disabled id="verifyby" name="verifyby"
+                              value="<%=techpack.verifyby !==null ? techpack.verifyby.name : '' %>">
+                          </div>
+                        </div>
+
                       </div>
                       <div class="input-group input-group-outline mb-3 ">
                         <textarea rows="6" disabled type="text" class="form-control" name="history"

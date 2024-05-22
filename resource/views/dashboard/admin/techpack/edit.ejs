@@ -22,14 +22,29 @@
                   <div class="row">
                     
                     <div class="col-md-12">
-                      <div style="display: flex;"> <% if (roles=='manager' || roles=='admin')  if (techpack.status==0){ %>
+                      
+                      <div style="display: flex;"> <% if (roles=='manager' || roles=='admin') 
+                         if (techpack.status==0){ %>
                         <form action="../../techpack/confirm/<%= techpack.id %>" method="POST">
                           <input type="hidden" name="createById" value="<%= techpack.createById %>"></button>
-                          <button type="submit" class="btn btn-sm btn-success">Confirm</button>
+                          <button type="submit" class="btn btn-sm btn-success mx-1">Confirm</button>
+                        </form>
+                        <% } else if (techpack.status==2){ %>
+
+                          <form action="../../techpack_process/alldone" method="POST">
+                            <input type="hidden" class="form-control" name="techpackId" value="<%=techpack.id%>">
+                            <button type="submit" class="btn btn-sm btn-success mx-1">Done Process</button>
+                          </form>
+                       <% } else if (techpack.status==3){ %>
+                        <form action="../../techpack/verify/<%= techpack.id %>" method="POST">
+                          <input type="hidden" name="createById" value="<%= techpack.createById %>"></button>
+                          <button type="submit" class="btn btn-sm btn-success mx-1">Verify</button>
                         </form>
                         <%} else { %>
-                        <a href="../../techpack/process/<%= techpack.id %>" class="btn btn-sm btn-info">Request process</a>
+                        
                         <%} %> 
+                        <a href="../../techpack/process/<%= techpack.id %>" class="btn btn-sm btn-info mx-1">All process</a>
+                        
                       </div> 
                     </div>
                   </div>
@@ -126,15 +141,25 @@
                               </select>
                             </div>
                             <div class="input-group input-group-outline mb-3 is-filled">
-                              <label class="form-label">Confirm by</label>
-                              <select name="confirmById" class="form-control">
-                                <option disabled value="" selected>----</option>
-                                <% usersList.forEach(element=> { %>
-                                  <option <%=techpack !==null && techpack.confirmby !==null &&
-                                    techpack.confirmby.id==element.id ? 'selected' : '' %> value="<%= element.id %>">
-                                      <%= element.name %>
-                                  </option>
-                                  <% }) %>
+                              
+                              <label class="form-label">Status</label>
+                              <select id="stt" name="status" class="form-control">
+                                <option <%=techpack !==null && techpack.status==0 ? 'selected' : '' %> value="0">
+                                  new techpack</option>
+                                <option <%=techpack !==null && techpack.status==1 ? 'selected' : '' %> value="1">
+                                  confirmed</option>
+                                <option <%=techpack !==null && techpack.status==2 ? 'selected' : '' %> value="2">
+                                  processing</option>
+                                  <option <%=techpack !==null && techpack.status==3 ? 'selected' : '' %> value="3">
+                                    done processing</option>
+                                  <option <%=techpack !==null && techpack.status==4 ? 'selected' : '' %> value="4">
+                                    approved</option>
+                                <option <%=techpack !==null && techpack.status==5 ? 'selected' : '' %> value="5">
+                                  product</option>
+                                <option <%=techpack !==null && techpack.status==6 ? 'selected' : '' %> value="6">
+                                  draft</option>
+                                  <option <%=techpack !==null && techpack.status==7 ? 'selected' : '' %> value="7">
+                                    cancel</option>
                               </select>
                             </div>
                           </div>
@@ -182,21 +207,18 @@
                           <textarea type="text" class="form-control" name="description" placeholder="description"
                             rows="5"><%= techpack.description %></textarea>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                           <div class="col-md-4">
                             <div class="input-group input-group-outline mb-3 is-filled">
-                              <label class="form-label">Status</label>
-                              <select id="stt" name="status" class="form-control">
-                                <option <%=techpack !==null && techpack.status==0 ? 'selected' : '' %> value="0">
-                                  new techpack</option>
-                                <option <%=techpack !==null && techpack.status==1 ? 'selected' : '' %> value="1">
-                                  confirmed</option>
-                                <option <%=techpack !==null && techpack.status==2 ? 'selected' : '' %> value="2">
-                                  processing</option>
-                                <option <%=techpack !==null && techpack.status==3 ? 'selected' : '' %> value="3">
-                                  product</option>
-                                <option <%=techpack !==null && techpack.status==4 ? 'selected' : '' %> value="4">
-                                  draft</option>
+                              <label class="form-label">Confirm by</label>
+                              <select disabled name="confirmById" class="form-control">
+                                <option disabled value="" selected>----</option>
+                                <% usersList.forEach(element=> { %>
+                                  <option <%=techpack !==null && techpack.confirmby !==null &&
+                                    techpack.confirmby.id==element.id ? 'selected' : '' %> value="<%= element.id %>">
+                                      <%= element.name %>
+                                  </option>
+                                  <% }) %>
                               </select>
                             </div>
                           </div>
@@ -216,10 +238,27 @@
                             </div>
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="input-group input-group-outline mb-3 is-filled ">
+                              <label class="form-label">Approved by</label>
+                              <select disabled name="verifyById" class="form-control">
+                                <option disabled value="" selected>----</option>
+                                <% usersList.forEach(element=> { %>
+                                  <option <%=techpack !==null && techpack.verifyby !==null &&
+                                    techpack.verifyby.id==element.id ? 'selected' : '' %> value="<%= element.id %>">
+                                      <%= element.name %>
+                                  </option>
+                                  <% }) %>
+                              </select>
+                            </div>
+                          </div>
+
+                        </div> -->
                         <div id="reason" class="input-group input-group-outline mb-3 is-filled">
                           <label class="form-label" for="image_a">reason</label>
                           <textarea type="text" class="form-control" name="reason" placeholder="reason"
-                            rows="2"><%= techpack.reason %></textarea>
+                            rows="4"><%= techpack.reason %></textarea>
                         </div>
 <!--
                         <div class="row">

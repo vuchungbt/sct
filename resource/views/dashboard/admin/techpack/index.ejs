@@ -26,12 +26,12 @@
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
-                      </thead> 
+                      </thead>
                       <tbody>
-                        <% techpackList.forEach((element,key)=> { if(element.createById == userId ) { %>
+                        <%  techpackList.forEach((element,key)=> { if(element.createById == userId ) { %>
                           <tr>
                             <td>
-                              <%= element.id %> 
+                              <%= element.id %>
                             </td>
                             <td><a href="techpack/detail/<%= element.id %>" class="text-primary">
                                 <%= element.name %>
@@ -46,7 +46,7 @@
                               <%= element.seasion %>
                             </td>
                             <td>
-                              <span class="btn btn-sm btn-info">
+                              <span class="btn btn-sm <%=element.status==7?'btn-danger':'btn-info' %>">
                                 <% if (element.status==0) { %>
                                   new techpack
                                   <% } else if (element.status==1) { %>
@@ -54,21 +54,35 @@
                                     <% } else if (element.status==2) { %>
                                       processing
                                       <% } else if (element.status==3) { %>
-                                        product
-                                        <% } else { %>
-                                          draft
-                                          <% }  %>
+                                        done processing
+                                        <% } else if (element.status==4) { %>
+                                          appvoed
+                                          <% } else if (element.status==5) { %>
+                                            product
+                                            <% } else if (element.status==6) { %>
+                                              draft
+                                              <% } else { %>
+                                                cancel
+                                                <% } %>
                               </span>
                             </td>
                             <td style="display: flex;">
-                              <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
-                              &nbsp;
-                              <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
-                              &nbsp;
-                              <form action="techpack/delete/<%= element.id %>" method="POST">
+                              <% if(element.status!=7){%>
+                                <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
+                                &nbsp;
+                                <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
+                                &nbsp;
+                                <%} else {%>
+                                  <a type="button" class="btn btn-sm bg-gradient-secondary note" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-notex="<%= element.reason %>"><i
+                                      class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                  </a>
+                                  <%}%>
+
+                                    <!-- <form action="techpack/delete/<%= element.id %>" method="POST">
                                 <button type="submit" class="btn btn-sm btn-danger"><i
                                     class="material-icons">close</i></button>
-                              </form>
+                              </form> -->
                             </td>
                           </tr>
                           <% } }) %>
@@ -87,65 +101,74 @@
                   </div>
                 </div>
                 <div class="card-body ">
-                    <table id="tb_item" class="table align-items-center justify-content-center mb-0">
-                      <thead>
+                  <table id="tb_item" class="table align-items-center justify-content-center mb-0">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Sub-category</th>
+                        <th>Seasion</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% techpackList.forEach((element)=> { %>
                         <tr>
-                          <th>ID</th>
-                          <th>Name</th>
-                          <th>Category</th>
-                          <th>Sub-category</th>
-                          <th>Seasion</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% techpackList.forEach((element)=> { %>
-                          <tr>
-                            <td>
-                              <%= element.id %>
-                            </td>
-                            <td><a href="techpack/detail/<%= element.id %>" class="text-primary">
-                                <%= element.name %>
-                              </a></td>
-                            <td>
-                              <%= element.category.name %>
-                            </td>
-                            <td>
-                              <%= element.sub_category !==null ? element.sub_category.name : '' %>
-                            </td>
-                            <td>
-                              <%= element.seasion %>
-                            </td>
-                            <td>
-                              <span class="btn btn-sm btn-info">
-                                <% if (element.status==0) { %>
-                                  new techpack
-                                  <% } else if (element.status==1) { %>
-                                    confirmed
-                                    <% } else if (element.status==2) { %>
-                                      processing
-                                      <% } else if (element.status==3) { %>
-                                        product
-                                        <% } else { %>
-                                          draft
-                                          <% } %>
-                              </span>
-                            </td>
-                            <td style="display: flex;">
+                          <td>
+                            <%= element.id %>
+                          </td>
+                          <td><a href="techpack/detail/<%= element.id %>" class="text-primary">
+                              <%= element.name %>
+                            </a></td>
+                          <td>
+                            <%= element.category.name %>
+                          </td>
+                          <td>
+                            <%= element.sub_category !==null ? element.sub_category.name : '' %>
+                          </td>
+                          <td>
+                            <%= element.seasion %>
+                          </td>
+                          <td>
+                            <span class="btn btn-sm <%=element.status==7?'btn-danger':'btn-info' %>">
+                              <% if (element.status==0) { %>
+                                new techpack
+                                <% } else if (element.status==1) { %>
+                                  confirmed
+                                  <% } else if (element.status==2) { %>
+                                    processing
+                                    <% } else if (element.status==3) { %>
+                                      done processing
+                                      <% } else if (element.status==4) { %>
+                                        approved
+                                        <% } else if (element.status==5) { %>
+                                          product
+                                          <% } else if (element.status==7) { %>
+                                            cancel
+                                            <% } else { %>
+                                              draft
+                                              <% } %>
+                            </span>
+                          </td>
+                          <td style="display: flex;">
+                            <% if(element.status!=7){%>
                               <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
                               &nbsp;
                               <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
                               &nbsp;
-                              <form action="techpack/delete/<%= element.id %>" method="POST">
-                                <button type="submit" class="btn btn-sm btn-danger"><i
-                                    class="material-icons">close</i></button>
-                              </form>
-                            </td>
-                          </tr>
-                          <%  }) %>
-                      </tbody>
-                    </table>
+                              <%} else {%>
+                                <a type="button" class="btn btn-sm bg-gradient-secondary note" data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal" data-notex="<%= element.reason %>"><i
+                                    class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                </a>
+                                <%}%>
+                          </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -153,12 +176,51 @@
         </div>
     </main>
 
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Note</h5>
+              <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+
+
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-2.0.6/datatables.min.js">
     </script>
     <script>
-      $("#tb").DataTable();
-      $("#tb_item").DataTable();
+      $("#tb").DataTable({
+                "order": [[0, "desc"]] // Default sorting on the first column in descending order
+            });
+      $("#tb_item").DataTable({
+                "order": [[0, "desc"]] // Default sorting on the first column in descending order
+            });
     </script>
-
+    <script>
+      var noteButtons = document.querySelectorAll('.note');
+      const modalBody = document.querySelector('.modal-body');
+      noteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const notexValue = button.getAttribute('data-notex');
+          console.log(`Giá trị của data-notex: ${notexValue}`);
+          modalBody.innerHTML = notexValue;
+        });
+      });
+    </script>
     <%- include('../../common/footer') %>

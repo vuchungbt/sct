@@ -1,6 +1,5 @@
 <%- include('../../common/header') %>
-  <%- include('../../common/side-bar') %>
-
+  <%- include('../../common/side-bar-stock') %>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
       <%- include('../../common/navbar') %>
         <div class="container-fluid py-4">
@@ -20,7 +19,7 @@
                   <%- include('../../../errors/flash-message') %>
 
                     <form action="/techpack_process/update/<%=process.id%>" method="POST">
-
+                      <input type="hidden" name="supplierCode" disabled class="form-control" value="1">
                       <button type="submit" class="btn btn-sm btn-info" style="float: right;">Submit</button>
 
                       <div class="row">
@@ -29,12 +28,13 @@
                             <input type="hidden" name="techpackId" value="<%=process.techpackId%>">
                             <label class="form-label">Choose factory</label>
                             <input type="text" disabled class="form-control" value="<%=process.stockprocess.name%>">
+                            
                           </div>
                         </div>
                         <div class="col-md-2">
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">duedate</label>
-                            <input type="date" class="form-control" name="duedate" value="<%=process.duedate%>">
+                            <input disabled type="date" class="form-control" name="duedate" value="<%=process.duedate%>">
                           </div>
                         </div>
                         <div class="col-md-2">
@@ -52,7 +52,7 @@
                         <div class="col-md-2">
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">groupID</label>
-                            <input type="text" class="form-control" name="groupID" value="<%=process.groupID%>">
+                            <input type="text" disabled class="form-control" name="groupID" value="<%=process.groupID%>">
                           </div>
                         </div>
                         <div class="col-md-2">

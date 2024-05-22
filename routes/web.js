@@ -100,7 +100,10 @@ route.get('/roles',isAuth, roleController.index);
 route.get('/user/create',isAuth ,userController.create);
 route.post('/user/update/:id',isAuth,userController.update);
 route.get('/user/resetpw/:id',isAuth,userController.resetinfo);
+route.get('/superuser/changeinfo/:id',isAuth,userController.changeinfo);
 route.post('/user/resetpw/:id',isAuth,userController.resetpw);
+route.post('/user/updatepw/:id',isAuth,userController.updatepw);
+route.get('/superuserpw/updatepw/:id',isAuth,userController.updatepw_info);
 route.get('/user/edit/:id',isAuth,userController.edit);
 route.post('/user/delete/:id',isAuth,userController.delete);
 route.post('/user/store',
@@ -198,6 +201,8 @@ body('password')
 ,isAuth, role.validateRole("admin") ,supplierController.store);
 route.get('/supplier', isAuth, role.validateRole("admin"), supplierController.index);
 
+route.get('/supplier_process/update/:id',isAuth,supplierController.edit_process);
+
 //Techpack
 route.get('/techpack/create',isAuth ,techpackController.create);
 route.get('/techpack/create/:id',isAuth ,techpackController.create);
@@ -247,10 +252,12 @@ body('password')
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
 ,isAuth, role.validateRole("admin") ,techpackController.store);
-route.get('/techpack', isAuth, role.validateRole("admin"), techpackController.index);
+route.get('/techpack', isAuth, role.validateRole(["admin","user"]), techpackController.index);
 
 route.post('/techpack/upload',isAuth,techpackController.upload);
 route.post('/techpack/confirm/:id',isAuth,techpackController.confirm);
+route.post('/techpack/verify/:id',isAuth,techpackController.verify);
+route.post('/techpack/product',isAuth,techpackController.product);
 route.get('/techpack/process/:id',isAuth,techpackController.process);
 route.get('/techpack/detail/:id',isAuth,techpackController.detail);
 
@@ -258,6 +265,7 @@ route.post('/techpack/process_first',isAuth,techpackController.store_process);
 route.post('/techpack_process/delete/:id',isAuth,techpackController.delete_process);
 route.post('/techpack_process/update/:id',isAuth,techpackController.update_process);
 route.get('/techpack_process/update/:id',isAuth,techpackController.edit_process);
+route.post('/techpack_process/alldone',isAuth,techpackController.process_all_done);
 
 route.post('/notify/click',isAuth,notifyController.updateNotify);
 
@@ -309,7 +317,7 @@ body('password')
 .isLength({min: 5})
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
-,isAuth, role.validateRole("admin") ,categoryController.store);
+,isAuth, role.validateRole(["admin","user"]) ,categoryController.store);
 
 route.post('/category/sublist',
 body('name')
@@ -353,13 +361,13 @@ body('password')
 .isLength({min: 5})
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
-,isAuth, role.validateRole("admin") ,categoryController.store_sub);
+,isAuth ,categoryController.store_sub);
 route.post('/category/delete_sub/:id',isAuth,categoryController.delete_sub);
 route.get('/category/edit_sub/:id',isAuth,categoryController.edit_sub);
 route.post('/category/update_sub/:id',isAuth,categoryController.update_sub);
 route.post('/category/getchild',isAuth,categoryController.getchild);
 
-route.get('/category', isAuth, role.validateRole("admin"), categoryController.index);
+route.get('/category', isAuth, role.validateRole(["admin","user"]), categoryController.index);
 
 //cloth
 route.get('/cloth/create',isAuth ,clothController.create);
@@ -408,8 +416,8 @@ body('password')
 .isLength({min: 5})
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
-,isAuth, role.validateRole("admin") ,clothController.store);
-route.get('/cloth', isAuth, role.validateRole("admin"), clothController.index);
+,isAuth, role.validateRole(["admin","user"]) ,clothController.store);
+route.get('/cloth', isAuth, role.validateRole(["admin","user"]), clothController.index);
 
 //type
 route.get('/type/create',isAuth ,typeController.create);
@@ -458,8 +466,8 @@ body('password')
 .isLength({min: 5})
 .withMessage('Password is minimum 5 charcters long!')
 .bail()    
-,isAuth, role.validateRole("admin") ,typeController.store);
-route.get('/type', isAuth, role.validateRole("admin"), typeController.index);
+,isAuth, role.validateRole(["admin","user"]) ,typeController.store);
+route.get('/type', isAuth, role.validateRole(["admin","user"]), typeController.index);
 route.post('/api/type/getchild',isAuth,typeController.getchild);
 //Invoice
 route.get('/invoice/create',isAuth ,invoiceController.create);
