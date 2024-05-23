@@ -61,8 +61,11 @@
                                                         <td>
                                                             <%= element.id %>
                                                         </td>
-                                                        <td> <a class="text-primary" href="category/detail/<%= element.id %>"><%= element.name %></a>
-                                                            
+                                                        <td> <a class="text-primary"
+                                                                href="category/detail/<%= element.id %>">
+                                                                <%= element.name %>
+                                                            </a>
+
                                                         </td>
                                                         <td>
                                                             <%= element.code %>
@@ -90,11 +93,13 @@
                     </div>
                 </div>
         </main>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="https://cdn.datatables.net/v/dt/dt-2.0.6/datatables.min.js">
         </script>
         <script>
-            $("#tbcate").DataTable();
+            $("#tbcate").DataTable(
+                {
+                    "order": [[0, 'desc']],
+                }
+            );
         </script>
         <!--https://datatables.net/forums/discussion/68595/remove-show-entries remove entities-->
 

@@ -1,5 +1,5 @@
 <%- include('../../common/header') %>
-  <%- include('../../common/side-bar') %>
+  <%- include('../../common/side-bar-stock') %>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
       <%- include('../../common/navbar') %>
@@ -14,7 +14,6 @@
                 </div>
                 <div class="card-body py-3 pb-2">
                   <%- include('../../../errors/flash-message') %>
-                    <a href="techpack/create" class="btn btn-sm btn-info" style="float: right;">Add New Techpack</a>
                     <table id="tb" class="table">
                       <thead>
                         <tr>
@@ -30,17 +29,15 @@
                           </th>
                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status
                           </th>
-                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action
-                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        <% techpackList.forEach((element,key)=> { if(element.createById == userId ) { %>
+                        <% techpackList.forEach((element,key)=> {  %>
                           <tr>
                             <td class=" text-sm align-middle  duedate">
                               <%= element.id %>
                             </td>
-                            <td class="text-sm align-middle  duedate"><a href="techpack/detail/<%= element.id %>"
+                            <td class="text-sm align-middle  duedate"><a href="../stock/view/<%= element.id %>"
                                 class="text-primary">
                                 <%= element.name %>
                               </a></td>
@@ -77,113 +74,10 @@
                                                 <% } %>
                               </span>
                             </td>
-                            <td class="text-sm duedate align-middle " style="display: flex;">
-                              <% if(element.status!=7){%>
-                                <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
-                                &nbsp;
-                                <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
-                                &nbsp;
-                                <%} else {%>
-                                  <a type="button" class="btn btn-sm bg-gradient-secondary note" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-notex="<%= element.reason %>"><i
-                                      class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                                  </a>
-                                  <%}%>
-                            </td>
                           </tr>
-                          <% } }) %>
+                          <%  }) %>
                       </tbody>
                     </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row pt-6">
-            <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
-              <div class="card">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">All Techpack of Item</h6>
-                  </div>
-                </div>
-                <div class="card-body ">
-                  <table id="tb_item" class="table">
-                    <thead>
-                      <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category
-                        </th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Sub-category</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Seasion</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">createdAt
-                        </th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% techpackList.forEach((element)=> { %>
-                        <tr>
-                          <td class=" text-sm align-middle  duedate">
-                            <%= element.id %>
-                          </td>
-                          <td class="text-sm align-middle  duedate"><a href="techpack/detail/<%= element.id %>"
-                              class="text-primary">
-                              <%= element.name %>
-                            </a></td>
-                          <td class="text-sm align-middle  duedate">
-                            <%= element.category.name %>
-                          </td>
-                          <td class=" text-sm align-middle  duedate">
-                            <%= element.sub_category !==null ? element.sub_category.name : '' %>
-                          </td>
-                          <td class=" text-sm align-middle  duedate">
-                            <%= element.seasion %>
-                          </td>
-                          <td class="createdAt align-middle text-sm">
-                            <%= element.createdAt.toLocaleString() %>
-                          </td>
-                          <td class=" text-sm align-middle  duedate">
-                            <span class="btn btn-sm <%=element.status==7?'btn-danger':'btn-info' %>">
-                              <% if (element.status==0) { %>
-                                new techpack
-                                <% } else if (element.status==1) { %>
-                                  confirmed
-                                  <% } else if (element.status==2) { %>
-                                    processing
-                                    <% } else if (element.status==3) { %>
-                                      done processing
-                                      <% } else if (element.status==4) { %>
-                                        approved
-                                        <% } else if (element.status==5) { %>
-                                          product
-                                          <% } else if (element.status==7) { %>
-                                            cancel
-                                            <% } else { %>
-                                              draft
-                                              <% } %>
-                            </span>
-                          </td>
-                          <td class="text-sm duedate align-middle " style="display: flex;">
-                            <% if(element.status!=7){%>
-                              <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
-                              &nbsp;
-                              <a href="techpack/edit/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
-                              &nbsp;
-                              <%} else {%>
-                                <a type="button" class="btn btn-sm bg-gradient-secondary note" data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal" data-notex="<%= element.reason %>"><i
-                                    class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                                </a>
-                                <%}%>
-                          </td>
-                        </tr>
-                        <% }) %>
-                    </tbody>
-                  </table>
                 </div>
               </div>
             </div>

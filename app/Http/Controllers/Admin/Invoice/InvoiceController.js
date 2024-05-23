@@ -97,8 +97,8 @@ exports.store = async (req, resp, next) => {
         where: {
             status: {
                 [db.Sequelize.Op.and]: [
-                    { [db.Sequelize.Op.gt]: 0 }, // status > 0
-                    { [db.Sequelize.Op.lt]: 4 } // status < 4
+                    { [db.Sequelize.Op.gt]: 1 }, // status > 0
+                    { [db.Sequelize.Op.lt]: 7 } // status < 4
                 ]
             }
         }
@@ -216,7 +216,8 @@ exports.delete_item = async (req, resp, next) => {
 
 exports.item_update = async (req, resp, next) => {
 
-    await db.InvoiceDeltail.findByPk(req.params.id, {
+    await db.InvoiceDeltail.findOne({
+        where :{id:req.params.id},
         attributes: ['id','invoiceId', 'price','quantity','type'],
         
         include : {
@@ -224,6 +225,7 @@ exports.item_update = async (req, resp, next) => {
             as:'techpack'
         }
     }).then((result) => {
+        console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',result)
             resp.render('dashboard/admin/invoice/item_edit', {
                 detail: result,
                 pageTitle: 'Invoice'

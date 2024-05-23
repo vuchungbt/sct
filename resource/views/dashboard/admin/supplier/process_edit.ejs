@@ -19,7 +19,7 @@
                   <%- include('../../../errors/flash-message') %>
 
                     <form action="/techpack_process/update/<%=process.id%>" method="POST">
-                      <input type="hidden" name="supplierCode" disabled class="form-control" value="1">
+                      
                       <button type="submit" class="btn btn-sm btn-info" style="float: right;">Submit</button>
 
                       <div class="row">
@@ -35,6 +35,7 @@
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">duedate</label>
                             <input disabled type="date" class="form-control" name="duedate" value="<%=process.duedate%>">
+                            <input type="hidden" name="supplierCode" value="1">
                           </div>
                         </div>
                         <div class="col-md-2">

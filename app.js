@@ -39,9 +39,11 @@ app.use((req, resp, next) => {
     //resp.locals.csrfToken = req.csrfToken();
     resp.locals.auth = req.session.auth? req.session.auth : false;
     resp.locals.username = req.session.username? req.session.username : '';
+    resp.locals.permission = req.session.permission? req.session.permission : '';
     resp.locals.user_id = req.session.id? req.session.user_id : '';
     resp.locals.roles = req.session.roles?req.session.roles:'';
     resp.locals.routeName = req.originalUrl.split('/')[1];
+    resp.locals.routeNameSub = req.originalUrl.split('/')[2];
     resp.locals.message = req.flash();
     resp.locals.notification = req.session.notification;
     next();

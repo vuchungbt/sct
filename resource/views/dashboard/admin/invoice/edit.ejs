@@ -18,7 +18,11 @@
                 </div>
                 <div class="card-body px-3 pb-2">
                   <form role="form" action="/invoice/update/<%= invoice.id %>" method="post" novalidate>
-
+                    
+                    <div class="text-end">
+                      
+                    <button type="submit" class="btn btn-sm bg-gradient-info btn-lg ">Save</button>
+                    </div>
                     <div class="row">
                       <div class="col-md-8">
 
@@ -75,6 +79,8 @@
                             rows="4"><%= invoice.note %></textarea>
                     </div>
 
+                  </form>
+                  
                     <table style="border: 1px solid #e91e63;"
                       class=" table align-items-center justify-content-center mb-0">
                       <thead style="background-color: pink;">
@@ -109,7 +115,7 @@
                             <td style="display: flex;">
                               <a href="../../invoice/item/update/<%= element.id %>" class="btn btn-sm btn-warning">Edit</a>
                               &nbsp;
-                              <form action="../../invoice/item/delete/<%= element.id %>" method="POST">
+                              <form  action="../../invoice/item/delete/<%= element.id %>" method="POST" >
                                 <input type="hidden" name="invoiceId" value="<%=invoice.id%>" >
                                 <button type="submit" class="btn btn-sm btn-danger">x</button>
                               </form>
@@ -124,10 +130,8 @@
                       </tbody>
                     </table>
 
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg mt-4 mb-0">Submit</button>
-                    </div>
-                  </form>
+                    
+                  
                 </div>
               </div>
             </div>

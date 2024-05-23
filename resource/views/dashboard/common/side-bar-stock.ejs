@@ -13,34 +13,43 @@
   <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link text-white  <%= routeName == 'stock'?' active bg-gradient-primary':' ' %>" href="/stock">
+        <a class="nav-link text-white  <%= routeNameSub == null?' active bg-gradient-primary':' ' %>" href="/stock">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">dashboard</i>
           </div>
           <span class="nav-link-text ms-1">Dashboard</span>
         </a>
       </li>
-      <% if (roles=='manager' || roles=='admin'  || roles=='supplier') { %>
+      <% if (permission=='garment_factory') { %>
         
         <li class="nav-item">
-          <a class="nav-link text-white <%=   routeName == 'invoice'?' active bg-gradient-primary':' ' %>"
-            href="/invoice">
+          <a class="nav-link text-white <%=   routeNameSub == 'type'?' active bg-gradient-primary':' ' %>"
+            href="/stock/type">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
-            <span class="nav-link-text ms-1">Invoices</span>
+            <span class="nav-link-text ms-1">Types</span>
           </a>
         </li>
         <% } %>
 
 
           <li class="nav-item">
-            <a class="nav-link text-white <%= routeName == 'techpack'?' active bg-gradient-primary':' ' %>
-            " href="/techpack">
+            <a class="nav-link text-white <%= routeNameSub == 'view' ||routeNameSub == 'item'?' active bg-gradient-primary':' ' %>
+            " href="/stock/item">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
               </div>
               <span class="nav-link-text ms-1">Items</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white <%= routeNameSub == 'process'?' active bg-gradient-primary':' ' %>
+            " href="/stock/process">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">assignment</i>
+              </div>
+              <span class="nav-link-text ms-1">Task</span>
             </a>
           </li>
 
@@ -53,24 +62,17 @@
               <span class="nav-link-text ms-1">My Store</span>
             </a>
           </li>
-          <li class="nav-item mt-3">
-            <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account</h6>
-          </li>
 
           <li class="nav-item">
-            <a class="nav-link text-white " href="#">
+            <a class="nav-link text-white <%=  routeName == 'invoice'?' active bg-gradient-primary':' ' %>
+            " href="/stock/invoice">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
               </div>
-              <span class="nav-link-text ms-1">Change informations</span>
-            </a>
-            <a class="nav-link text-white " href="#">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Change password</span>
+              <span class="nav-link-text ms-1">Invoices</span>
             </a>
           </li>
+          
 
     </ul>
   </div>

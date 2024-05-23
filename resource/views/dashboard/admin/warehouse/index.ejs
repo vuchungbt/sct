@@ -87,12 +87,13 @@
           </div>
         </div>
     </main>
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/dt-2.0.6/datatables.min.js">
     </script>
     <script>
-      $("#tb").DataTable();
+      $("#tb").DataTable(
+        {
+                    "order": [[0, 'desc']],
+                }
+      );
     </script>
 
     <%- include('../../common/footer') %>

@@ -22,7 +22,6 @@ exports.login = async (req,resp,next) => {
             },{
             model: db.TechpackStock,
             as: 'stocks'
-            
             },
                 ]
     })
@@ -45,13 +44,17 @@ exports.login = async (req,resp,next) => {
                     errorMessage: [{msg: 'Invalid Credentials'}]
                 });
             }
+            const permission = user.stocks.find((st) => st.type === 'garment_factory');
+
+
+
             req.session.username = user.name;
             req.session.email = user.email;
             req.session.user_id = user.id;
             req.session.auth = true;
             req.session.roles = roles;
-           
-            
+            req.session.permission = permission?permission.type:'';
+            console.log("req.session.permission>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",req.session.permission);
 
             let payload = {
                 auth: true,

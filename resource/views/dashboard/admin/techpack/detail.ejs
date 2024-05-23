@@ -12,7 +12,7 @@
 
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Techpack: <%= techpack.id %>
+                    <h6 class="text-white text-capitalize ps-3">Techpack: <%= techpack.name %>
                     </h6> 
                   </div>
                 </div>
@@ -20,8 +20,8 @@
                   <%- include('../../../errors/flash-message') %>
                     <div>
                       <div class="input-group input-group-outline mb-3 is-filled ">
-                        <label class="form-label">Techpack name</label>
-                        <input type="text" class="form-control" name="name" disabled value="<%= techpack.name %>">
+                        <label class="form-label">Techpack ID</label>
+                        <input type="text" class="form-control" name="id" disabled value="<%= techpack.id %>">
                       </div>
                       
                       <div class="row">
@@ -138,28 +138,22 @@
                         </div>
                         <div class="col-md-4">
                           <div class="input-group input-group-outline mb-3 is-filled ">
-                            <label class="form-label">Created</label>
-                            <input disabled type="text" class="form-control" id="created"
-                              value="<%= techpack.createdAt %>">
-                          </div>
-                        </div>
-
-                        <div class="col-md-4">
-                          <div class="input-group input-group-outline mb-3 is-filled ">
-                            <label class="form-label">Update</label>
-                            <input type="text" class="form-control" disabled id="updated" name="updated"
-                              value="<%= techpack.updatedAt %>">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="input-group input-group-outline mb-3 is-filled ">
                             <label class="form-label">Approved by</label>
                             <input type="text" class="form-control" disabled id="verifyby" name="verifyby"
                               value="<%=techpack.verifyby !==null ? techpack.verifyby.name : '' %>">
                           </div>
                         </div>
+
+                        <div class="col-md-4">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <label class="form-label">Price</label>
+                            <input type="text" class="form-control" disabled id="price" name="price"
+                              value="<%= techpack.price %>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        
 
                       </div>
                       <div class="input-group input-group-outline mb-3 ">

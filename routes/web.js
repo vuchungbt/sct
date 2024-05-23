@@ -201,8 +201,6 @@ body('password')
 ,isAuth, role.validateRole("admin") ,supplierController.store);
 route.get('/supplier', isAuth, role.validateRole("admin"), supplierController.index);
 
-route.get('/supplier_process/update/:id',isAuth,supplierController.edit_process);
-
 //Techpack
 route.get('/techpack/create',isAuth ,techpackController.create);
 route.get('/techpack/create/:id',isAuth ,techpackController.create);

@@ -213,3 +213,153 @@ exports.edit_process = async (req, resp, next) => {
         pageTitle: 'Techpack Process Edit'
     });
 }
+
+exports.techpack_view = async (req, resp, next) => {
+    console.log('techpack_stock/view');
+    await db.Techpack.findByPk(req.params.id, {
+        include: [
+            {
+                model: db.TechpackCategory,
+                as: 'category'
+            },
+            {
+                model: db.TechpackSubCategory,
+                as: 'sub_category'
+            },
+            {
+                model: db.TechpackCloth,
+                as: 'cloth'
+            },
+            {
+                model: db.User,
+                as: 'createby'
+            }
+        ]
+    })
+        .then((result) => {
+            console.log('techpack_stock/view',result);
+            resp.render('dashboard/admin/supplier/detail_small', {
+                techpack: result,
+                pageTitle: 'Techpack'
+            });
+        })
+        .catch((error) => {
+            historyLogged(req.session.username, 'load techpack', LogConstant.FAILED, error.message);
+            throw new Error(error);
+        });
+}
+exports.type = async (req, resp, next) => {
+    await db.Type.findAll({
+        where :{
+            typeOf: 'garment_factory'
+        }
+    })
+    .then((result) => {
+        console.log('Type Controller',result);
+        resp.render('dashboard/admin/supplier/type',{
+            typeList: result,
+            pageTitle: 'Type'
+        });        
+    })
+    .catch(error => {
+        throw new Error(error);
+    });
+} 
+exports.item = async (req, resp, next)=>{
+    const my_store = await db.User.findByPk(id = req.session.user_id, {
+
+        include:
+        {
+            model: db.TechpackStock,
+            as: 'stocks',
+            include: [
+                {
+                    model: db.Techpack,
+                    as: 'techpack',
+                    include : [
+                        {
+                            model: db.TechpackCategory,
+                            as: 'category'
+                        },
+                        {
+                            model: db.TechpackSubCategory,
+                            as: 'sub_category'
+                        }
+                    ]
+                },
+                {
+                    model: db.Invoice,
+                    include:
+                    {
+                        model: db.User,
+                        as: 'createdby'
+                    }
+                }
+            ]
+        }
+    }).then(my_store => {
+        return my_store;
+    });
+
+
+    const techpack = my_store.stocks.flatMap(st => st.techpack);
+
+    const invoices = my_store.stocks.flatMap(st => st.Invoices);
+
+    resp.render('dashboard/admin/supplier/item_techpack',{
+                techpackList: techpack,
+                userId: req.session.user_id,
+                pageTitle: 'Techpack'
+    }); 
+}
+exports.process = async (req, resp, next) => {
+    const my_store = await db.User.findByPk(id = req.session.user_id, {
+
+        include:
+        {
+            model: db.TechpackStock,
+            as: 'stocks',
+            include: [
+                {
+                    model: db.Techpack,
+                    as: 'techpack'
+                },
+                {
+                    model: db.Invoice,
+                    include:
+                    {
+                        model: db.User,
+                        as: 'createdby'
+                    }
+                }
+            ]
+        }
+    }).then(my_store => {
+        return my_store;
+    });
+    const techpack = my_store.stocks.flatMap(st => st.techpack);
+    const techpackID = techpack.map(tp => tp.id);
+    let processList = await db.TechpackProcess.findAll({
+        attributes: ['id', 'groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
+        where: {
+            techpackId: {
+                [db.Sequelize.Op.or]: techpackID
+            }
+        },
+        include: [{
+            model: db.Techpack,
+            as:'techpackDetail'
+        },
+        {
+            model: db.Type
+        }
+        ]
+
+    }).then((processList) => {
+        return processList;
+    });
+    return resp.render('dashboard/admin/supplier/process', {
+        process: processList
+    });
+
+}
