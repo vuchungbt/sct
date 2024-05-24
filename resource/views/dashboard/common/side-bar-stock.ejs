@@ -35,7 +35,7 @@
 
 
           <li class="nav-item">
-            <a class="nav-link text-white <%= routeNameSub == 'view' ||routeNameSub == 'item'?' active bg-gradient-primary':' ' %>
+            <a class="nav-link text-white <%= routeNameSub == 'addprocess' || routeNameSub == 'view' ||routeNameSub == 'item'?' active bg-gradient-primary':' ' %>
             " href="/stock/item">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
@@ -43,19 +43,10 @@
               <span class="nav-link-text ms-1">Items</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link text-white <%= routeNameSub == 'process'?' active bg-gradient-primary':' ' %>
-            " href="/stock/process">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Task</span>
-            </a>
-          </li>
 
           <li class="nav-item">
-            <a class="nav-link text-white <%=  routeName == 'category'?' active bg-gradient-primary':' ' %>
-            " href="/category">
+            <a class="nav-link text-white <%=  routeNameSub == 'store'?' active bg-gradient-primary':' ' %>
+            " href="/stock/store">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>
               </div>
@@ -64,7 +55,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link text-white <%=  routeName == 'invoice'?' active bg-gradient-primary':' ' %>
+            <a class="nav-link text-white <%=  routeNameSub == 'invoice'?' active bg-gradient-primary':' ' %>
             " href="/stock/invoice">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">assignment</i>

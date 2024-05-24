@@ -66,6 +66,7 @@ exports.store = (req, resp, next) => {
 }
 
 exports.update = (req, resp, next) => {
+    const route = req.body.route;
     db.TechpackStock.update(req.body, {
         where: {
             id: req.params.id
@@ -73,9 +74,16 @@ exports.update = (req, resp, next) => {
     })
         .then(result => {
             historyLogged(req.session.username, 'update supplier', LogConstant.SUCCESS, req.params.id);
+            if(route=='store') {
+                req.flash('success', `Stock updated ${req.body.name} successfully!`)
+                resp.status(200).redirect('/stock/store');
 
-            req.flash('success', `Supplier updated ${req.body.name} successfully!`)
-            resp.status(200).redirect('/supplier');
+            }
+            else {
+                req.flash('success', `Supplier updated ${req.body.name} successfully!`)
+                resp.status(200).redirect('/supplier');
+
+            }
         })
         .catch(error => {
 
@@ -155,7 +163,7 @@ exports.home = async (req, resp, next) => {
     let count_not = 0;
 
     const techpackID = techpack.map(tp => tp.id);
-    //console.log(']]]]]]]]]]]]]]]]]]]]]]]]]]]', techpackID);
+
     let processList = await db.TechpackProcess.findAll({
         attributes: ['id', 'groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
         where: {
@@ -303,14 +311,84 @@ exports.item = async (req, resp, next)=>{
 
 
     const techpack = my_store.stocks.flatMap(st => st.techpack);
+    
+    const uniqueTps = [];
+    const tpIds = new Set();
+    
+    for (const tp of techpack) {
+      if (!tpIds.has(tp.id)) {
+        uniqueTps.push(tp);
+        tpIds.add(tp.id);
+      }
+    }
+
 
     const invoices = my_store.stocks.flatMap(st => st.Invoices);
 
     resp.render('dashboard/admin/supplier/item_techpack',{
-                techpackList: techpack,
+                techpackList: uniqueTps,
                 userId: req.session.user_id,
                 pageTitle: 'Techpack'
     }); 
+}
+exports.addprocess = async (req, resp, next) => { 
+
+    let suppliers = await db.TechpackStock.findAll({
+        where: {
+            type :{
+                [db.Sequelize.Op.or]: ['embroidery_factory','print_factory']
+            }
+        } 
+        
+    }).then((suppliers) => {
+        return suppliers;
+    });
+
+    let processList = await db.TechpackProcess.findAll({
+        attributes: ['id', 'groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
+        where: {
+            techpackId: req.params.id,
+        },
+        include:
+            [{
+                model: db.TechpackStock,
+                as: 'stockprocess'
+            },
+            {
+                model: db.Type
+
+            }]
+    }).then((processList) => {
+        return processList;
+    });
+    await db.Techpack.findByPk(req.params.id)
+        .then((result) => {
+
+            const groupedTP = processList.reduce((acc, user) => {
+                if (!acc[user.groupID]) {
+                    acc[user.groupID] = [];
+                }
+                acc[user.groupID].push(user);
+                return acc;
+            }, {});
+
+            const groups = Object.values(groupedTP);
+
+            console.log('$$$$$$$$$$$$$$', groups)
+
+            resp.render('dashboard/admin/supplier/addprocess', {
+                supplierList: suppliers,
+                techpack: result,
+                processList,
+                groups,
+                pageTitle: 'process'
+            });
+        })
+        .catch((error) => {
+            historyLogged(req.session.username, 'load techpack', LogConstant.FAILED, error.message);
+            throw new Error(error);
+        });
+
 }
 exports.process = async (req, resp, next) => {
     const my_store = await db.User.findByPk(id = req.session.user_id, {
@@ -360,6 +438,90 @@ exports.process = async (req, resp, next) => {
     });
     return resp.render('dashboard/admin/supplier/process', {
         process: processList
+    });
+
+}
+exports.mystore = async (req, resp, next) => {
+    const my_store = await db.User.findByPk(id = req.session.user_id, {
+
+        include:
+        {
+            model: db.TechpackStock,
+            as: 'stocks',
+            // include: [
+            //     {
+            //         model: db.Techpack,
+            //         as: 'techpack'
+            //     },
+            //     {
+            //         model: db.Invoice,
+            //         include:
+            //         {
+            //             model: db.User,
+            //             as: 'createdby'
+            //         }
+            //     }
+            // ]
+        }
+    }).then(my_store => {
+        return my_store;
+    });
+
+    resp.render('dashboard/admin/supplier/store', {
+        supplierList: my_store.stocks,
+        pageTitle: 'Supplier'
+    });
+}
+
+
+exports.edit_store = async (req, resp, next) => {
+    let suppliers = await db.TechpackStock.findAll()
+        .then((suppliers) => {
+            return suppliers;
+        });
+    await db.TechpackStock.findByPk(req.params.id)
+        .then((result) => {
+            resp.render('dashboard/admin/supplier/store_edit', {
+                supplier: result,
+                supplierList: suppliers,
+                pageTitle: 'Supplier'
+            });
+        })
+        .catch((error) => {
+            throw new Error(error);
+        });
+}
+
+
+exports.invoice = async (req, resp, next) => {
+    const my_store = await db.User.findByPk(id = req.session.user_id, {
+
+        include:
+        {
+            model: db.TechpackStock,
+            as: 'stocks',
+            include: [
+                {
+                    model: db.Techpack,
+                    as: 'techpack'
+                },
+                {
+                    model: db.Invoice,
+                    include:
+                    {
+                        model: db.User,
+                        as: 'createdby'
+                    }
+                }
+            ]
+        }
+    }).then(my_store => {
+        return my_store;
+    });
+    const invoices = my_store.stocks.flatMap(st => st.Invoices);
+
+    return resp.render('dashboard/admin/supplier/invoice', {
+        invoices: invoices
     });
 
 }

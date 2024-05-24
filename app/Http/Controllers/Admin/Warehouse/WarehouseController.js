@@ -5,7 +5,7 @@ exports.index = async (req, resp, next) => {
     await db.Techpack.findAll( {
         where: {
             status: {
-                [db.Sequelize.Op.eq]: 3,
+                [db.Sequelize.Op.eq]: 5,
             }
         },
         include: [

@@ -1,0 +1,232 @@
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar-stock') %>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
+
+          <div class="row">
+            <div class="col-xl-12 col-sm-8 mb-xl-0 mb-4">
+              <div class="card">
+
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Process</h6>
+                  </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                  <%- include('../../../errors/flash-message') %>
+                  <p class="m-2">Add process</p>
+                
+                    <form action="../../techpack/process_first" method="POST">
+
+                      <button type="submit" <%=techpack.status==0 ||techpack.status==3?'disabled':''%> class="btn btn-sm btn-info" style="float: right;">Add</button>
+                      <div class="row">
+                        <div class="col-md-5">
+                          <div class="input-group input-group-outline mb-3 is-filled ">
+                            <input type="hidden" name="techpackId" value="<%=techpack.id%>">
+                            <input type="hidden" name="route" value="addprocess">
+                            <label class="form-label">Choose factory</label>
+                            <select id="stockId" name="stockId" class="form-control">
+                              <option selected disabled>Choose factory</option>
+                              <% supplierList.forEach((element)=> { %>
+                                <option data-typeof="<%= element.type %>" value="<%= element.id %>">
+                                  [<%= element.type %>]<%= element.name %>
+                                </option>
+                                <% }) %>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">duedate</label>
+                            <input type="date" class="form-control" name="duedate">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">type</label>
+                            <select id="type" name="type" class="form-control">
+                              <option value="" disabled selected>Type</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">note</label>
+                            <input type="text" class="form-control" name="note">
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+
+                </div>
+
+              </div>
+              <% groups.forEach((processList_new)=> { %>
+
+                <div class="card mt-1">
+                  <span style="margin-left: 10px;"
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <%=processList_new[0].groupID%>
+                  </span>
+                  <table class="table align-items-center justify-content-center" style="margin-bottom:0em !important">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Factory</th>
+                        <th>Duedate</th>
+                        <th>Complete</th>
+                        <th>Note</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% processList_new.forEach((element)=> { %>
+                        <tr>
+                          <td>
+                            <%= element.id %>
+                          </td>
+                          <td>
+                            <%= element.stockprocess.type %>-<%= element.stockprocess.name %>
+                          </td>
+                          <td class="duedate">
+                            <%= element.duedate %>
+                          </td>
+                          <td class="completeddate">
+                            <%= element.completeddate %>
+                          </td>
+
+                          <td>
+                            <!-- Button trigger modal -->
+                            <a type="button" class="note" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                              data-notex="<%= element.note %>"><i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                            </a>
+                          </td>
+                          <td class="">
+                            <%= element.Type.name %>
+                          </td>
+                          <td>
+                            <span class="<%=element.status==4?'text-danger':''%>">
+                              <% if (element.status==0) { %>
+                                Not started
+                                <% } else if (element.status==1) { %>
+                                  Open
+                                  <% } else if (element.status==2) { %>
+                                    Processing
+                                    <% } else if (element.status==3) { %>
+                                      On hold
+                                      <% } else if (element.status==4) { %>
+                                        Completed
+                                        <% } else if (element.status==5) { %>
+                                          Cancelled
+                                          <% } %>
+                            </span>
+                          </td>
+                          <td style="display: flex;">
+                            <a href="../../stock/process/update/<%= element.id %>">
+                              <i class="fa fa-pencil-square-o p-2" aria-hidden="true"></i> </a>
+                          </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+                <% }) %>
+            </div>
+          </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Note</h5>
+            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      var create = document.getElementsByClassName("duedate");
+      var update = document.getElementsByClassName("completeddate");
+
+      // for (let i = 0; i < create.length; i++) {
+      //   console.log(create[i].innerHTML.trim())
+      //   if (create[i].innerHTML.trim().length >= 6) {
+      //     var date_created = new Date(create[i].innerHTML);
+      //     create[i].innerHTML = date_created.toLocaleString();
+      //   }
+      // }
+      // for (let i = 0; i < update.length; i++) {
+      //   console.log('-----', update[i].innerHTML.trim())
+      //   if (update[i].innerHTML.trim().length >= 6) {
+      //     var date_update = new Date(update[i].innerHTML);
+      //     update[i].innerHTML = date_update.toLocaleString();
+      //   }
+      // }
+
+    </script>
+    <script>
+      var noteButtons = document.querySelectorAll('.note');
+      const modalBody = document.querySelector('.modal-body');
+      noteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const notexValue = button.getAttribute('data-notex');
+          console.log(`Giá trị của data-notex: ${notexValue}`);
+          modalBody.innerHTML = notexValue;
+        });
+      });
+    </script>
+    <script>
+      // Chọn category
+      document.getElementById('stockId').addEventListener('change', function (event) {
+        console.log('---stockId clicked');
+        var select = document.getElementById('stockId');
+        var selectedOption = select.options[select.selectedIndex];
+        var typeOf = selectedOption.dataset.typeof;
+        console.log('---typeOf1', typeOf);
+
+        // Gửi dữ liệu đến máy chủ bằng AJAX
+        $.ajax({
+          url: "../../api/type/getchild",
+          type: "POST",
+          data: JSON.stringify({ typeOf }),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (data, textStatus, jqXHR) {
+            console.log('---getchild success', data);
+            while (document.getElementById('type').firstChild) {
+              document.getElementById('type').removeChild(document.getElementById('type').firstChild);
+            }
+            data.result.forEach(item => {
+              var option = document.createElement('option');
+              option.value = item.id;
+              option.text = item.name;
+              document.getElementById('type').appendChild(option);
+            });
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log('---failed');
+          }
+        });
+      });
+
+    </script>
+
+
+    <%- include('../../common/footer') %>

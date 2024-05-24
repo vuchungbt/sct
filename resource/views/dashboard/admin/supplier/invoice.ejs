@@ -1,0 +1,110 @@
+<%- include('../../common/header') %>
+    <%- include('../../common/side-bar-stock') %>
+
+        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+            <%- include('../../common/navbar') %>
+                <div class="container-fluid py-4">
+                    <div class="row">
+                        <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+                            <div class="card">
+                                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                        <h6 class="text-white text-capitalize ps-3">Invoice table</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body py-3 pb-2">
+                                    <%- include('../../../errors/flash-message') %>
+                                                <table class="table align-items-center justify-content-center mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Create By</th>
+                                                            <th>Total</th>
+                                                            <th>Payment</th>
+                                                            <th>Status</th>
+                                                            <th>Note</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% invoices.reverse().forEach((element,key)=> { %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= element.id %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.createdby.name %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.total %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.typePayment %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.status %>
+                                                                </td>
+                                                                <td><a type="button" class="note" data-bs-toggle="modal"
+                                                                        data-bs-target="#exampleModal"
+                                                                        data-notex="<%= element.note %>"><i
+                                                                            class="fa fa-ellipsis-h"
+                                                                            aria-hidden="true"></i>
+                                                                    </a></td>
+                                                            </tr>
+                                                            <% }) %>
+                                                    </tbody>
+                                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </main>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Note</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var create = document.getElementsByClassName("created");
+            var update = document.getElementsByClassName("updated");
+
+            for (let i = 0; i < create.length; i++) {
+                var date_created = new Date(create[i].innerHTML);
+                console.log('date_created value', create[i].innerHTML);
+                console.log('date_created', date_created);
+                create[i].innerHTML = date_created.toLocaleString();
+            }
+            for (let i = 0; i < update.length; i++) {
+                var date_update = new Date(update[i].innerHTML);
+                update[i].innerHTML = date_update.toLocaleString();
+            }
+
+        </script>
+        <script>
+            var noteButtons = document.querySelectorAll('.note');
+            const modalBody = document.querySelector('.modal-body');
+            noteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const notexValue = button.getAttribute('data-notex');
+                    console.log(`Giá trị của data-notex: ${notexValue}`);
+                    modalBody.innerHTML = notexValue;
+                });
+            });
+        </script>
+        <%- include('../../common/footer') %>

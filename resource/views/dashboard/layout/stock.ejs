@@ -111,7 +111,7 @@
                         <i class="fa fa-ellipsis-v text-secondary"></i>
                       </a>
                       <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                        <li><a class="dropdown-item border-radius-md" href="javascript:;">More</a></li>
+                        <li><a class="dropdown-item border-radius-md" href="/stock/process">More</a></li>
                         <!-- <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
                         <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li> -->
                       </ul>
@@ -236,7 +236,6 @@
               </div>
                 <div class="row">
 
-                  
                   <div class="card-body py-3 pb-2">
                     <table class="table align-items-center justify-content-center mb-0">
                       <thead>
@@ -252,8 +251,7 @@
                       <tbody>
                         <% invoices.reverse().forEach((element,key) => { %>
                           <tr>
-                              <td><a href="#"> 
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                              <td>
                                 <%= element.id %></td>
                               <td><%= element.createdby.name %></td>
                               <td><%= element.total %></td>

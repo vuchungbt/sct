@@ -403,6 +403,7 @@ exports.process = async (req, resp, next) => {
 }
 exports.store_process = (req, res, next) => {
     let groupID = '0';
+    const route = req.body.route;
     for (let i = 0; i < 5; i++) {
         groupID += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
     }
@@ -420,9 +421,16 @@ exports.store_process = (req, res, next) => {
 
             // historyLogged(req.session.username,'new process',LogConstant.SUCCESS, item=result.id );
             // pushNotify(result.createById,result.id,'techpack has been created',type='techpack',req,res,next) ;
+            if(route=='addprocess') {
+                req.flash('success', `New Process added successfully!`);
+                res.status(200).redirect('/stock/addprocess/' + req.body.techpackId);
 
-            req.flash('success', `New Process added successfully!`);
-            res.status(200).redirect('/techpack/process/' + req.body.techpackId);
+            }
+            else {
+                req.flash('success', `New Process added successfully!`);
+                res.status(200).redirect('/techpack/process/' + req.body.techpackId);
+
+            }
         })
         .catch((error) => {
             //historyLogged(req.session.username,'create techpack',LogConstant.FAILED,error.message );
@@ -480,7 +488,7 @@ exports.update_process = (req, resp, next) => {
             // pushNotify(req.body.createById,req.body.techpackId,'techpack has been updated',type='techpack',req,resp,next) ;
             if(supplierCode==1) {
                 req.flash('success', `Techpack process updated successfully!`)
-                resp.status(200).redirect('/stock');
+                resp.status(200).redirect('/stock/addprocess/'+req.body.techpackId);
 
             } else {
                 req.flash('success', `Techpack process updated successfully!`)

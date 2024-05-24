@@ -17,6 +17,10 @@ route.get('/type',isAuth,role.validateRole("supplier"),supplierController.type);
 route.get('/item',isAuth,role.validateRole("supplier"),supplierController.item);
 route.get('/process/update/:id',isAuth,supplierController.edit_process);
 route.get('/process',isAuth,supplierController.process);
+route.get('/store',isAuth,supplierController.mystore);
+route.get('/addprocess/:id',isAuth,supplierController.addprocess);
+route.get('/edit_store/:id',isAuth,supplierController.edit_store);
+route.get('/invoice',isAuth,supplierController.invoice);
 
 
 

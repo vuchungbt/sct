@@ -19,7 +19,7 @@
                 <div class="card-body px-3 pb-2">
                   <%- include('../../../errors/flash-message') %>
                   <%if( techpack.status < 7){ %>
-                  <a href="../stock/addprocess/" class="btn btn-sm btn-info" style="float: right;">Add Process</a>
+                  <a href="../../stock/addprocess/<%=techpack.id%>" class="btn btn-sm btn-info" style="float: right;">Add Process</a>
                     <%}%>
                     <div>
                       <div class="input-group input-group-outline mb-3 is-filled ">
