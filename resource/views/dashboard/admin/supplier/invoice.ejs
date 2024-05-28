@@ -28,11 +28,15 @@
                                                     <tbody>
                                                         <% invoices.reverse().forEach((element,key)=> { %>
                                                             <tr>
-                                                                <td>
-                                                                    <%= element.id %>
+                                                                <td> 
+                                                                    <a href="../stock/invoice_detail/<%=element.id%>">
+                                                                        <%= element.id %>
+                                                                    </a>
                                                                 </td>
-                                                                <td>
-                                                                    <%= element.createdby.name %>
+                                                                
+                                                                <td >
+                                                                    <a class="text-primary" href="../stock/invoice_detail/<%=element.id%>">
+                                                                    <%= element.createdby.name %></a>
                                                                 </td>
                                                                 <td>
                                                                     <%= element.total %>

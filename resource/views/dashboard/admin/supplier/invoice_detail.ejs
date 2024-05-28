@@ -1,0 +1,119 @@
+<%- include('../../common/header') %>
+  <%- include('../../common/side-bar-stock') %>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <%- include('../../common/navbar') %>
+        <div class="container-fluid py-4">
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-xl-8 col-sm-6 mb-xl-0 mb-4">
+              <div class="card">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Invoice: <%= invoice.id %>
+                    </h6>
+                  </div>
+                </div>
+                <div class="card-body px-3 pb-2">
+                   <div class="row">
+                      <div class="col-md-8">
+                        <div class="input-group input-group-outline mb-3 is-filled">
+                          <label class="form-label">Choose factory</label>
+                          <select disabled name="toStockId" class="form-control">
+                            <% supplierList.forEach((element)=> { %>
+                              <option value="<%= element.id %>">
+                                <%= element.name %> - <%= element.id %>
+                              </option>
+                              <% }) %>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+
+                        <div class="input-group input-group-outline mb-3 is-filled">
+                          <label class="form-label">TypePayment</label>
+                          <select name="typePayment" class="form-control">
+                            <option <%=invoice.typePayment=="Cash" ? 'selected' : '' %> value="Cash" >Cash</option>
+                            <option <%=invoice.typePayment=='Bank transfer' ? 'selected' : '' %> value="Bank
+                              transfer">Bank transfer</option>
+                            <option <%=invoice.typePayment=="Credits" ? 'selected' : '' %> value="Credits">Credits
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8">
+
+                        <div class="input-group input-group-outline mb-3 is-filled">
+                          <label class="form-label">Status</label>
+                          <select name="status" class="form-control">
+                            <option <%=invoice.status=="Preparing" ? 'selected' : '' %> value="Preparing">Preparing
+                            </option>
+                            <option <%=invoice.status=="A paft" ? 'selected' : '' %> value="A paft">A paft</option>
+                            <option <%=invoice.status=="Done" ? 'selected' : '' %> value="Done">Done</option>
+                            <option <%=invoice.status=="Cancel" ? 'selected' : '' %> value="Cancel">Cancel</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="input-group input-group-outline mb-3 is-filled">
+                          <label class="form-label">Total</label>
+                          <input type="number" class="form-control" name="total" value="<%= invoice.total %>">
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="input-group input-group-outline mb-3 is-filled">
+                      <label class="form-label">note</label>
+                      <textarea type="text" class="form-control" name="note" placeholder="note"
+                            rows="4"><%= invoice.note %></textarea>
+                    </div>
+
+                  
+                    <table style="border: 1px solid #e91e63;"
+                      class=" table align-items-center justify-content-center mb-0">
+                      <thead style="background-color: pink;">
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
+                          <th>Type</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% details.forEach((element,key)=> { %>
+                          <tr>
+                            <td>
+                              <%= element.id %>
+                            </td>
+                            <td>
+                              <%= element.techpack.name %>
+                            </td>
+                            <td>
+                              <%= element.quantity %>
+                            </td>
+                            <td>
+                              <%= element.price %>
+                            </td>
+                            <td>
+                              <%= element.type %>
+                            </td>
+                          </tr>
+                          <% }) %>
+                          
+                      </tbody>
+                    </table>
+
+                    
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+
+
+    <%- include('../../common/footer') %>

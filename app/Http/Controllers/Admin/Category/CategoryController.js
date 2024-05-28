@@ -18,7 +18,11 @@ exports.getchild = async (req, resp, next) => {
             });       
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     });
 } 
 
@@ -32,7 +36,11 @@ exports.index = async (req, resp, next) => {
         });        
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     });
 } 
 
@@ -57,7 +65,11 @@ exports.edit = async (req, resp, next) =>{
         });  
     })
     .catch((error) => {
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     });
 }
 
@@ -76,7 +88,11 @@ exports.sub = async (req, resp, next) =>{
         });  
     })
     .catch((error) => {
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     });
 }
 
@@ -91,7 +107,11 @@ exports.store = (req, resp, next) =>{
     })
     .catch((error) => {
         historyLogged(req.session.username,'create category',LogConstant.FAILED,error.message);
-        throw new Error(error.message);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     });
 }
 exports.edit_sub = async (req, resp, next) =>{
@@ -103,7 +123,11 @@ exports.edit_sub = async (req, resp, next) =>{
         });  
     })
     .catch((error) => {
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     });
 }
 exports.store_sub = (req, resp, next) =>{
@@ -117,7 +141,11 @@ exports.store_sub = (req, resp, next) =>{
     })
     .catch((error) => {
         historyLogged(req.session.username,'create category',LogConstant.FAILED,error.message);
-        throw new Error(error.message);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     });
 }
 
@@ -137,7 +165,11 @@ exports.update = (req, resp, next) =>{
     .catch(error => {
         historyLogged(req.session.username,'update category',LogConstant.FAILED,error.message);
         
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     })
 }
 
@@ -161,7 +193,11 @@ exports.delete = async (req, resp, next) =>{
     .catch(error => {
         historyLogged(req.session.username,'delete category',LogConstant.FAILED,error.message);
         
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     })
 }
 exports.update_sub = (req, resp, next) =>{
@@ -179,7 +215,11 @@ exports.update_sub = (req, resp, next) =>{
     .catch(error => {
         historyLogged(req.session.username,'update category',LogConstant.FAILED,error.message);
         
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     })
 }
 
@@ -198,6 +238,10 @@ exports.delete_sub = async (req, resp, next) =>{
     .catch(error => {
         historyLogged(req.session.username,'Sub-category delete',LogConstant.FAILED,error.message);
         
-        throw new Error(error);
+        return resp.status(200).json({
+            status: 200,
+            msg : 'Fill required value to all fields',
+            code : error.message
+        })
     })
 }

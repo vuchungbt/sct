@@ -37,6 +37,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         defauleValue:0
       } , 
+      fee : {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        defauleValue:0
+      } , 
+      quantity : {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        defauleValue:0
+      } , 
       groupID : {
         allowNull: true,
         type: Sequelize.STRING

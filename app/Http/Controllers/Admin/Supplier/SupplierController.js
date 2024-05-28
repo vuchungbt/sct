@@ -525,3 +525,57 @@ exports.invoice = async (req, resp, next) => {
     });
 
 }
+
+exports.invoice_detail = async (req, resp, next) => {
+    let supplierList = await db.TechpackStock.findAll()
+    .then((supplierList) => {
+        return supplierList;
+    });
+
+let details = await db.InvoiceDeltail.findAll( {
+    attributes: ['id', 'price','quantity','type'],
+    where :{
+        invoiceId : req.params.id
+    },
+    include : {
+        model: db.Techpack,
+        as:'techpack'
+    }
+})
+    .then((supplierList) => {
+        return supplierList;
+    });
+await db.Invoice.findByPk(req.params.id, {
+    include: [
+        {
+            model: db.InvoiceDeltail,
+            as: 'detail'
+        },
+        {
+            model: db.User,
+            as: 'createdby'
+        },
+        {
+            model: db.Techpack,
+            as: 'techpacks'
+        },
+        {
+            model: db.TechpackStock,
+            as: 'supplier'
+        }]
+
+})
+    .then((result) => {
+        console.log('>>===========result.details---------\n', details);
+        resp.render('dashboard/admin/supplier/invoice_detail', {
+            invoice: result,
+            supplierList,
+            details,
+            pageTitle: 'Invoice'
+        });
+    })
+    .catch((error) => {
+        throw new Error(error);
+    });
+
+}

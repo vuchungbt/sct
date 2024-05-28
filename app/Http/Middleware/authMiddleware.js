@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const db = require('../../../models');
+
 
 module.exports = async (req,resp,next) => {
     let accessToken = req.cookies.jwt;
@@ -17,6 +19,23 @@ module.exports = async (req,resp,next) => {
         if(!isAuth.auth){
             return resp.redirect('/login');    
         }
+    
+        const notification = await db.Notify.findAll({
+            where: {
+                assignToId: req.session.user_id
+            },
+            limit: 6
+        })
+        const count_notification = await db.Notify.findAll({
+            where: {
+                assignToId: req.session.user_id,
+                status: 1
+            },
+            limit: 6
+        });
+        req.notification = notification,
+        req.count_notification=count_notification
+
         next();    
     } catch (error) {
         await req.session.destroy();

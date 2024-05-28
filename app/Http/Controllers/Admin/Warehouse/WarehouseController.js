@@ -30,6 +30,25 @@ exports.index = async (req, resp, next) => {
     });
 } 
 exports.detail = async (req, resp, next) => {
+
+    let processList = await db.TechpackProcess.findAll({
+        attributes: ['id','quantity', 'fee','groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
+        where: {
+            techpackId: req.params.id,
+        },
+        include:
+            [{
+                model: db.TechpackStock,
+                as: 'stockprocess'
+            },
+            {
+                model: db.Type
+
+            }]
+    }).then((processList) => {
+        return processList;
+    });
+
     await db.Techpack.findByPk(req.params.id, {
         include: [
             {
@@ -53,15 +72,32 @@ exports.detail = async (req, resp, next) => {
                 as: 'confirmby'
             },
             {
+                model: db.User,
+                as: 'verifyby'
+            },
+            {
                 model: db.TechpackHistory,
                 as: 'history'
             }
         ]
     })
         .then((result) => {
+            const groupedTP = processList.reduce((acc, user) => {
+                if (!acc[user.groupID]) {
+                    acc[user.groupID] = [];
+                }
+                acc[user.groupID].push(user);
+                return acc;
+            }, {});
+
+            const groups = Object.values(groupedTP);
+
+            
             resp.render('dashboard/admin/warehouse/detail', {
                 history:result.history,
                 techpack: result,
+                processList,
+                groups,
                 pageTitle: 'Warehouse'
             });
         })

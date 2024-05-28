@@ -52,6 +52,25 @@ exports.index = async (req, resp, next) => {
         });
 }
 exports.detail = async (req, resp, next) => {
+
+    let processList = await db.TechpackProcess.findAll({
+        attributes: ['id','quantity', 'fee','groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
+        where: {
+            techpackId: req.params.id,
+        },
+        include:
+            [{
+                model: db.TechpackStock,
+                as: 'stockprocess'
+            },
+            {
+                model: db.Type
+
+            }]
+    }).then((processList) => {
+        return processList;
+    });
+
     await db.Techpack.findByPk(req.params.id, {
         include: [
             {
@@ -88,6 +107,7 @@ exports.detail = async (req, resp, next) => {
             resp.render('dashboard/admin/techpack/detail', {
                 history: result.history,
                 techpack: result,
+                processList,
                 pageTitle: 'Techpack'
             });
         })
@@ -348,16 +368,18 @@ exports.product = async(req, resp, next) => {
     }
 }
 exports.process = async (req, resp, next) => {
-    let suppliers = await db.TechpackStock.findAll({
-        where: {
-            type: 'garment_factory'
-        }
-    }).then((suppliers) => {
+    let suppliers = await db.TechpackStock.findAll(
+        // {
+        // where: {
+        //     type: 'garment_factory'
+        // }
+    // }
+    ).then((suppliers) => {
         return suppliers;
     });
 
     let processList = await db.TechpackProcess.findAll({
-        attributes: ['id', 'groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
+        attributes: ['id', 'fee','groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
         where: {
             techpackId: req.params.id,
         },
@@ -504,7 +526,7 @@ exports.update_process = (req, resp, next) => {
 }
 exports.edit_process = async (req, resp, next) => {
     let process = await db.TechpackProcess.findOne({
-        attributes: ['id', 'groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
+        attributes: ['id','fee', 'groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
         where: {
             id: req.params.id
         },

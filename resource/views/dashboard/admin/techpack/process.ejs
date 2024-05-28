@@ -37,7 +37,7 @@
 
                       <button type="submit" <%=techpack.status==0 ||techpack.status==3?'disabled':''%> class="btn btn-sm btn-info" style="float: right;">Add</button>
                       <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                           <div class="input-group input-group-outline mb-3 is-filled ">
                             <input type="hidden" name="techpackId" value="<%=techpack.id%>">
                             <label class="form-label">Choose factory</label>
@@ -65,7 +65,13 @@
                             </select>
                           </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">quantity</label>
+                            <input type="number" value="1" class="form-control" name="quantity">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">note</label>
                             <input type="text" class="form-control" name="note">
@@ -78,6 +84,7 @@
 
               </div>
               <% groups.forEach((processList_new)=> { %>
+               <% let fee = 0;  %>
 
                 <div class="card mt-1">
                   <span style="margin-left: 10px;"
@@ -93,12 +100,14 @@
                         <th>Complete</th>
                         <th>Note</th>
                         <th>Type</th>
+                        <th>Fee</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% processList_new.forEach((element)=> { %>
+                      <%   processList_new.forEach((element)=> { %>
+                        <% fee+=element.fee; %>
                         <tr>
                           <td>
                             <%= element.id %>
@@ -121,6 +130,9 @@
                           </td>
                           <td class="">
                             <%= element.Type.name %>
+                          </td>
+                          <td class="">
+                            <%= element.fee %>
                           </td>
                           <td>
                             <span class="<%=element.status==4?'text-danger':''%>">
@@ -153,6 +165,13 @@
                         </tr>
                         <% }) %>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>Fee: <%=fee%>$ </th>
+
+                        </tr>
+
+                    </tfoot>
                   </table>
                 </div>
                 <% }) %>

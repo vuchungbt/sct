@@ -21,6 +21,7 @@ route.get('/store',isAuth,supplierController.mystore);
 route.get('/addprocess/:id',isAuth,supplierController.addprocess);
 route.get('/edit_store/:id',isAuth,supplierController.edit_store);
 route.get('/invoice',isAuth,supplierController.invoice);
+route.get('/invoice_detail/:id',isAuth,supplierController.invoice_detail);
 
 
 

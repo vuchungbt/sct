@@ -24,7 +24,7 @@
                       <button type="submit" class="btn btn-sm btn-info" style="float: right;">Submit</button>
 
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                           <div class="input-group input-group-outline mb-3 is-filled ">
                             <input type="hidden" name="techpackId" value="<%=process.techpackId%>">
                             <label class="form-label">Choose factory</label>
@@ -53,6 +53,12 @@
                           <div class="input-group input-group-outline mb-3 is-filled">
                             <label class="form-label">groupID</label>
                             <input type="text" class="form-control" name="groupID" value="<%=process.groupID%>">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="input-group input-group-outline mb-3 is-filled">
+                            <label class="form-label">Fee</label>
+                            <input type="number" class="form-control" name="fee" value="<%=process.fee%>">
                           </div>
                         </div>
                         <div class="col-md-2">
