@@ -19,7 +19,10 @@ exports.getchild = async (req, resp, next) => {
             });       
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 } 
 
@@ -33,7 +36,10 @@ exports.index = async (req, resp, next) => {
         });        
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 } 
 
@@ -58,7 +64,10 @@ exports.edit = async (req, resp, next) =>{
         });  
     })
     .catch((error) => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 }
 
@@ -72,7 +81,10 @@ exports.store = (req, resp, next) =>{
     })
     .catch((error) => {
         historyLogged(req.session.username,'create type',LogConstant.FAILED,error.message);
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 }
 
@@ -91,7 +103,10 @@ exports.update = (req, resp, next) =>{
     .catch(error => {
         historyLogged(req.session.username,'update type',LogConstant.FAILED,error.message);
         
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     })
 }
 
@@ -111,6 +126,9 @@ exports.delete = async (req, resp, next) =>{
     .catch(error => {
         historyLogged(req.session.username,'delete type type',LogConstant.FAILED,error.message);
         
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     })
 }

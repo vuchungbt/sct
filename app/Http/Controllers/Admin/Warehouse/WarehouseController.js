@@ -26,7 +26,10 @@ exports.index = async (req, resp, next) => {
         });        
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 } 
 exports.detail = async (req, resp, next) => {
@@ -103,7 +106,10 @@ exports.detail = async (req, resp, next) => {
         })
         .catch((error) => {
            // historyLogged(req.session.username,'load item',LogConstant.FAILED,error.message );
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -128,7 +134,10 @@ exports.edit = async (req, resp, next) =>{
         });  
     })
     .catch(() => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 }
 
@@ -139,7 +148,10 @@ exports.store = (req, resp, next) =>{
         resp.status(200).redirect('/warehouse');
     })
     .catch((error) => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 }
 
@@ -154,7 +166,10 @@ exports.update = (req, resp, next) =>{
         resp.status(200).redirect('/warehouse');
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     })
 }
 
@@ -169,6 +184,9 @@ exports.delete = async (req, resp, next) =>{
         resp.status(200).redirect('/warehouse');
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     })
 }

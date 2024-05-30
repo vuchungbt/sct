@@ -48,7 +48,10 @@ exports.index = async (req, resp, next) => {
         })
         .catch(error => {
             historyLogged(req.session.username, 'load techpack', LogConstant.FAILED, error.message);
-            throw new Error(error.message);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 exports.detail = async (req, resp, next) => {
@@ -113,7 +116,11 @@ exports.detail = async (req, resp, next) => {
         })
         .catch((error) => {
             historyLogged(req.session.username, 'load techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         });
 }
 
@@ -199,11 +206,15 @@ exports.edit = async (req, resp, next) => {
             });
         })
         .catch((error) => {
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         });
 }
 
-exports.store = (req, res, next) => {
+exports.store = (req, resp, next) => {
     db.Techpack.create(req.body)
         .then((result) => {
             db.TechpackHistory.create(
@@ -220,7 +231,11 @@ exports.store = (req, res, next) => {
         })
         .catch((error) => {
             historyLogged(req.session.username, 'create techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         });
 }
 
@@ -254,7 +269,11 @@ exports.update = (req, resp, next) => {
         .catch(error => {
 
             historyLogged(req.session.username, 'update techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         })
 }
 
@@ -277,7 +296,11 @@ exports.delete = async (req, resp, next) => {
         .catch(error => {
             historyLogged(req.session.username, 'delete techpack', LogConstant.FAILED, error.message);
 
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         })
 }
 
@@ -306,7 +329,11 @@ exports.confirm = (req, resp, next) => {
         .catch(error => {
 
             historyLogged(req.session.username, 'confirm techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         })
 }
 
@@ -335,7 +362,11 @@ exports.verify = (req, resp, next) => {
         .catch(error => {
 
             historyLogged(req.session.username, 'verified techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         })
 }
 exports.product = async(req, resp, next) => {
@@ -420,7 +451,11 @@ exports.process = async (req, resp, next) => {
         })
         .catch((error) => {
             historyLogged(req.session.username, 'load techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         });
 }
 exports.store_process = (req, res, next) => {
@@ -444,19 +479,23 @@ exports.store_process = (req, res, next) => {
             // historyLogged(req.session.username,'new process',LogConstant.SUCCESS, item=result.id );
             // pushNotify(result.createById,result.id,'techpack has been created',type='techpack',req,res,next) ;
             if(route=='addprocess') {
-                req.flash('success', `New Process added successfully!`);
+                req.flash('success', `New Process added successfully! Please edit and update GroupID.`);
                 res.status(200).redirect('/stock/addprocess/' + req.body.techpackId);
 
             }
             else {
-                req.flash('success', `New Process added successfully!`);
+                req.flash('success', `New Process added successfully! Please edit and update GroupID.`);
                 res.status(200).redirect('/techpack/process/' + req.body.techpackId);
 
             }
         })
         .catch((error) => {
             //historyLogged(req.session.username,'create techpack',LogConstant.FAILED,error.message );
-            throw new Error(error);
+            return res.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         });
 }
 
@@ -479,7 +518,11 @@ exports.delete_process = async (req, resp, next) => {
         .catch(error => {
             historyLogged(req.session.username, 'delete process', LogConstant.FAILED, error.message);
 
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         })
 }
 exports.update_process = (req, resp, next) => {
@@ -521,7 +564,11 @@ exports.update_process = (req, resp, next) => {
         .catch(error => {
 
             historyLogged(req.session.username, 'update techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(200).json({
+                status: 200,
+                msg : 'Fill required value to all fields',
+                code : error.message
+            })
         })
 }
 exports.edit_process = async (req, resp, next) => {

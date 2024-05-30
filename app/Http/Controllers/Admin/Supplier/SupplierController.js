@@ -13,7 +13,10 @@ exports.index = async (req, resp, next) => {
             });
         })
         .catch(error => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -46,7 +49,10 @@ exports.edit = async (req, resp, next) => {
             });
         })
         .catch((error) => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -61,7 +67,10 @@ exports.store = (req, resp, next) => {
         .catch((error) => {
             historyLogged(req.session.username, 'create supplier', LogConstant.FAILED, error.message);
 
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -89,7 +98,10 @@ exports.update = (req, resp, next) => {
 
             historyLogged(req.session.username, 'update supplier', LogConstant.FAILED, error.message);
 
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         })
 }
 
@@ -108,7 +120,10 @@ exports.delete = async (req, resp, next) => {
         .catch(error => {
             historyLogged(req.session.username, 'delete supplier', LogConstant.FAILED, error.message);
 
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         })
 }
 
@@ -253,7 +268,10 @@ exports.techpack_view = async (req, resp, next) => {
         })
         .catch((error) => {
             historyLogged(req.session.username, 'load techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 exports.type = async (req, resp, next) => {
@@ -270,7 +288,10 @@ exports.type = async (req, resp, next) => {
         });        
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 } 
 exports.item = async (req, resp, next)=>{
@@ -386,7 +407,10 @@ exports.addprocess = async (req, resp, next) => {
         })
         .catch((error) => {
             historyLogged(req.session.username, 'load techpack', LogConstant.FAILED, error.message);
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 
 }
@@ -488,7 +512,10 @@ exports.edit_store = async (req, resp, next) => {
             });
         })
         .catch((error) => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -575,7 +602,10 @@ await db.Invoice.findByPk(req.params.id, {
         });
     })
     .catch((error) => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 
 }

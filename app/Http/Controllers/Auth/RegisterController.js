@@ -39,11 +39,17 @@ exports.register = async (req, resp, next) =>{
         })
         .catch(error => {
             historyLogged(req.body.email,'register',LogConstant.FAILED,error.message);
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });       
     })
     .catch(error => {
         historyLogged(req.body.email,'register',LogConstant.FAILED,error.message);
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });  
 }

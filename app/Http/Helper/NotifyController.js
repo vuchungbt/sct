@@ -26,7 +26,10 @@ exports.store = (to,data,action,type,req, resp, next) =>{
     })
     .catch((error) => {
         historyLogged(req.session.username,'create notify',LogConstant.FAILED,error.message);
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 }
 
@@ -44,7 +47,10 @@ exports.delete = async (req, resp, next) =>{
     .catch(error => {
         historyLogged(req.session.username,'delete notify',LogConstant.FAILED,error.message);
         
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     })
 }
 

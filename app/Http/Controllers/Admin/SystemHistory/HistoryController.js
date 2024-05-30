@@ -11,6 +11,9 @@ exports.index = async (req, resp, next) => {
         });        
     })
     .catch(error => {
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });
 } 

@@ -81,7 +81,10 @@ exports.login = async (req,resp,next) => {
     })
     .catch(error => {
         historyLogged(req.body.email,'login',LogConstant.FAILED,error.message);
-        throw new Error(error);
+        return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });    
 }
 

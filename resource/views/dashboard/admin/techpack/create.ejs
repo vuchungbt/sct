@@ -13,14 +13,14 @@
 
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Add New Techpack</h6>
+                    <h6 class="text-white text-capitalize ps-3">Add New</h6>
                   </div>
                 </div>
                 <div class="card-body px-3 pb-2">
                   <%- include('../../../errors/flash-message') %>
                     <form action="/techpack/store" method="POST">
                       <div class="input-group input-group-outline mb-3 is-filled ">
-                        <label class="form-label">Techpack name</label>
+                        <label class="form-label">Name</label>
                         <input type="text" class="form-control" name="name"
                           value="<%= techpack_clone !== null  ? techpack_clone.name : '' %>" required>
                       </div>
@@ -93,16 +93,26 @@
                         <textarea type="text" class="form-control" name="description"
                           placeholder="description"><%= techpack_clone !== null  ? techpack_clone.description : '' %></textarea>
                       </div>
+                      <% if(routeNameSub=='item'){%>
+                      <div class="input-group input-group-outline mb-3 is-filled ">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" name="quantity"
+                          value="1" >
+                          <input type="hidden" class="form-control" name="status"
+                          value="5" >
+                      </div>
+                      <%}%>
                       <div class="input-group input-group-outline mb-3 is-filled ">
                         <label class="form-label">Assign to</label>
-                        <select name="createById" class="form-control">
+                        <select  name="createById" class="form-control">
                           <% usersList.forEach(element=> { %>
-                            <option value="<%= element.id %>">
+                            <option  value="<%= element.id %>" <%=user_id==element.id?'selected':''%> >
                               <%= element.id %>-<%= element.name %>
                             </option>
                             <% }) %>
                         </select>
                       </div>
+
                       <div class="text-center">
                         <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg mt-4 mb-0">Submit</button>
                       </div>
@@ -127,7 +137,7 @@
 
         // Gửi dữ liệu đến máy chủ bằng AJAX
         $.ajax({
-          url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          url: '../../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
           type: 'POST',
           data: formData,
           processData: false, // Không xử lý dữ liệu
@@ -160,7 +170,7 @@
 
         // Gửi dữ liệu đến máy chủ bằng AJAX
         $.ajax({
-          url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          url: '../../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
           type: 'POST',
           data: formData,
           processData: false, // Không xử lý dữ liệu
@@ -193,7 +203,7 @@
 
         // Gửi dữ liệu đến máy chủ bằng AJAX
         $.ajax({
-          url: '../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
+          url: '../../techpack/upload', // Đường dẫn đến tập tin xử lý dữ liệu
           type: 'POST',
           data: formData,
           processData: false, // Không xử lý dữ liệu
@@ -222,7 +232,7 @@
 
         // Gửi dữ liệu đến máy chủ bằng AJAX
         $.ajax({
-          url: "../category/getchild",
+          url: "../../category/getchild",
           type: "POST",
           data: JSON.stringify({ categoryId}),
           contentType: "application/json; charset=utf-8",

@@ -56,6 +56,27 @@ exports.home = async (req, resp, next) => {
         },
         limit: 6
     });
+    const sum_invoice = await db.Invoice.sum('total', {
+        where : {
+            status : 'Done'
+        }
+    });
+    const total_invoice = await db.Invoice.sum('total');
+
+    let processList = await db.TechpackProcess.findAll({
+        attributes: ['id', 'groupID', 'duedate', 'completeddate', 'status', 'note', 'type', 'createdAt', 'techpackId', 'stockId'],
+        include: [{
+            model: db.Techpack,
+            as:'techpackDetail'
+        },
+        {
+            model: db.Type
+        }
+        ]
+
+    }).then((processList) => {
+        return processList;
+    });
 
     return resp.render('dashboard/layout/index', {
         notification,
@@ -65,7 +86,10 @@ exports.home = async (req, resp, next) => {
         countInvoice,
         countInvoiceNoDone,
         countItem_processing,
-        count_notification
+        sum_invoice,
+        total_invoice,
+        count_notification,
+        process: processList,
     });
 }
 

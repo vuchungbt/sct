@@ -5,7 +5,7 @@
     <a class="navbar-brand m-0" href="#" target="_blank">
       <img src="/dashboard/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
       <span class="ms-1 font-weight-bold text-white">
-        <%= username %> 
+        <%= username %>
       </span>
     </a>
   </div>
@@ -20,8 +20,8 @@
           <span class="nav-link-text ms-1">Dashboard</span>
         </a>
       </li>
-      <% if (roles=='manager' || roles=='admin') { %>
-        
+      <% if (roles=='manager' || roles=='admin' ) { %>
+
         <li class="nav-item">
           <a class="nav-link text-white <%=  routeName == 'role' ||  routeName == 'roles' || routeName == 'users' || routeName == 'user'?' active bg-gradient-primary':' ' %>"
             href="/users">
@@ -44,102 +44,107 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link text-white <%=  routeName == 'category'?' active bg-gradient-primary':' ' %>
+          <% if (roles=='manager' || roles=='admin' || roles=='user' ) { %>
+            <li class="nav-item">
+              <a class="nav-link text-white <%=  routeName == 'category'?' active bg-gradient-primary':' ' %>
             " href="/category">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Categories</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white <%=  routeName == 'type'?' active bg-gradient-primary':' ' %>
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="material-icons opacity-10">assignment</i>
+                </div>
+                <span class="nav-link-text ms-1">Categories</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link text-white <%=  routeName == 'type'?' active bg-gradient-primary':' ' %>
             " href="/type">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Types</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white <%=  routeName == 'cloth'?' active bg-gradient-primary':' ' %>
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="material-icons opacity-10">assignment</i>
+                </div>
+                <span class="nav-link-text ms-1">Types</span>
+              </a>
+            </li>
+
+
+            <li class="nav-item">
+              <a class="nav-link text-white <%=  routeName == 'cloth'?' active bg-gradient-primary':' ' %>
             " href="/cloth">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Cloths</span>
-            </a>
-          </li>
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="material-icons opacity-10">assignment</i>
+                </div>
+                <span class="nav-link-text ms-1">Cloths</span>
+              </a>
+            </li>
 
-          <% if (roles=='hr' || roles=='admin') { %>
-          <li class="nav-item">
-            <a class="nav-link text-white <%= routeName == 'invoice' || routeName == 'invoice'?' active bg-gradient-primary':' ' %>
+            <% } %>
+
+              <% if (roles=='hr' || roles=='admin' || roles=='manager' ) { %>
+                <li class="nav-item">
+                  <a class="nav-link text-white <%= routeName == 'invoice' || routeName == 'invoice'?' active bg-gradient-primary':' ' %>
             " href="/invoice">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Invoices</span>
-            </a>
-          </li>
-          <% } %>
-          <% if (roles=='supplier' || roles=='admin') { %>
-          <li class="nav-item">
-            <a class="nav-link text-white <%= routeName == 'supplier' || routeName == 'supplier'?' active bg-gradient-primary':' ' %>" 
-            href="/supplier">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Suppliers</span>
-            </a>
-          </li>
-          <% } %>
-          <% if (roles=='warehouse' || roles=='admin') { %>
-          <li class="nav-item">
-            <a class="nav-link text-white <%= routeName == 'warehouse' || routeName == 'warehouse'?' active bg-gradient-primary':' ' %>
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">assignment</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Invoices</span>
+                  </a>
+                </li>
+                <% } %>
+                  <% if (roles=='supplier' || roles=='admin' || roles=='manager' ||roles=='hr' ) { %>
+                    <li class="nav-item">
+                      <a class="nav-link text-white <%= routeName == 'supplier' || routeName == 'supplier'?' active bg-gradient-primary':' ' %>"
+                        href="/supplier">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                          <i class="material-icons opacity-10">assignment</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Suppliers</span>
+                      </a>
+                    </li>
+                    <% } %>
+                      <li class="nav-item">
+                        <a class="nav-link text-white <%= routeName == 'warehouse' || routeName == 'warehouse'?' active bg-gradient-primary':' ' %>
             " href="/warehouse">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Warehouses</span>
-            </a>
-          </li>
-          <% } %>
-          <% if (roles=='manager' || roles=='admin') { %>
-          <li class="nav-item">
-            <a class="nav-link text-white  <%=  routeName == 'history'?' active bg-gradient-primary':' ' %>
-            " href="/history">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">History</span>
-            </a>
-          </li>
-          <% } %>
-          <li class="nav-item mt-3">
-            <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account</h6>
-          </li>
+                          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">assignment</i>
+                          </div>
+                          <span class="nav-link-text ms-1">Warehouses</span>
+                        </a>
+                      </li>
 
-          <li class="nav-item">
-            <a class="nav-link text-white <%=  routeName == 'superuser'?' active bg-gradient-primary':' ' %>
+                      <% if (roles=='manager' || roles=='admin' ) { %>
+                        <li class="nav-item">
+                          <a class="nav-link text-white  <%=  routeName == 'history'?' active bg-gradient-primary':' ' %>
+            " href="/history">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                              <i class="material-icons opacity-10">assignment</i>
+                            </div>
+                            <span class="nav-link-text ms-1">History</span>
+                          </a>
+                        </li>
+                        <% } %>
+                          <li class="nav-item mt-3">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account
+                            </h6>
+                          </li>
+
+                          <li class="nav-item">
+                            <a class="nav-link text-white <%=  routeName == 'superuser'?' active bg-gradient-primary':' ' %>
             " href="/superuser/changeinfo/<%=user_id %>">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Change informations</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white  <%=  routeName == 'superuserpw'?' active bg-gradient-primary':' ' %>
+                              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">assignment</i>
+                              </div>
+                              <span class="nav-link-text ms-1">Change informations</span>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link text-white  <%=  routeName == 'superuserpw'?' active bg-gradient-primary':' ' %>
             " href="/superuserpw/updatepw/<%=user_id %>">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-              </div>
-              <span class="nav-link-text ms-1">Change password</span>
-            </a>
-          </li>
+                              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">assignment</i>
+                              </div>
+                              <span class="nav-link-text ms-1">Change password</span>
+                            </a>
+                          </li>
 
     </ul>
   </div>
 </aside>
-

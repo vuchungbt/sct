@@ -44,10 +44,10 @@ exports.resetinfo = async (req, res, next) => {
             });
     })
     .catch(err => {
-        throw new Error(err);
-        const error = new Error(err);
-        error.httpStatusCode = 500;
-        return next(error);
+        return res.status(400).json({
+            status:400,
+            msg : 'Fill required value to all fields'
+        })
     }); 
 }
 
@@ -90,7 +90,10 @@ exports.resetpw = async (req,res,next) => {
         .catch(error =>{
             historyLogged(req.session.username,'reset password',LogConstant.FAILED,error.message );
           
-            throw new Error(error);
+            return res.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         }); 
     })
        
@@ -116,7 +119,10 @@ exports.updatepw = async (req,res,next) => {
        .catch(error =>{
            historyLogged(req.session.username,'reset password',LogConstant.FAILED,error.message );
          
-           throw new Error(error);
+           return res.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
        }); 
    })
       
@@ -181,13 +187,19 @@ exports.store = async (req,res,next) => {
         .catch(error => {
             historyLogged(req.session.username,'add user',LogConstant.FAILED,error.message );
           
-            throw new Error(error);
+            return res.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });       
     })
     .catch((error) => {
         historyLogged(req.session.username,'add user',LogConstant.FAILED,error.message );
           
-        throw new Error(error);
+        return res.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     }); 
 
 }
@@ -215,7 +227,10 @@ exports.update = (req,res,next) => {
     .catch(error =>{
         historyLogged(req.session.username,'update user',LogConstant.FAILED,error.message );
           
-        throw new Error(error);
+        return res.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     });    
 }
 
@@ -234,7 +249,10 @@ exports.delete = (req,res,next) => {
     .catch(error => {
         historyLogged(req.session.username,'delete user',LogConstant.FAILED,error.message );
           
-        throw new Error(error);
+        return res.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
     }); 
 }
 

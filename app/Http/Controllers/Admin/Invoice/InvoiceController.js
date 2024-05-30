@@ -22,7 +22,10 @@ exports.index = async (req, resp, next) => {
             });
         })
         .catch(error => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -88,7 +91,10 @@ exports.edit = async (req, resp, next) => {
             });
         })
         .catch((error) => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -114,7 +120,10 @@ exports.store = async (req, resp, next) => {
             });
         })
         .catch((error) => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -148,7 +157,10 @@ exports.update = (req, resp, next) => {
             resp.status(200).redirect('/invoice');
         })
         .catch(error => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         })
 }
 exports.additem = async (req, resp, next) => {
@@ -177,7 +189,10 @@ exports.additem = async (req, resp, next) => {
             });
         })
         .catch(error => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         })
 }
 exports.delete = async (req, resp, next) => {
@@ -196,7 +211,10 @@ exports.delete = async (req, resp, next) => {
             resp.status(200).redirect('/invoice');
         })
         .catch(error => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         })
 }
 
@@ -210,7 +228,10 @@ exports.delete_item = async (req, resp, next) => {
             resp.status(200).redirect('/invoice/edit/'+req.body.invoiceId);
         })
         .catch(error => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         })
 }
 
@@ -232,7 +253,10 @@ exports.item_update = async (req, resp, next) => {
             });
         })
         .catch((error) => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         });
 }
 
@@ -247,6 +271,9 @@ exports.item_update_store = (req, resp, next) => {
             resp.status(200).redirect('/invoice/edit/'+req.body.invoiceId);
         })
         .catch(error => {
-            throw new Error(error);
+            return resp.status(400).json({
+                status:400,
+                msg : 'Fill required value to all fields'
+            })
         })
 }
