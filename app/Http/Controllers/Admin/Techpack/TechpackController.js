@@ -225,9 +225,9 @@ exports.store = (req, resp, next) => {
             );
 
             historyLogged(req.session.username, 'create techpack', LogConstant.SUCCESS, item = result.id);
-            pushNotify(result.createById, result.id, 'techpack has been created', type = 'techpack', req, res, next);
+            pushNotify(result.createById, result.id, 'techpack has been created', type = 'techpack', req, resp, next);
             req.flash('success', `New Techpack added ${req.body.name} successfully!`);
-            res.status(200).redirect('/techpack');
+            resp.status(200).redirect('/techpack');
         })
         .catch((error) => {
             historyLogged(req.session.username, 'create techpack', LogConstant.FAILED, error.message);
