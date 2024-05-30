@@ -198,6 +198,9 @@ exports.home = async (req, resp, next) => {
     }).then((processList) => {
         return processList;
     });
+    if(techpackID.length==0) {
+        processList = [];
+    }
 
     const not_start = processList.filter(pr => pr.status == 0);
     count_not = not_start.length;
