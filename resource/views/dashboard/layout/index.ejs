@@ -156,12 +156,12 @@
                 </div>
                 <div class="text-end pt-1">
                   <p class="text-sm mb-0 text-capitalize">Money</p>
-                  <h4 class="mb-0">$<%=sum_invoice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%></h4>
+                  <h4 class="mb-0">$<%=sum_invoice!=null?sum_invoice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","):''%></h4>
                 </div>
               </div>
               <hr class="dark horizontal my-0">
               <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">$<%=total_invoice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%> </span>Total</p>
+                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">$<%=total_invoice!=null?total_invoice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","):''%> </span>Total</p>
               </div>
             </div>
           </div>

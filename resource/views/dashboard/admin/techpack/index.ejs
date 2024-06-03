@@ -9,7 +9,11 @@
               <div class="card">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Techpack processing</h6>
+                    <h6 class="text-white text-capitalize ps-3">Techpack processing
+                      <a id="tol" href="#" class="text-white"> <i data-toggle="tooltip" 
+                        title="Table of Techpacks has process working. Submit a new Techpack and assign it to someone for management"
+                          class="fa fa-question-circle float-end p-2" aria-hidden="true"></i></a>
+                    </h6>
                   </div>
                 </div>
                 <div class="card-body py-3 pb-2">
@@ -25,7 +29,7 @@
                           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                             Sub-category</th>
                           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            Seasion</th>
+                            Season</th>
                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">createdAt
                           </th>
                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status
@@ -57,7 +61,7 @@
                               <%= element.createdAt.toLocaleString() %>
                             </td>
                             <td class=" text-sm align-middle  duedate">
-                              <span class="btn btn-sm <%=element.status==7?'btn-danger':'btn-info' %>">
+                              <span class="btn btn-sm <%=element.status==6?'btn-warning':'btn-info' %> <%=element.status==7?'btn-danger':'btn-info' %>">
                                 <% if (element.status==0) { %>
                                   new techpack
                                   <% } else if (element.status==1) { %>
@@ -103,7 +107,10 @@
               <div class="card">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">All Techpack of Item</h6>
+                    <h6 class="text-white text-capitalize ps-3">All Techpack of Item
+                      
+                    </h6>
+                    
                   </div>
                 </div>
                 <div class="card-body ">
@@ -117,7 +124,7 @@
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                           Sub-category</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Seasion</th>
+                          Season</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">createdAt
                         </th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
@@ -147,7 +154,7 @@
                             <%= element.createdAt.toLocaleString() %>
                           </td>
                           <td class=" text-sm align-middle  duedate">
-                            <span class="btn btn-sm <%=element.status==7?'btn-danger':'btn-info' %>">
+                            <span class="btn btn-sm <%=element.status==6?'btn-warning':'btn-info' %> <%=element.status==7?'btn-danger':'btn-info' %>">
                               <% if (element.status==0) { %>
                                 new techpack
                                 <% } else if (element.status==1) { %>
@@ -256,6 +263,9 @@
           },
         ]
       });
+      $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
     });
     </script>
     <script>

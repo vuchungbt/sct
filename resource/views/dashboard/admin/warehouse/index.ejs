@@ -9,12 +9,17 @@
               <div class="card">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Item table</h6>
+                    <h6 class="text-white text-capitalize ps-3">Item table
+                      <a id="tol" href="#" class="text-white"> <i data-toggle="tooltip" 
+                        title="Quantity & price could be view in packet button"
+                          class="fa fa-question-circle float-end p-2" aria-hidden="true"></i></a>
+                
+                    </h6>
                   </div>
                 </div>
                 <div class="card-body py-3 pb-2">
                   <%- include('../../../errors/flash-message') %>
-                  <a href="/techpack/item/create" class="btn btn-sm btn-info" style="float: right;">Add Item</a>
+                    <a href="/techpack/item/create" class="btn btn-sm btn-info" style="float: right;">Add Item</a>
                     <table id="tb" class="table align-items-center justify-content-center mb-0">
                       <thead>
                         <tr>
@@ -23,7 +28,7 @@
                           <th>Category</th>
                           <th>Sub-category</th>
                           <th>Quantity</th>
-                          <th>Seasion</th>
+                          <th>Season</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -65,14 +70,14 @@
                                             product
                                             <% } else if (element.status==7) { %>
                                               cancel
-                                            <% } else { %>
-                                              draft
-                                              <% } %>
+                                              <% } else { %>
+                                                draft
+                                                <% } %>
                               </span>
                             </td>
                             <td style="display: flex;">
                               <a href="techpack/create/<%= element.id %>" class="btn btn-sm btn-success">Clone</a>
-                              
+
                             </td>
                           </tr>
                           <% }) %>
@@ -84,13 +89,15 @@
           </div>
         </div>
     </main>
-    </script>
     <script>
       $("#tb").DataTable(
         {
-                    "order": [[0, 'desc']],
-                }
+          "order": [[0, 'desc']],
+        }
       );
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
     </script>
 
     <%- include('../../common/footer') %>

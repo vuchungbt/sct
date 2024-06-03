@@ -9,7 +9,11 @@
           <div class="card">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                  <h6 class="text-white text-capitalize ps-3">Cloth table</h6>
+                  <h6 class="text-white text-capitalize ps-3">Types table
+                    <a id="tol" href="#" class="text-white"> <i data-toggle="tooltip" 
+                        title="Type of process can be added from Supplier and Admin"
+                          class="fa fa-question-circle float-end p-2" aria-hidden="true"></i></a>
+                  </h6>
                 </div>
               </div>
             <div class="card-body py-3 pb-2">
@@ -49,8 +53,11 @@
         </div>
     </div>
 </main>
-</script>
 <script >
+    
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
    $("#tbcloth").DataTable(
     {
                     "order": [[0, 'desc']],

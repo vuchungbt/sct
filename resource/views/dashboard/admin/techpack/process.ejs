@@ -12,7 +12,12 @@
 
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                    <h6 class="text-white text-capitalize ps-3">Process</h6>
+                    <h6 class="text-white text-capitalize ps-3">Process
+                      <a id="tol" href="#" class="text-white"> <i data-toggle="tooltip" 
+                        title="Create a new Process and change the groupID to know indicate which section the product belongs to.
+                         Quantity of Product is total of quantity Garment process"
+                          class="fa fa-question-circle float-end p-2" aria-hidden="true"></i></a>
+                    </h6>
                   </div>
                 </div>
                 <div class="card-body px-3 pb-2">
@@ -200,8 +205,16 @@
         </div>
       </div>
     </div>
+    <script>
+      
+        $(function () {
+                  $('[data-toggle="tooltip"]').tooltip()
+              })
+      
+      </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script>
+     
       var create = document.getElementsByClassName("duedate");
       var update = document.getElementsByClassName("completeddate");
 
@@ -266,6 +279,7 @@
         });
       });
 
+      
     </script>
 
 
